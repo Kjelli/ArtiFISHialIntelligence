@@ -1,10 +1,12 @@
-package no.eatfishandai.game.desktop;
+package launcher;
+
+
+import game.EatFishAndAI;
 
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
-import no.eatfishandai.game.EatFishAndAI;
 
-public class DesktopLauncher {
+public class Launcher {
 	public static void main (String[] arg) {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 		new LwjglApplication(new EatFishAndAI(), config);
