@@ -1,12 +1,10 @@
 package screens;
 
 import game.EatFishAndAI;
+import gamecontext.GameContext;
+import gameobjects.DummyFish;
 import gameobjects.Fish;
-import gameobjects.GameObject;
-
-import java.util.ArrayList;
-import java.util.List;
-
+import ai.BasicAI;
 import assets.Assets;
 
 import com.badlogic.gdx.Gdx;
@@ -19,14 +17,16 @@ public class PlayScreen implements Screen {
 	EatFishAndAI game;
 
 	// Used for drawing of objects. Shared between all drawables in the game.
-	SpriteBatch batch;
-	List<GameObject> objects = new ArrayList<>();
+	private final SpriteBatch batch;
+	private final GameContext context;
 
 	Texture background;
 
 	public PlayScreen(EatFishAndAI game) {
 		this.game = game;
 		batch = new SpriteBatch();
+		context = new GameContext();
+
 	}
 
 	/**
@@ -36,7 +36,12 @@ public class PlayScreen implements Screen {
 	@Override
 	public void show() {
 		background = Assets.bg;
-		objects.add(new Fish(50, 50));
+
+		for (int i = 5; i < 30; i += 5) {
+			Fish fish = new DummyFish(20 * i - 400, 250);
+			fish.attachAI(new BasicAI(fish, null));
+			context.spawn(fish);
+		}
 	}
 
 	/**
@@ -76,6 +81,7 @@ public class PlayScreen implements Screen {
 	 */
 
 	private void update(float delta) {
+		context.update(delta);
 	}
 
 	/**
@@ -83,13 +89,17 @@ public class PlayScreen implements Screen {
 	 * objects, gui) from here.
 	 */
 	private void draw(SpriteBatch batch) {
+
 		Gdx.gl.glClearColor(0, 0, 0, 1);
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT
+				| GL20.GL_DEPTH_BUFFER_BIT
+				| (Gdx.graphics.getBufferFormat().coverageSampling ? GL20.GL_COVERAGE_BUFFER_BIT_NV
+						: 0));
 		batch.begin();
-		batch.draw(background,0,0,640,480);
-		for(GameObject go : objects){
-			go.draw(batch);
-		}
+		batch.draw(background, 0, 0, 640, 480);
+
+		context.draw(batch);
+
 		batch.end();
 	}
 

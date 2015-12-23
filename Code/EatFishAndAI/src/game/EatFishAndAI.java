@@ -11,6 +11,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class EatFishAndAI extends Game {
 
+	public static final int WIDTH = 640, HEIGHT = 480;
+
 	@Override
 	public void create() {
 		Assets.loadAssets();

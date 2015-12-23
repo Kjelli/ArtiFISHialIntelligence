@@ -9,8 +9,8 @@ import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 public class Launcher {
 	public static void main (String[] arg) {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
-		config.width = 640;
-		config.height = 480;
+		config.width = EatFishAndAI.WIDTH;
+		config.height = EatFishAndAI.HEIGHT;
 		new LwjglApplication(new EatFishAndAI(), config);
 	}
 }

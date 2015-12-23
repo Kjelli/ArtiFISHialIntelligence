@@ -1,8 +1,12 @@
 package gameobjects;
 
+import gamecontext.GameContext;
+
 public abstract class AbstractGameObject implements GameObject {
-	float x, y, width, height;
-	float velocityX, velocityY;
+	private GameContext context;
+
+	private float x, y, width, height;
+	private float velocityX, velocityY;
 
 	public AbstractGameObject(float x, float y, float width, float height) {
 		this.x = x;
@@ -11,34 +15,66 @@ public abstract class AbstractGameObject implements GameObject {
 		this.height = height;
 	}
 
+	public final GameContext getGameContext() {
+		return context;
+	}
+
+	public final void setGameContext(GameContext context) {
+		if (this.context == null) {
+			this.context = context;
+		}
+	}
+
 	@Override
-	public float getX() {
+	public final float getX() {
 		return x;
 	}
 
 	@Override
-	public float getY() {
+	public final float getY() {
 		return y;
 	}
 
 	@Override
-	public float getVelocityX() {
+	public final float getVelocityX() {
 		return x;
 	}
 
 	@Override
-	public float getVelocityY() {
+	public final float getVelocityY() {
 		return y;
 	}
 
 	@Override
-	public float getWidth() {
+	public void setVelocityX(float velx) {
+		this.velocityX = velx;
+	}
+
+	@Override
+	public void setVelocityY(float vely) {
+		this.velocityY = vely;
+	}
+
+	@Override
+	public final float getWidth() {
 		return width;
 	}
 
 	@Override
-	public float getHeight() {
+	public final float getHeight() {
 		return height;
+	}
+
+	protected final void move(float delta) {
+		x += velocityX * delta;
+		y += velocityY * delta;
+	}
+
+	@Override
+	public void destroy() {
+		if (context != null) {
+			context.despawn(this);
+		}
 	}
 
 }
