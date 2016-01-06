@@ -5,8 +5,8 @@ import gameobjects.Fish;
 
 public abstract class AbstractAI implements AI {
 
-	private final GameContext context;
-	private final Fish fish;
+	protected final GameContext context;
+	protected final Fish fish;
 	private volatile boolean running;
 
 	public AbstractAI(Fish fish, GameContext context) {
@@ -24,7 +24,7 @@ public abstract class AbstractAI implements AI {
 
 		while (running) {
 			try {
-				act(fish, context);
+				act();
 				Thread.sleep(20);
 			} catch (InterruptedException e) {
 				e.printStackTrace();

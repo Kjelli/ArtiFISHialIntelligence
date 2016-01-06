@@ -1,27 +1,18 @@
 package gameobjects;
 
+import ai.BasicAI;
+import assets.Assets;
+
 public class DummyFish extends AbstractFish {
 
 	public DummyFish(float x, float y) {
-		super(x, y, 16, 12);
-	}
-
-	@Override
-	public void update(float delta) {
-		super.update(delta);
-		move(delta);
+		super(Assets.dummyfish, x, y, 16, 12);
+		setSize((float) (0.8f + Math.random() * 0.1f));
 	}
 
 	@Override
 	public void onSpawn() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void onDespawn() {
-		// TODO Auto-generated method stub
-
+		attachAI(new BasicAI(this, getGameContext()));
 	}
 
 }

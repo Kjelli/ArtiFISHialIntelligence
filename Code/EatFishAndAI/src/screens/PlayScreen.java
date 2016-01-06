@@ -2,9 +2,11 @@ package screens;
 
 import game.EatFishAndAI;
 import gamecontext.GameContext;
-import gameobjects.DummyFish;
 import gameobjects.Fish;
-import ai.BasicAI;
+import gameobjects.PredatorFish;
+import gameobjects.ScaredFish;
+import spawners.DummySpawner;
+import spawners.Spawner;
 import assets.Assets;
 
 import com.badlogic.gdx.Gdx;
@@ -19,6 +21,8 @@ public class PlayScreen implements Screen {
 	// Used for drawing of objects. Shared between all drawables in the game.
 	private final SpriteBatch batch;
 	private final GameContext context;
+
+	Spawner spawner;
 
 	Texture background;
 
@@ -36,12 +40,31 @@ public class PlayScreen implements Screen {
 	@Override
 	public void show() {
 		background = Assets.bg;
+		int maxSpawn = 3;
 
-		for (int i = 5; i < 30; i += 5) {
-			Fish fish = new DummyFish(20 * i - 400, 250);
-			fish.attachAI(new BasicAI(fish, null));
-			context.spawn(fish);
+		spawner = new DummySpawner();
+		spawner.setGameContext(context);
+
+		// Random initial spawn
+
+		// for (int i = 0; i < maxSpawn; i++) {
+		// int randX = (int) (Math.random() * EatFishAndAI.WIDTH);
+		// int randY = (int) (Math.random() * EatFishAndAI.HEIGHT);
+		// Fish fish = new ScaredFish(randX, randY);
+		// context.spawn(fish);
+		// }
+
+		// Controlled initial spawn
+		for (int i = 0; i < 70; i++) {
+			context.spawn(new ScaredFish(50 + ((i % 20) * 25),
+					(i / 16 + 1) * 40 + 100));
 		}
+
+		context.spawn(new PredatorFish(100, 50));
+		context.spawn(new PredatorFish(600, 450));
+		context.spawn(new PredatorFish(600, 50));
+		context.spawn(new PredatorFish(100, 450));
+
 	}
 
 	/**
@@ -69,7 +92,7 @@ public class PlayScreen implements Screen {
 	 */
 	@Override
 	public void render(float delta) {
-		update(delta);
+		update(delta*2);
 		draw(batch);
 	}
 
@@ -82,6 +105,7 @@ public class PlayScreen implements Screen {
 
 	private void update(float delta) {
 		context.update(delta);
+		spawner.update(delta);
 	}
 
 	/**

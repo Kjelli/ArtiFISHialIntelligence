@@ -11,12 +11,11 @@ public class BasicAI extends AbstractAI {
 		super(fish, context);
 		angle = (int) (Math.random() * 360);
 
-		fish.setVelocityX(20);
 	}
 
 	@Override
-	public void act(Fish fish, GameContext context) {
-		fish.setVelocityY((float) (cos(angle * PI / 180.0f) * 20));
+	public void act() {
+		fish.setVelocityY((float) (cos(angle * PI / 180.0f) / 3));
 		angle = (angle + 1) % 360;
 	}
 
