@@ -33,7 +33,7 @@ public abstract class AbstractAI implements AI {
 	}
 
 	@Override
-	public void kill() {
+	public final void kill() {
 		running = false;
 	}
 }

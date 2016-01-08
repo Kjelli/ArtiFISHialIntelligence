@@ -6,7 +6,7 @@ import assets.Assets;
 public class DummyFish extends AbstractFish {
 
 	public DummyFish(float x, float y) {
-		super(Assets.dummyfish, x, y, 16, 12);
+		super(Assets.dummyfish.any(), x, y, 16, 12);
 		setSize((float) (0.8f + Math.random() * 0.1f));
 	}
 

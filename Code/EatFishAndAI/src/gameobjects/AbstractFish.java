@@ -12,8 +12,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public abstract class AbstractFish extends AbstractGameObject implements Fish,
 		Collidable {
-	private final static int BUBBLE_TIMER_MAX = 300, BUBBLE_TIMER_MIN = 100;
-	private final static int EATING_COOLDOWN_MAX = 1;
+	
 	private int bubbleTimer;
 	private int eatingCooldown;
 
@@ -21,11 +20,12 @@ public abstract class AbstractFish extends AbstractGameObject implements Fish,
 
 	private AI ai;
 	private Texture texture;
-	private float startingSpeed = getMaxSpeed();
+	private float startingSpeed = MAX_SPEED;
 
 	public AbstractFish(Texture texture, float x, float y, float width,
 			float height) {
 		super(x, y, width, height);
+		setMaxSpeed(MAX_SPEED);
 		this.texture = texture;
 		bubbleTimer = (int) (BUBBLE_TIMER_MIN + Math.random()
 				* (BUBBLE_TIMER_MAX - BUBBLE_TIMER_MIN));
@@ -47,14 +47,15 @@ public abstract class AbstractFish extends AbstractGameObject implements Fish,
 		if (bubbleTimer > 0) {
 			bubbleTimer--;
 		} else {
-			bubbleTimer = (int) (Math.random() * BUBBLE_TIMER_MAX);
+			bubbleTimer = (int) (BUBBLE_TIMER_MIN + Math.random()
+					* (BUBBLE_TIMER_MAX - BUBBLE_TIMER_MIN));
 			getGameContext().spawn(
 					new Bubble(getX() + (getVelocityX() > 0 ? getWidth() : 0),
 							getY() + getHeight() / 4, (float) ((Math.random())
-									* getSize() * 0.25f), this));
+									* getSize() * BUBBLE_SCALE), this));
 		}
 
-		setMaxSpeed((float) (startingSpeed * Math.pow(0.9, size)));
+		setMaxSpeed((float) (startingSpeed * Math.pow(SLOW_FACTOR, size)));
 		move(delta);
 		if (getX() > EatFishAndAI.WIDTH || getX() + getWidth() < 0
 				|| getY() > EatFishAndAI.HEIGHT || getY() + getHeight() < 0) {
@@ -98,7 +99,7 @@ public abstract class AbstractFish extends AbstractGameObject implements Fish,
 	public void eat(Fish fish) {
 		if (eatingCooldown == 0) {
 			float oldSize = size;
-			size += fish.getSize() * 0.2;
+			size += fish.getSize() * GROWTH_FACTOR;
 			setX(getX() - (getWidth() - getWidth() / size * oldSize) / 2);
 			setY(getY() - (getHeight() - getHeight() / size * oldSize) / 2);
 			eatingCooldown = EATING_COOLDOWN_MAX;
@@ -115,8 +116,8 @@ public abstract class AbstractFish extends AbstractGameObject implements Fish,
 	@Override
 	public int compareTo(Fish o) {
 		float diff = getSize() - o.getSize();
-		return diff < -getSize() * Fish.MARGIN ? -1 : diff > getSize()
-				* Fish.MARGIN ? 1 : 0;
+		return diff < -getSize() * Fish.MASS_DIFFERENCE_MARGIN ? -1 : diff > getSize()
+				* Fish.MASS_DIFFERENCE_MARGIN ? 1 : 0;
 	}
 
 	@Override

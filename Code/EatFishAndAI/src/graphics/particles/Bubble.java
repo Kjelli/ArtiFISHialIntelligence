@@ -16,12 +16,15 @@ public class Bubble extends AbstractGameObject {
 	private final float scale;
 	private final Fish bubbler;
 
+	private boolean spawnspeedup = true;
+
 	public Bubble(float x, float y, float scale, Fish bubbler) {
 		super(x, y, scale * WIDTH, scale * HEIGHT);
 		this.scale = scale;
 		this.bubbler = bubbler;
 		setVelocityY(10 + 30 * scale);
 		setVelocityX(bubbler.getVelocityX());
+		setMaxSpeed(5 + getMaxSpeed()*scale);
 
 		if (scale < 1.0f) {
 			texture = Assets.bubble_xs;
@@ -40,8 +43,15 @@ public class Bubble extends AbstractGameObject {
 	@Override
 	public void update(float delta) {
 		move(delta);
-		setVelocityX(getVelocityX() * 0.95f);
-
+		if (getVelocityX() < 0.01f) {
+			spawnspeedup = false;
+		}
+		if (spawnspeedup) {
+			setVelocityX(getVelocityX() * 0.95f);
+		} else {
+			setVelocityX((float) Math.cos(getGameContext().getTicks()
+					/ (20f * scale)) / 3);
+		}
 		if (getY() > EatFishAndAI.HEIGHT) {
 			destroy();
 		}
@@ -50,18 +60,18 @@ public class Bubble extends AbstractGameObject {
 
 	@Override
 	public void onSpawn() {
-		if (Math.random() < 0.2f) {
+		if (Math.random() < 0.1f) {
 			burst();
 		}
 	}
 
 	public void burst() {
-		int count = (int) (Math.random() * 5);
+		int count = (int) (Math.random() * 15);
 		for (int i = 0; i < count; i++) {
 			getGameContext().spawn(
 					new Bubble((float) (getX() + (0.5f - Math.random()) * 10),
 							(float) (getY() + (0.5f - Math.random()) * 10),
-							(float) (scale * Math.pow(0.6, i)), bubbler));
+							(float) (scale * Math.pow(0.9, i)), bubbler));
 		}
 		destroy();
 	}

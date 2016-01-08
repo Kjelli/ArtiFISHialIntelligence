@@ -8,7 +8,7 @@ import gameobjects.GameObject;
 public class ScaredAI extends AbstractAI {
 
 	Fish target;
-	int range = 100;
+	int range = 20;
 
 	float centerX = EatFishAndAI.WIDTH / 2, centerY = EatFishAndAI.HEIGHT / 2;
 
@@ -23,7 +23,8 @@ public class ScaredAI extends AbstractAI {
 
 			if (target != null) {
 				fish.moveFrom(target);
-				if (fish.distanceTo(target) > range || !target.isAlive()) {
+				if (fish.distanceTo(target) > range * target.getScale()
+						|| !target.isAlive()) {
 					target = null;
 				}
 			}
@@ -44,7 +45,7 @@ public class ScaredAI extends AbstractAI {
 		for (int i = 0; i < context.getObjects().size(); i++) {
 			GameObject o = context.getObjects().get(i);
 			if (o == null || !o.isAlive() || !(o instanceof Fish) || o == fish
-					|| fish.distanceTo(o) > range) {
+					|| fish.distanceTo(o) > range * o.getScale()) {
 				continue;
 			}
 			Fish other = (Fish) o;

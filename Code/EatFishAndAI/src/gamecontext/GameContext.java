@@ -2,12 +2,9 @@ package gamecontext;
 
 import gamecontext.physics.BruteForcePhysicsHandler;
 import gamecontext.physics.PhysicsHandler;
-import gameobjects.Fish;
 import gameobjects.GameObject;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Stack;
 
@@ -22,6 +19,10 @@ public class GameContext {
 	private final Stack<GameObject> newlyDespawned;
 
 	private PhysicsHandler physics;
+	private long ticks = 0;
+	private double elapsedTime = 0;
+
+	private float timeModifier = 1.0f;
 
 	public GameContext() {
 		objects = new ArrayList<>();
@@ -30,12 +31,16 @@ public class GameContext {
 		newlySpawned = new Stack<>();
 		newlyDespawned = new Stack<>();
 
+		// TODO Optimize in the future
 		physics = new BruteForcePhysicsHandler();
 	}
 
 	public void update(float delta) {
+		ticks++;
+		elapsedTime += delta;
 
-		objects.iterator().forEachRemaining(a -> a.update(delta));
+		objects.iterator()
+				.forEachRemaining(a -> a.update(delta * timeModifier));
 		while (!add.isEmpty()) {
 			GameObject n = add.pop();
 			n.setGameContext(this);
@@ -75,6 +80,18 @@ public class GameContext {
 
 	public void draw(SpriteBatch batch) {
 		objects.iterator().forEachRemaining(a -> a.draw(batch));
+	}
+
+	public void dispose() {
+		// TODO
+	}
+
+	public long getTicks() {
+		return ticks;
+	}
+
+	public double getElapsedTime() {
+		return elapsedTime;
 	}
 
 }

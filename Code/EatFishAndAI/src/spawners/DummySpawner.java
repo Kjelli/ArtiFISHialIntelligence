@@ -1,5 +1,7 @@
 package spawners;
 
+import com.badlogic.gdx.math.Rectangle;
+
 import game.EatFishAndAI;
 import gamecontext.GameContext;
 import gameobjects.DummyFish;
@@ -7,10 +9,15 @@ import gameobjects.Fish;
 
 public class DummySpawner implements Spawner {
 	private GameContext context;
+	private Rectangle bounds;
 
 	private static final int SPAWN_TIME_MIN = 10, SPAWN_TIME_MAX = 50;
 
 	private int spawnTimer;
+
+	public DummySpawner() {
+		bounds = new Rectangle(0, 0, EatFishAndAI.WIDTH, EatFishAndAI.HEIGHT);
+	}
 
 	@Override
 	public void update(float delta) {
@@ -25,8 +32,8 @@ public class DummySpawner implements Spawner {
 
 	private void spawn() {
 		boolean rightSide = Math.random() < 0.5f;
-		float spawnY = (float) (Math.random() * EatFishAndAI.HEIGHT);
-		float spawnX = (rightSide ? EatFishAndAI.WIDTH : -11);
+		float spawnY = (float) (Math.random() * (bounds.height - bounds.x) + bounds.x);
+		float spawnX = (rightSide ? bounds.width : bounds.x - 11);
 		Fish f = new DummyFish(spawnX, spawnY);
 		f.setVelocityX(rightSide ? -1 : 1);
 		f.setVelocityY(0);
@@ -36,6 +43,11 @@ public class DummySpawner implements Spawner {
 	@Override
 	public void setGameContext(GameContext context) {
 		this.context = context;
+	}
+
+	@Override
+	public void setBounds(Rectangle rectangle) {
+		this.bounds = rectangle;
 	}
 
 }
