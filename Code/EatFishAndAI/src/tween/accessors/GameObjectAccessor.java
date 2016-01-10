@@ -10,10 +10,6 @@ public class GameObjectAccessor implements TweenAccessor<GameObject> {
 			SIZE_H = 4, SIZE_WH = 5, SPRITE_R = 6, SPRITE_G = 7, SPRITE_B = 8,
 			SPRITE_A = 9, SPRITE_RGB = 10, SPRITE_RGBA = 11, SCALE = 12;
 
-	public GameObjectAccessor() {
-		System.out.println("MADE");
-	}
-
 	@Override
 	public int getValues(GameObject o, int type, float[] values) {
 

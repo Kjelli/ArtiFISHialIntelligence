@@ -10,7 +10,6 @@ public class GlobalTween {
 
 	public static TweenManager getManager() {
 		if (manager == null) {
-			System.out.println("NEW MAN");
 			Tween.registerAccessor(GameObject.class, new GameObjectAccessor());
 			manager = new TweenManager();
 		}
