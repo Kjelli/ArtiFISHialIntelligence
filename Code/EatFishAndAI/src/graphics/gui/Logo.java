@@ -28,7 +28,7 @@ public class Logo extends AbstractGameObject {
 
 	@Override
 	public void onSpawn() {
-		CommonTweens.fadeIn(this, 1.0f);
+		CommonTweens.quickFadeIn(this, 1.0f);
 	}
 
 	@Override

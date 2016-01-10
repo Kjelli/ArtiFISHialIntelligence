@@ -1,6 +1,6 @@
 package gameobjects;
 
-import ai.BasicAI;
+import ai.DummyAI;
 import assets.Assets;
 
 public class DummyFish extends AbstractFish {
@@ -12,7 +12,7 @@ public class DummyFish extends AbstractFish {
 
 	@Override
 	public void onSpawn() {
-		attachAI(new BasicAI(this, getGameContext()));
+		attachAI(new DummyAI());
 	}
 
 }

@@ -5,14 +5,9 @@ import gameobjects.Fish;
 
 public abstract class AbstractAI implements AI {
 
-	protected final GameContext context;
-	protected final Fish fish;
+	private GameContext context;
+	private Fish fish;
 	private volatile boolean running;
-
-	public AbstractAI(Fish fish, GameContext context) {
-		this.fish = fish;
-		this.context = context;
-	}
 
 	@Override
 	public final void run() {
@@ -24,12 +19,30 @@ public abstract class AbstractAI implements AI {
 
 		while (running) {
 			try {
-				act();
+				if (!context.isPaused()) {
+					act();
+				}
 				Thread.sleep(20);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
 		}
+	}
+
+	public void setFish(Fish fish) {
+		this.fish = fish;
+	}
+
+	public void setGameContext(GameContext context) {
+		this.context = context;
+	}
+
+	public GameContext getGameContext() {
+		return context;
+	}
+
+	public Fish getFish() {
+		return fish;
 	}
 
 	@Override

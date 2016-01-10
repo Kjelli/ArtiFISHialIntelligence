@@ -39,6 +39,8 @@ public interface GameObject {
 
 	public void setHeight(float height);
 
+	public void setScale(float scale);
+
 	public float getScale();
 
 	public void draw(SpriteBatch batch);

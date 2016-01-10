@@ -12,14 +12,13 @@ public class StartButton extends AbstractButton {
 
 	@Override
 	public void onClick() {
-		getGameContext().getGame().setScreen(
-				new PlayScreen(getGameContext().getGame()));
+
 	}
 
 	@Override
 	public void onRelease() {
-		// TODO Auto-generated method stub
-
+		getGameContext().getGame().setScreen(
+				new PlayScreen(getGameContext().getGame()));
 	}
 
 	@Override

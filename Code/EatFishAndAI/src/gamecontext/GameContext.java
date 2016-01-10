@@ -29,6 +29,8 @@ public class GameContext {
 
 	private float timeModifier = 1.0f;
 
+	private boolean paused = false;
+
 	public GameContext(Game game) {
 		this.game = game;
 
@@ -109,6 +111,14 @@ public class GameContext {
 
 	public Game getGame() {
 		return game;
+	}
+
+	public void setPaused(boolean paused) {
+		this.paused = paused;
+	}
+
+	public boolean isPaused() {
+		return paused;
 	}
 
 }

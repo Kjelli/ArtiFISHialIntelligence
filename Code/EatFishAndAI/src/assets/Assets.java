@@ -1,6 +1,10 @@
 package assets;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+// import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+// import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
 
 public class Assets {
 
@@ -18,11 +22,36 @@ public class Assets {
 	// Menuscreen textures
 
 	public static Texture splash;
-	public static Texture button_start, button_start_hover, button_start_pressed;
+	public static Texture button_start, button_start_hover,
+			button_start_pressed;
+
+	// Fonts
+
+	public static BitmapFont font16, font20, font30;
 
 	public static void loadAllAssets() {
 		loadMenuscreenAssets();
 		loadPlayscreenAssets();
+		loadFonts();
+	}
+
+	private static void loadFonts() {
+		// FreeTypeFontGenerator generator = new FreeTypeFontGenerator(
+		// Gdx.files.internal("PIXELOPERATORSC.TTF"));
+		//
+		// FreeTypeFontParameter size16 = new FreeTypeFontParameter();
+		// size16.size = 16;
+		// font16 = generator.generateFont(size16);
+		//
+		// FreeTypeFontParameter size20 = new FreeTypeFontParameter();
+		// size20.size = 20;
+		// font20 = generator.generateFont(size20);
+		//
+		// FreeTypeFontParameter size30a = new FreeTypeFontParameter();
+		// size30a.size = 30;
+		// font30 = generator.generateFont(size30a);
+		//
+		// generator.dispose();
 	}
 
 	private static void loadMenuscreenAssets() {

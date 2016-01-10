@@ -1,36 +1,32 @@
 package ai;
 
-import gamecontext.GameContext;
 import gameobjects.Fish;
 import gameobjects.GameObject;
+import ai.*;
 
 public class PredatorAI extends AbstractAI {
 
 	Fish prey;
 	boolean initialHunt = true;
 
-	public PredatorAI(Fish fish, GameContext context) {
-		super(fish, context);
-	}
-
 	@Override
 	public void act() {
 		if (initialHunt) {
-			fish.setVelocityX((float) Math.random() * 2 - 1);
-			fish.setVelocityY((float) Math.random() * 2 - 1);
+			getFish().setVelocityX((float) Math.random() * 2 - 1);
+			getFish().setVelocityY((float) Math.random() * 2 - 1);
 			huntNewTarget();
 			initialHunt = false;
 		}
 		if (Math.random() < 0.025f) {
 			huntNewTarget();
 			if (prey == null) {
-				fish.setVelocityX((float) Math.random() * 2 - 1);
-				fish.setVelocityY((float) Math.random() * 2 - 1);
+				getFish().setVelocityX((float) Math.random() * 2 - 1);
+				getFish().setVelocityY((float) Math.random() * 2 - 1);
 			}
 		}
 		if (prey != null) {
-			fish.moveTowards(prey);
-			if (fish.compareTo(prey) < 1 || !prey.isAlive()) {
+			getFish().moveTowards(prey);
+			if (getFish().compareTo(prey) < 1 || !prey.isAlive()) {
 				prey = null;
 				huntNewTarget();
 			}
@@ -39,19 +35,19 @@ public class PredatorAI extends AbstractAI {
 
 	private void huntNewTarget() {
 		double highestInterest = 0;
-		for (int i = 0; i < context.getObjects().size(); i++) {
-			GameObject o = context.getObjects().get(i);
-			if (!o.equals(fish) && o instanceof Fish && o.isAlive()) {
+		for (int i = 0; i < getGameContext().getObjects().size(); i++) {
+			GameObject o = getGameContext().getObjects().get(i);
+			if (!o.equals(getFish()) && o instanceof Fish && o.isAlive()) {
 				Fish that = (Fish) o;
 
-				if (fish.compareTo(that) == 1) {
+				if (getFish().compareTo(that) == 1) {
 					if (prey == null) {
 						prey = that;
 						highestInterest = Math.pow(2 * that.getScale(), 2)
-								/ fish.distanceTo(that);
+								/ getFish().distanceTo(that);
 					} else {
 						double interest = 10 * that.getScale()
-								/ fish.distanceTo(that);
+								/ getFish().distanceTo(that);
 						if (interest > highestInterest) {
 							highestInterest = interest;
 							prey = that;
@@ -62,7 +58,7 @@ public class PredatorAI extends AbstractAI {
 			}
 		}
 		if (prey != null) {
-			fish.moveTowards(prey);
+			getFish().moveTowards(prey);
 		}
 	}
 }

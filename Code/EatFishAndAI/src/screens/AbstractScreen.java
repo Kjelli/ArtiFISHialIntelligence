@@ -1,5 +1,9 @@
 package screens;
 
+import static org.lwjgl.opengl.GL11.GL_ADD;
+import static org.lwjgl.opengl.GL11.GL_TEXTURE_ENV;
+import static org.lwjgl.opengl.GL11.GL_TEXTURE_ENV_MODE;
+import static org.lwjgl.opengl.GL11.glTexEnvi;
 import game.EatFishAndAI;
 import gamecontext.GameContext;
 import input.GlobalInput;
@@ -9,11 +13,11 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
@@ -32,6 +36,10 @@ public abstract class AbstractScreen implements Screen {
 
 	// The background of the current screen
 	private Texture background;
+
+	private boolean paused = false;
+
+	private Color bgcolor = new Color(Color.BLACK);
 
 	public AbstractScreen(Game game) {
 		this.game = game;
@@ -57,10 +65,12 @@ public abstract class AbstractScreen implements Screen {
 	 */
 	@Override
 	public void render(float delta) {
-		context.update(delta);
-		GlobalTween.getManager().update(delta);
-		update(delta);
-		context.getStage().act(delta);
+		if (!paused) {
+			context.update(delta);
+			update(delta);
+			context.getStage().act(delta);
+			GlobalTween.getManager().update(delta);
+		}
 		draw(batch);
 	}
 
@@ -72,7 +82,7 @@ public abstract class AbstractScreen implements Screen {
 	 */
 	private final void draw(SpriteBatch batch) {
 
-		Gdx.gl.glClearColor(0, 0, 0, 1);
+		Gdx.gl.glClearColor(bgcolor.r, bgcolor.g, bgcolor.b, bgcolor.a);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT
 				| GL20.GL_DEPTH_BUFFER_BIT
 				| (Gdx.graphics.getBufferFormat().coverageSampling ? GL20.GL_COVERAGE_BUFFER_BIT_NV
@@ -108,6 +118,7 @@ public abstract class AbstractScreen implements Screen {
 
 	@Override
 	public void resume() {
+		setPaused(false);
 	}
 
 	/**
@@ -123,6 +134,7 @@ public abstract class AbstractScreen implements Screen {
 
 	@Override
 	public void pause() {
+		setPaused(true);
 	}
 
 	/**
@@ -143,8 +155,25 @@ public abstract class AbstractScreen implements Screen {
 		return background;
 	}
 
+	public void setBackgroundColor(Color bgcolor) {
+		this.bgcolor = bgcolor;
+	}
+
+	public Color getBackgroundcolor() {
+		return bgcolor;
+	}
+
 	protected final void setGameContext(GameContext context) {
 		this.context = context;
+	}
+
+	public boolean getPaused() {
+		return paused;
+	}
+
+	public void setPaused(boolean paused) {
+		this.paused = paused;
+		context.setPaused(paused);
 	}
 
 	public GameContext getGameContext() {

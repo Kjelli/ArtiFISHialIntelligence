@@ -1,6 +1,7 @@
 package game;
 
 import input.GlobalInput;
+import screens.LoadingScreen;
 import screens.MenuScreen;
 import screens.PlayScreen;
 import assets.Assets;
@@ -30,7 +31,7 @@ public class EatFishAndAI extends Game {
 	}
 
 	private void initGL() {
-		
+		// TODO
 	}
 
 	@Override

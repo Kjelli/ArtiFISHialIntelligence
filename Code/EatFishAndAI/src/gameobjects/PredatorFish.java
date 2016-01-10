@@ -1,7 +1,9 @@
 package gameobjects;
 
+import ai.AI;
 import ai.AdamAI;
 import ai.PredatorAI;
+import ai.loader.AILoader;
 import assets.Assets;
 
 public class PredatorFish extends AbstractFish {
@@ -13,6 +15,15 @@ public class PredatorFish extends AbstractFish {
 
 	@Override
 	public void onSpawn() {
-		attachAI(new PredatorAI(this, getGameContext()));
+		AI ai;
+
+		try {
+			ai = AILoader.load("src/ai/AdamAI.java");
+			attachAI(ai);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		// attachAI(new PredatorAI());
 	}
 }

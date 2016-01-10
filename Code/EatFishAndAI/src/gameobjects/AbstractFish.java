@@ -45,7 +45,8 @@ public abstract class AbstractFish extends AbstractGameObject implements Fish,
 			getGameContext().spawn(
 					new Bubble(getX() + (getVelocityX() > 0 ? getWidth() : 0),
 							getY() + getHeight() / 4, (float) ((Math.random())
-									* getScale() * BUBBLE_SCALE), this));
+									* Math.sqrt(getScale()) * BUBBLE_SCALE),
+							this));
 		}
 
 		setMaxSpeed((float) (startingSpeed * Math.pow(SLOW_FACTOR, scale)));
@@ -59,6 +60,8 @@ public abstract class AbstractFish extends AbstractGameObject implements Fish,
 	@Override
 	public final void attachAI(AI ai) {
 		this.ai = ai;
+		this.ai.setGameContext(getGameContext());
+		this.ai.setFish(this);
 		new Thread(ai).start();
 	}
 
@@ -103,8 +106,9 @@ public abstract class AbstractFish extends AbstractGameObject implements Fish,
 
 	@Override
 	public void onDespawn() {
-		ai.kill();
-
+		if (ai != null) {
+			ai.kill();
+		}
 	}
 
 }

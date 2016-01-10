@@ -13,7 +13,7 @@ public class ScaredFish extends AbstractFish {
 
 	@Override
 	public void onSpawn() {
-		attachAI(new ScaredAI(this, getGameContext()));
+		attachAI(new ScaredAI());
 	}
 
 }

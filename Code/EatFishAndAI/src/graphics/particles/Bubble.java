@@ -1,5 +1,6 @@
 package graphics.particles;
 
+import tween.CommonTweens;
 import assets.Assets;
 
 import com.badlogic.gdx.graphics.Texture;
@@ -13,10 +14,17 @@ import gameobjects.Fish;
 public class Bubble extends AbstractGameObject {
 
 	public static final float WIDTH = 10, HEIGHT = 10;
-	private final float scale;
 	private final Fish bubbler;
 
 	private boolean spawnspeedup = true;
+
+	public Bubble(float x, float y) {
+		this(x, y, 1.0f, null);
+	}
+
+	public Bubble(float x, float y, float scale) {
+		this(x, y, scale, null);
+	}
 
 	public Bubble(float x, float y, float scale, Fish bubbler) {
 		super(x, y, scale * WIDTH, scale * HEIGHT);
@@ -30,11 +38,13 @@ public class Bubble extends AbstractGameObject {
 			texture = Assets.bubble;
 		}
 		setSprite(new Sprite(texture));
+		setScale(scale);
 
-		this.scale = scale;
 		this.bubbler = bubbler;
+		if (bubbler != null) {
+			setVelocityX(bubbler.getVelocityX());
+		}
 		setVelocityY(10 + 30 * scale);
-		setVelocityX(bubbler.getVelocityX());
 		setMaxSpeed(5 + getMaxSpeed() * scale);
 
 	}
@@ -49,7 +59,7 @@ public class Bubble extends AbstractGameObject {
 			setVelocityX(getVelocityX() * 0.95f);
 		} else {
 			setVelocityX((float) Math.cos(getGameContext().getTicks()
-					/ (20f * scale)) / 3);
+					/ (20f * getScale())) / 3);
 		}
 		if (getY() > EatFishAndAI.HEIGHT) {
 			destroy();
@@ -64,8 +74,10 @@ public class Bubble extends AbstractGameObject {
 
 	@Override
 	public void onSpawn() {
-		if (Math.random() < 0.05f) {
+		if (Math.random() < 0.06f) {
 			burst();
+		} else {
+			CommonTweens.quickScaleFrom(this, 0, 0.3f);
 		}
 	}
 
@@ -75,7 +87,7 @@ public class Bubble extends AbstractGameObject {
 			getGameContext().spawn(
 					new Bubble((float) (getX() + (0.5f - Math.random()) * 10),
 							(float) (getY() + (0.5f - Math.random()) * 10),
-							(float) (scale * Math.pow(0.9, i)), bubbler));
+							(float) (getScale() * Math.pow(0.9, i)), bubbler));
 		}
 		destroy();
 	}
