@@ -123,7 +123,7 @@ public class AIRetriever {
 		}
 	}
 
-	public static AIFactory<?> compileAndLoadAI(String filepath)
+	public static AIFactory<? extends AI> compileAndLoadAI(String filepath)
 			throws ClassNotFoundException, InstantiationException,
 			IllegalAccessException, MaliciousAICodeException {
 		AIRetriever ar = new AIRetriever();

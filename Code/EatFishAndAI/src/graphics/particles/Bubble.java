@@ -69,7 +69,7 @@ public class Bubble extends AbstractGameObject {
 
 	@Override
 	public void setVelocityX(float velx) {
-		this.velocityX = Math.max(Math.min(velx, 1), 0);
+		this.velocityX = Math.max(Math.min(velx, 1), -1);
 	}
 
 	@Override

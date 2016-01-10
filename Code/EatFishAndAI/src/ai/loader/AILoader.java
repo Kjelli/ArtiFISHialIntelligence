@@ -7,7 +7,7 @@ import java.util.Map;
 import ai.AI;
 
 public class AILoader {
-	private static final Map<String, AIFactory> facmap = new HashMap<>();
+	private static final Map<String, AIFactory<? extends AI>> facmap = new HashMap<>();
 
 	public static AI load(String filename) throws FileNotFoundException,
 			ClassNotFoundException, InstantiationException,

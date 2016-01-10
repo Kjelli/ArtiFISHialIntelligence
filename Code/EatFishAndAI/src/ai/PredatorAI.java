@@ -2,7 +2,6 @@ package ai;
 
 import gameobjects.Fish;
 import gameobjects.GameObject;
-import ai.*;
 
 public class PredatorAI extends AbstractAI {
 

@@ -3,8 +3,6 @@ package ai;
 import static java.lang.Math.PI;
 import static java.lang.Math.cos;
 
-import java.io.IOException;
-
 public class DummyAI extends AbstractAI {
 	int angle;
 
