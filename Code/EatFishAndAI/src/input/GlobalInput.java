@@ -1,5 +1,6 @@
 package input;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.utils.Array;
@@ -9,6 +10,7 @@ public class GlobalInput {
 
 	public static void init() {
 		setMux(new InputMultiplexer());
+		Gdx.input.setInputProcessor(GlobalInput.getInputMultiplexer());
 	}
 
 	public static void addInputProcessor(InputProcessor processor) {

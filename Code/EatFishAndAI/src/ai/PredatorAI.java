@@ -47,10 +47,10 @@ public class PredatorAI extends AbstractAI {
 				if (fish.compareTo(that) == 1) {
 					if (prey == null) {
 						prey = that;
-						highestInterest = Math.pow(2*that.getSize(),2)
+						highestInterest = Math.pow(2 * that.getScale(), 2)
 								/ fish.distanceTo(that);
 					} else {
-						double interest = 10 * that.getSize()
+						double interest = 10 * that.getScale()
 								/ fish.distanceTo(that);
 						if (interest > highestInterest) {
 							highestInterest = interest;

@@ -1,12 +1,11 @@
 package graphics.particles;
 
-import assets.Assets;
-
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-
 import game.EatFishAndAI;
 import gameobjects.AbstractGameObject;
 import gameobjects.Fish;
+import assets.Assets;
+
+import com.badlogic.gdx.graphics.g2d.Sprite;
 
 public class Fishbones extends AbstractGameObject {
 	private final float size;
@@ -14,16 +13,13 @@ public class Fishbones extends AbstractGameObject {
 
 	public Fishbones(float x, float y, Fish eater, Fish eaten) {
 		super(x, y, 16, 12);
-		this.size = eaten.getSize();
+
+		setSprite(new Sprite(Assets.fishbones));
+
+		this.size = eaten.getScale();
 		this.flipped = eaten.getVelocityX() < 0;
 		setMaxSpeed(100 / size);
-		setVelocityX(-eater.getVelocityX()*eater.getMaxSpeed() / 20);
-	}
-
-	@Override
-	public void draw(SpriteBatch batch) {
-		batch.draw(Assets.fishbones, (flipped ? getWidth() : 0) + getX(),
-				getY(), (flipped ? -1 : 1) * getWidth(), getHeight());
+		setVelocityX(-eater.getVelocityX() * eater.getMaxSpeed() / 20);
 	}
 
 	@Override
@@ -34,15 +30,6 @@ public class Fishbones extends AbstractGameObject {
 		if (getY() > EatFishAndAI.HEIGHT) {
 			destroy();
 		}
-	}
-
-	@Override
-	public void onSpawn() {
-	}
-
-	@Override
-	public void onDespawn() {
-
 	}
 
 	@Override

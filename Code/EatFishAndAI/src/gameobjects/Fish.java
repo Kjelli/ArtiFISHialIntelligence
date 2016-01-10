@@ -11,10 +11,6 @@ public interface Fish extends GameObject, Comparable<Fish> {
 	public static final float SLOW_FACTOR = 0.9f;
 	public static final float MAX_SPEED = 50;
 
-	float getSize();
-
-	void setSize(float size);
-
 	void attachAI(AI ai);
 
 	void eat(Fish fish);

@@ -1,16 +1,23 @@
 package gameobjects;
 
 import gamecontext.GameContext;
-import gamecontext.physics.Collidable;
+import graphics.Draw;
+
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public abstract class AbstractGameObject implements GameObject {
 	private GameContext context;
 
-	private float x, y, width, height;
-	private float velocityX, velocityY;
-	private boolean alive = true;
+	protected float x, y, width, height;
+	protected float velocityX, velocityY;
+	protected boolean alive = true;
 
-	private float speed = 30f;
+	protected Sprite sprite;
+
+	protected float speed = 30f;
+	protected float rot = 0f;
+	protected float scale = 1.0f;
 
 	public AbstractGameObject(float x, float y, float width, float height) {
 		this.x = x;
@@ -49,11 +56,11 @@ public abstract class AbstractGameObject implements GameObject {
 		return y + getHeight() / 2;
 	}
 
-	protected final void setX(float x) {
+	public final void setX(float x) {
 		this.x = x;
 	}
 
-	protected final void setY(float y) {
+	public final void setY(float y) {
 		this.y = y;
 	}
 
@@ -69,6 +76,7 @@ public abstract class AbstractGameObject implements GameObject {
 
 	@Override
 	public final float getVelocityX() {
+
 		return velocityX;
 	}
 
@@ -80,6 +88,11 @@ public abstract class AbstractGameObject implements GameObject {
 	@Override
 	public void setVelocityX(float velx) {
 		this.velocityX = Math.max(-1, Math.min(1, velx));
+
+		if ((velocityX <= 0 && !getSprite().isFlipX())
+				|| (velocityX >= 0 && getSprite().isFlipX())) {
+			getSprite().flip(true, false);
+		}
 	}
 
 	@Override
@@ -92,17 +105,23 @@ public abstract class AbstractGameObject implements GameObject {
 		return width * getScale();
 	}
 
+	public final void setWidth(float width) {
+		this.width = width / getScale();
+	}
+
 	@Override
 	public final float getHeight() {
 		return height * getScale();
+	}
+
+	public final void setHeight(float height) {
+		this.height = height / getScale();
 	}
 
 	protected final void move(float delta) {
 		x += velocityX * speed * delta;
 		y += velocityY * speed * delta;
 
-		if (this instanceof Collidable) {
-		}
 	}
 
 	@Override
@@ -192,8 +211,35 @@ public abstract class AbstractGameObject implements GameObject {
 	}
 
 	@Override
+	public void draw(SpriteBatch batch) {
+		Draw.sprite(batch, this);
+	}
+
+	public void setScale(float scale) {
+		this.scale = scale;
+	}
+
+	@Override
 	public float getScale() {
-		return 1.0f;
+		return scale;
+	}
+
+	@Override
+	public Sprite getSprite() {
+		return sprite;
+	}
+
+	@Override
+	public void setSprite(Sprite sprite) {
+		this.sprite = sprite;
+	}
+
+	public void onSpawn() {
+		// Left empty intentionally
+	}
+
+	public void onDespawn() {
+		// Left empty intentionally
 	}
 
 	@Override

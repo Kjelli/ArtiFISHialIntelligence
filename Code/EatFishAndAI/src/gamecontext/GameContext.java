@@ -8,9 +8,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 
 public class GameContext {
+
+	private final Game game;
 
 	private final List<GameObject> objects;
 	private final Stack<GameObject> add;
@@ -18,18 +22,23 @@ public class GameContext {
 	private final Stack<GameObject> newlySpawned;
 	private final Stack<GameObject> newlyDespawned;
 
+	private Stage stage;
 	private PhysicsHandler physics;
 	private long ticks = 0;
 	private double elapsedTime = 0;
 
 	private float timeModifier = 1.0f;
 
-	public GameContext() {
+	public GameContext(Game game) {
+		this.game = game;
+
 		objects = new ArrayList<>();
 		add = new Stack<>();
 		remove = new Stack<>();
 		newlySpawned = new Stack<>();
 		newlyDespawned = new Stack<>();
+
+		stage = new Stage();
 
 		// TODO Optimize in the future
 		physics = new BruteForcePhysicsHandler();
@@ -90,8 +99,16 @@ public class GameContext {
 		return ticks;
 	}
 
+	public Stage getStage() {
+		return stage;
+	}
+
 	public double getElapsedTime() {
 		return elapsedTime;
+	}
+
+	public Game getGame() {
+		return game;
 	}
 
 }

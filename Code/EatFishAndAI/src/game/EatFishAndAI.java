@@ -18,10 +18,19 @@ public class EatFishAndAI extends Game {
 
 	@Override
 	public void create() {
+		init();
+
+		setScreen(new MenuScreen(this));
+	}
+
+	private void init() {
 		Assets.loadAllAssets();
 		GlobalInput.init();
-		Gdx.input.setInputProcessor(GlobalInput.getInputMultiplexer());
-		setScreen(new MenuScreen(this));
+		initGL();
+	}
+
+	private void initGL() {
+		
 	}
 
 	@Override

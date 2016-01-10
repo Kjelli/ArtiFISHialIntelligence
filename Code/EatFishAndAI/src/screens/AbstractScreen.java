@@ -2,30 +2,53 @@ package screens;
 
 import game.EatFishAndAI;
 import gamecontext.GameContext;
+import input.GlobalInput;
+import tween.GlobalTween;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.StretchViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 
 public abstract class AbstractScreen implements Screen {
 
-	EatFishAndAI game;
+	Game game;
+
+	private final Camera camera;
+	private final Viewport viewport;
 
 	// Used for drawing of objects. Shared between all drawables in the game.
 	private final SpriteBatch batch;
+
 	// Contains all the gameobjects used in a particular screen.
 	private GameContext context;
 
 	// The background of the current screen
 	private Texture background;
 
-	public AbstractScreen(EatFishAndAI game) {
+	public AbstractScreen(Game game) {
 		this.game = game;
 
+		camera = new OrthographicCamera(EatFishAndAI.WIDTH, EatFishAndAI.HEIGHT);
+		camera.position.set(camera.viewportWidth / 2f,
+				camera.viewportHeight / 2f, 0);
+		viewport = new StretchViewport(EatFishAndAI.WIDTH, EatFishAndAI.HEIGHT,
+				camera);
+
 		batch = new SpriteBatch();
-		context = new GameContext();
+		context = new GameContext(game);
+
+		getGameContext().getStage().setViewport(viewport);
+
+		camera.update();
+		GlobalInput.addInputProcessor(getGameContext().getStage());
 	}
 
 	/**
@@ -35,7 +58,9 @@ public abstract class AbstractScreen implements Screen {
 	@Override
 	public void render(float delta) {
 		context.update(delta);
+		GlobalTween.getManager().update(delta);
 		update(delta);
+		context.getStage().act(delta);
 		draw(batch);
 	}
 
@@ -52,10 +77,15 @@ public abstract class AbstractScreen implements Screen {
 				| GL20.GL_DEPTH_BUFFER_BIT
 				| (Gdx.graphics.getBufferFormat().coverageSampling ? GL20.GL_COVERAGE_BUFFER_BIT_NV
 						: 0));
+		camera.update();
+
+		batch.setTransformMatrix(camera.view);
+		batch.setProjectionMatrix(camera.projection);
 		batch.begin();
 
 		if (background != null) {
-			batch.draw(background, 0, 0, 640, 480);
+			batch.draw(background, 0, 0, EatFishAndAI.WIDTH,
+					EatFishAndAI.HEIGHT);
 		}
 
 		getGameContext().draw(batch);
@@ -67,7 +97,9 @@ public abstract class AbstractScreen implements Screen {
 	 * Logic that occurs when resizing (ignore for now)
 	 */
 	@Override
-	public void resize(int arg0, int arg1) {
+	public void resize(int width, int height) {
+		viewport.update(width, height);
+		camera.update();
 	}
 
 	/**
@@ -100,7 +132,7 @@ public abstract class AbstractScreen implements Screen {
 	public void dispose() {
 		batch.dispose();
 		context.dispose();
-		Gdx.input.setInputProcessor(null);
+		GlobalInput.removeAllInputProcessing();
 	}
 
 	protected final void setBackground(Texture background) {
@@ -118,4 +150,5 @@ public abstract class AbstractScreen implements Screen {
 	public GameContext getGameContext() {
 		return context;
 	}
+
 }

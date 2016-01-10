@@ -18,6 +18,7 @@ public class Assets {
 	// Menuscreen textures
 
 	public static Texture splash;
+	public static Texture button_start, button_start_hover, button_start_pressed;
 
 	public static void loadAllAssets() {
 		loadMenuscreenAssets();
@@ -26,6 +27,9 @@ public class Assets {
 
 	private static void loadMenuscreenAssets() {
 		splash = load("logo_splash.png");
+		button_start = load("button_start.png");
+		button_start_hover = load("button_start_hover.png");
+		button_start_pressed = load("button_start_pressed.png");
 	}
 
 	private static void loadPlayscreenAssets() {

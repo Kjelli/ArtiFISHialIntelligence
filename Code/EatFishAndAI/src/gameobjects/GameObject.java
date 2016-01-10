@@ -2,15 +2,20 @@ package gameobjects;
 
 import gamecontext.GameContext;
 
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public interface GameObject {
 
 	public float getX();
 
+	public void setX(float x);
+
 	public float getCenterX();
 
 	public float getY();
+
+	public void setY(float y);
 
 	public float getCenterY();
 
@@ -28,13 +33,21 @@ public interface GameObject {
 
 	public float getWidth();
 
+	public void setWidth(float width);
+
 	public float getHeight();
+
+	public void setHeight(float height);
 
 	public float getScale();
 
 	public void draw(SpriteBatch batch);
 
 	public void update(float delta);
+
+	public void setSprite(Sprite sprite);
+
+	public Sprite getSprite();
 
 	public void onSpawn();
 

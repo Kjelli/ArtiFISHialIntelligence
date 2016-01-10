@@ -1,5 +1,7 @@
 package screens;
 
+import com.badlogic.gdx.Game;
+
 import game.EatFishAndAI;
 import gamecontext.GameContext;
 import gameobjects.PredatorFish;
@@ -12,9 +14,8 @@ public class PlayScreen extends AbstractScreen {
 
 	Spawner spawner;
 
-	public PlayScreen(EatFishAndAI game) {
+	public PlayScreen(Game game) {
 		super(game);
-		setGameContext(new GameContext());
 	}
 
 	/**

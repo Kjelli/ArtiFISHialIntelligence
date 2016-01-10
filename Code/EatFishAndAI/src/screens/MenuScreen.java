@@ -1,18 +1,21 @@
 package screens;
 
-import com.badlogic.gdx.math.Rectangle;
-
-import spawners.DummySpawner;
-import spawners.Spawner;
 import game.EatFishAndAI;
 import graphics.gui.Logo;
+import graphics.gui.buttons.AbstractButton;
+import graphics.gui.buttons.StartButton;
+import spawners.DummySpawner;
+import spawners.Spawner;
 import assets.Assets;
+
+import com.badlogic.gdx.math.Rectangle;
 
 public class MenuScreen extends AbstractScreen {
 	Spawner spawner;
 
 	public MenuScreen(EatFishAndAI game) {
 		super(game);
+
 	}
 
 	@Override
@@ -22,10 +25,17 @@ public class MenuScreen extends AbstractScreen {
 		spawner.setBounds(new Rectangle(0, 0, EatFishAndAI.WIDTH,
 				EatFishAndAI.HEIGHT / 4));
 		setBackground(Assets.bg);
-		
+
+		int centerX = EatFishAndAI.WIDTH / 2, centerY = EatFishAndAI.HEIGHT / 2;
+
 		getGameContext().spawn(
-				new Logo(EatFishAndAI.WIDTH / 2 - Logo.WIDTH / 2,
-						EatFishAndAI.HEIGHT * 3 / 4 - Logo.HEIGHT / 2));
+				new Logo(centerX - Logo.WIDTH / 2, centerY * 63 / 40
+						- Logo.HEIGHT / 2));
+
+		getGameContext().spawn(
+				new StartButton(centerX - AbstractButton.WIDTH / 2,
+						centerY * 4 / 5));
+
 	}
 
 	@Override
