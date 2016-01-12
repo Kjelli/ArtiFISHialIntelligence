@@ -5,6 +5,8 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 // import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 // import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
 
 public class Assets {
 
@@ -19,39 +21,67 @@ public class Assets {
 
 	public static TextureGroup dummyfish;
 
-	// Menuscreen textures
+	// Menuscreen and button textures
 
 	public static Texture splash;
 	public static Texture button_start, button_start_hover,
 			button_start_pressed;
+	public static Texture button_empty, button_empty_hover,
+			button_empty_pressed;
+
+	// Configurescreen textures
+
+	public static Texture button_add_player, button_add_player_hover,
+			button_add_player_pressed;
 
 	// Fonts
 
-	public static BitmapFont font16, font20, font30;
+	public static BitmapFont font16, font20, font30, font50;
 
 	public static void loadAllAssets() {
 		loadMenuscreenAssets();
 		loadPlayscreenAssets();
+		loadConfigurescreenAssets();
 		loadFonts();
 	}
 
+	private static void loadConfigurescreenAssets() {
+		button_add_player = load("button_add_player.png");
+		button_add_player_hover = load("button_add_player_hover.png");
+		button_add_player_pressed = load("button_add_player_pressed.png");
+	}
+
 	private static void loadFonts() {
-		// FreeTypeFontGenerator generator = new FreeTypeFontGenerator(
-		// Gdx.files.internal("PIXELOPERATORSC.TTF"));
-		//
-		// FreeTypeFontParameter size16 = new FreeTypeFontParameter();
-		// size16.size = 16;
-		// font16 = generator.generateFont(size16);
-		//
-		// FreeTypeFontParameter size20 = new FreeTypeFontParameter();
-		// size20.size = 20;
-		// font20 = generator.generateFont(size20);
-		//
-		// FreeTypeFontParameter size30a = new FreeTypeFontParameter();
-		// size30a.size = 30;
-		// font30 = generator.generateFont(size30a);
-		//
-		// generator.dispose();
+		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(
+				Gdx.files.internal("assets/PIXELOPERATORSC-BOLD.TTF"));
+
+		FreeTypeFontParameter size16 = new FreeTypeFontParameter();
+		size16.size = 16;
+		size16.minFilter = Texture.TextureFilter.Nearest;
+		size16.magFilter = Texture.TextureFilter.MipMapLinearNearest;
+		
+		font16 = generator.generateFont(size16);
+
+		FreeTypeFontParameter size20 = new FreeTypeFontParameter();
+		size20.size = 20;
+		size20.minFilter = Texture.TextureFilter.Nearest;
+		size20.magFilter = Texture.TextureFilter.MipMapLinearNearest;
+		
+		font20 = generator.generateFont(size20);
+
+		FreeTypeFontParameter size30 = new FreeTypeFontParameter();
+		size30.size = 30;
+		size30.minFilter = Texture.TextureFilter.Nearest;
+		size30.magFilter = Texture.TextureFilter.MipMapLinearNearest;
+		font30 = generator.generateFont(size30);
+
+		FreeTypeFontParameter size50 = new FreeTypeFontParameter();
+		size50.size = 50;
+		size50.minFilter = Texture.TextureFilter.Nearest;
+		size50.magFilter = Texture.TextureFilter.MipMapLinearNearest;
+		font50 = generator.generateFont(size50);
+
+		generator.dispose();
 	}
 
 	private static void loadMenuscreenAssets() {
@@ -59,6 +89,10 @@ public class Assets {
 		button_start = load("button_start.png");
 		button_start_hover = load("button_start_hover.png");
 		button_start_pressed = load("button_start_pressed.png");
+
+		button_empty = load("button_empty.png");
+		button_empty_hover = load("button_empty_hover.png");
+		button_empty_pressed = load("button_empty_pressed.png");
 	}
 
 	private static void loadPlayscreenAssets() {

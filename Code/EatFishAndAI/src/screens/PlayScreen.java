@@ -16,10 +16,12 @@ public class PlayScreen extends AbstractScreen {
 
 	public PlayScreen(Game game) {
 		super(game);
+		System.out.println("Playscreen activated");
 	}
 
 	@Override
 	public void show() {
+		System.out.println("Playscreen shown");
 		setBackground(Assets.bg);
 
 		spawner = new DummySpawner();

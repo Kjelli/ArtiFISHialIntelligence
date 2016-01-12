@@ -16,7 +16,6 @@ import ai.AI;
 
 public class AIRetriever {
 	File root;
-	String pack;
 
 	public AIRetriever() {
 		root = new File("/java/mindyourfishai/");
@@ -38,12 +37,10 @@ public class AIRetriever {
 
 		BufferedReader reader = new BufferedReader(new FileReader(new File(
 				filename)));
-		boolean packLine = true;
+		int lineNo = 0;
 		for (String line = reader.readLine(); line != null; line = reader
 				.readLine()) {
-			if (packLine) {
-				pack = line.substring(7, line.length() - 1);
-				packLine = false;
+			if (lineNo == 0 && line.startsWith("package")) {
 				continue;
 			}
 			sourcecode.append(line + "\r\n");
@@ -73,7 +70,7 @@ public class AIRetriever {
 		try {
 			// On Windows running on C:\, this is
 			// C:\java.
-			sourceFile = new File(root, filename);
+			sourceFile = new File(root, getFileName(filename));
 			sourceFile.getParentFile().mkdirs();
 
 			BufferedWriter writer;
@@ -103,19 +100,25 @@ public class AIRetriever {
 	 * @throws ClassNotFoundException
 	 * @throws InstantiationException
 	 * @throws IllegalAccessException
-	 * @throws ObjectNotImplementingAIException
+	 * @throws InvalidAIException
 	 */
 	@SuppressWarnings("unchecked")
 	public Class<? extends AI> compile(File sourceFile) throws IOException,
 			ClassNotFoundException, InstantiationException,
-			IllegalAccessException, ObjectNotImplementingAIException {
+			IllegalAccessException, InvalidAIException {
 		JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
 		compiler.run(null, null, null, sourceFile.getPath());
 
 		URLClassLoader classLoader = URLClassLoader
 				.newInstance(new URL[] { root.toURI().toURL() });
-		Class<?> cls = Class.forName(sourceFile.getName().split("[.]+")[0],
-				true, classLoader);
+		Class<?> cls = null;
+		try {
+			cls = Class.forName(sourceFile.getName().split("[.]+")[0], true,
+					classLoader);
+		} catch (ClassNotFoundException e) {
+			throw new InvalidAIException(
+					"No java class found or wrong extension!");
+		}
 		if (cls.newInstance() instanceof AI) {
 			return (Class<? extends AI>) cls;
 		} else {
@@ -125,7 +128,8 @@ public class AIRetriever {
 
 	public static AIFactory<? extends AI> compileAndLoadAI(String filepath)
 			throws ClassNotFoundException, InstantiationException,
-			IllegalAccessException, MaliciousAICodeException {
+			IllegalAccessException, MaliciousAICodeException,
+			ObjectNotImplementingAIException, InvalidAIException, IOException {
 		AIRetriever ar = new AIRetriever();
 
 		String filename = getFileName(filepath);
@@ -147,18 +151,14 @@ public class AIRetriever {
 		File sourceFile = ar.saveToSourcefile(sc, filename);
 
 		Class<? extends AI> cls = null;
-		try {
-			cls = ar.compile(sourceFile);
-		} catch (ObjectNotImplementingAIException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+
+		cls = ar.compile(sourceFile);
+
 		return new AIFactory<>(cls);
 	}
 
 	private static String getFileName(String filename) {
-		String[] elements = filename.split("[/]+");
+		String[] elements = filename.split("[/\\\\]+");
 		return elements[elements.length - 1];
 	}
 }

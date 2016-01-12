@@ -1,17 +1,13 @@
 package screens;
 
-import static org.lwjgl.opengl.GL11.GL_ADD;
-import static org.lwjgl.opengl.GL11.GL_TEXTURE_ENV;
-import static org.lwjgl.opengl.GL11.GL_TEXTURE_ENV_MODE;
-import static org.lwjgl.opengl.GL11.glTexEnvi;
 import game.EatFishAndAI;
 import gamecontext.GameContext;
+import gameobjects.GameObject;
 import input.GlobalInput;
 import tween.GlobalTween;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
@@ -21,15 +17,15 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
-public abstract class AbstractScreen implements Screen {
+public abstract class AbstractScreen implements GameScreen {
 
 	Game game;
 
-	private final Camera camera;
-	private final Viewport viewport;
+	private Camera camera;
+	private Viewport viewport;
 
 	// Used for drawing of objects. Shared between all drawables in the game.
-	private final SpriteBatch batch;
+	private SpriteBatch batch;
 
 	// Contains all the gameobjects used in a particular screen.
 	private GameContext context;
@@ -41,9 +37,13 @@ public abstract class AbstractScreen implements Screen {
 
 	private Color bgcolor = new Color(Color.BLACK);
 
+	private boolean disposing = false;
+
 	public AbstractScreen(Game game) {
 		this.game = game;
+	}
 
+	public void init() {
 		camera = new OrthographicCamera(EatFishAndAI.WIDTH, EatFishAndAI.HEIGHT);
 		camera.position.set(camera.viewportWidth / 2f,
 				camera.viewportHeight / 2f, 0);
@@ -65,6 +65,9 @@ public abstract class AbstractScreen implements Screen {
 	 */
 	@Override
 	public void render(float delta) {
+		if (disposing) {
+			return;
+		}
 		if (!paused) {
 			context.update(delta);
 			update(delta);
@@ -100,7 +103,12 @@ public abstract class AbstractScreen implements Screen {
 
 		getGameContext().draw(batch);
 
+		drawScreen(batch);
 		batch.end();
+	}
+
+	protected void drawScreen(SpriteBatch batch) {
+		// Overridable
 	}
 
 	/**
@@ -142,6 +150,7 @@ public abstract class AbstractScreen implements Screen {
 	 */
 	@Override
 	public void dispose() {
+		disposing = true;
 		batch.dispose();
 		context.dispose();
 		GlobalInput.removeAllInputProcessing();

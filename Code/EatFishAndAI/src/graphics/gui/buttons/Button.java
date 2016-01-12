@@ -1,6 +1,8 @@
 package graphics.gui.buttons;
 
-public interface Button {
+import gameobjects.GameObject;
+
+public interface Button extends GameObject {
 	void onClick();
 	
 	void onRelease();

@@ -1,17 +1,14 @@
 package game;
 
 import input.GlobalInput;
+import loading.LoadTask;
+import screens.GameScreen;
 import screens.LoadingScreen;
-import screens.MenuScreen;
 import screens.PlayScreen;
 import assets.Assets;
 
 import com.badlogic.gdx.Game;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class EatFishAndAI extends Game {
 
@@ -21,7 +18,17 @@ public class EatFishAndAI extends Game {
 	public void create() {
 		init();
 
-		setScreen(new MenuScreen(this));
+		setScreen(new LoadingScreen(this, new LoadTask[] { new LoadTask() {
+			@Override
+			public void load() {
+				try {
+					Thread.sleep(1000);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
+		} }, new PlayScreen(this)));
+
 	}
 
 	private void init() {
@@ -36,10 +43,15 @@ public class EatFishAndAI extends Game {
 
 	@Override
 	public void setScreen(Screen screen) {
+		setScreen(screen, false);
+	}
+
+	public void setScreen(Screen screen, boolean keepAlive) {
 		Screen oldScreen = getScreen();
-		if (oldScreen != null) {
+		if (oldScreen != null && !keepAlive) {
 			oldScreen.dispose();
 		}
+		((GameScreen) screen).init();
 		super.setScreen(screen);
 	}
 

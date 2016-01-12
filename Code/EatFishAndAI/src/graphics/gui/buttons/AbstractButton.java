@@ -90,6 +90,18 @@ public abstract class AbstractButton extends AbstractGameObject implements
 	}
 
 	@Override
+	public void setX(float x) {
+		super.setX(x);
+		actor.setBounds(x, y, width, height);
+	}
+
+	@Override
+	public void setY(float y) {
+		super.setY(y);
+		actor.setBounds(x, y, width, height);
+	}
+
+	@Override
 	public void onDespawn() {
 		actor.clear();
 	}

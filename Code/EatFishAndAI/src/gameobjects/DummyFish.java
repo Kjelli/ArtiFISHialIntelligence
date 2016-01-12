@@ -1,6 +1,7 @@
 package gameobjects;
 
 import ai.DummyAI;
+import ai.ScaredAI;
 import assets.Assets;
 
 public class DummyFish extends AbstractFish {

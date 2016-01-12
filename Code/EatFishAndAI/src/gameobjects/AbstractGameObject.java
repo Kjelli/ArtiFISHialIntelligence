@@ -56,11 +56,11 @@ public abstract class AbstractGameObject implements GameObject {
 		return y + getHeight() / 2;
 	}
 
-	public final void setX(float x) {
+	public void setX(float x) {
 		this.x = x;
 	}
 
-	public final void setY(float y) {
+	public void setY(float y) {
 		this.y = y;
 	}
 

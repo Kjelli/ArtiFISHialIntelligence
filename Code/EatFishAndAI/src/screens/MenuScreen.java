@@ -15,7 +15,6 @@ public class MenuScreen extends AbstractScreen {
 
 	public MenuScreen(EatFishAndAI game) {
 		super(game);
-
 	}
 
 	@Override

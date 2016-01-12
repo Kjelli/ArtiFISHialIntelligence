@@ -1,5 +1,6 @@
 package graphics.gui.buttons;
 
+import screens.ConfigureScreen;
 import screens.PlayScreen;
 import assets.Assets;
 
@@ -18,7 +19,7 @@ public class StartButton extends AbstractButton {
 	@Override
 	public void onRelease() {
 		getGameContext().getGame().setScreen(
-				new PlayScreen(getGameContext().getGame()));
+				new ConfigureScreen(getGameContext().getGame()));
 	}
 
 	@Override
