@@ -246,4 +246,12 @@ public abstract class AbstractGameObject implements GameObject {
 	public boolean isAlive() {
 		return alive;
 	}
+
+	/**
+	 * Cleanup method, use with caution
+	 */
+	@Override
+	public void dispose() {
+		// Left empty intentionally
+	}
 }

@@ -8,7 +8,6 @@ public class DummyAI extends AbstractAI {
 
 	public DummyAI() {
 		angle = (int) (Math.random() * 360);
-
 	}
 
 	@Override

@@ -14,6 +14,7 @@ public class DummyFish extends AbstractFish {
 	@Override
 	public void onSpawn() {
 		attachAI(new DummyAI());
+		start();
 	}
 
 }

@@ -3,7 +3,7 @@ package gameobjects;
 import gamecontext.GameContext;
 import ai.AI;
 
-public interface Fish extends GameObject, Comparable<Fish> {
+public interface Fish extends GameObject {
 	public static final float MASS_DIFFERENCE_MARGIN = 0.1f;
 	public final static int BUBBLE_TIMER_MAX = 1000, BUBBLE_TIMER_MIN = 100;
 	public final static int EATING_COOLDOWN_MAX = 1;
@@ -16,9 +16,13 @@ public interface Fish extends GameObject, Comparable<Fish> {
 	void attachAI(AI ai);
 
 	void eat(Fish fish);
-	
+
 	void start();
 
 	GameContext getGameContext();
+
+	boolean greaterThan(Fish fish);
+
+	boolean lessThan(Fish other);
 
 }

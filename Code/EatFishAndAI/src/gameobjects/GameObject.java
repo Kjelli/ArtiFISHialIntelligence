@@ -81,4 +81,6 @@ public interface GameObject {
 
 	public boolean isAlive();
 
+	public void dispose();
+
 }

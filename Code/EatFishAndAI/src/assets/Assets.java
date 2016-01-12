@@ -55,6 +55,7 @@ public class Assets {
 		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(
 				Gdx.files.internal("assets/PIXELOPERATORSC-BOLD.TTF"));
 
+		generator.scaleForPixelHeight(16);
 		FreeTypeFontParameter size16 = new FreeTypeFontParameter();
 		size16.size = 16;
 		size16.minFilter = Texture.TextureFilter.Nearest;

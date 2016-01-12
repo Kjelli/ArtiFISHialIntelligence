@@ -47,7 +47,7 @@ public class ScaredAI extends AbstractAI {
 				continue;
 			}
 			Fish other = (Fish) o;
-			if (getFish().compareTo(other) == -1) {
+			if (getFish().lessThan(other)) {
 				if (target == null) {
 					target = other;
 				} else {

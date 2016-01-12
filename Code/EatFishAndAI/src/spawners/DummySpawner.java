@@ -38,6 +38,7 @@ public class DummySpawner implements Spawner {
 		f.setVelocityX(rightSide ? -1 : 1);
 		f.setVelocityY(0);
 		context.spawn(f);
+
 	}
 
 	@Override

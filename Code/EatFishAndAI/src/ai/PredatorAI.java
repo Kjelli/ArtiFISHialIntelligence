@@ -26,7 +26,7 @@ public class PredatorAI extends AbstractAI {
 		if (prey != null) {
 
 			getFish().moveTowards(prey);
-			if (getFish().compareTo(prey) < 1 || !prey.isAlive()) {
+			if (!getFish().greaterThan(prey) || !prey.isAlive()) {
 				prey = null;
 				huntNewTarget();
 			}
@@ -39,7 +39,7 @@ public class PredatorAI extends AbstractAI {
 			GameObject o = getGameContext().getObjects().get(i);
 			if (!o.equals(getFish()) && o instanceof Fish && o.isAlive()) {
 				Fish that = (Fish) o;
-				if (getFish().compareTo(that) == 1) {
+				if (getFish().greaterThan(that)) {
 					if (prey == null) {
 						prey = that;
 

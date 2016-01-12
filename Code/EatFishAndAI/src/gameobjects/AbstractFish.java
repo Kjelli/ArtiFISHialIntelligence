@@ -18,9 +18,8 @@ public abstract class AbstractFish extends AbstractGameObject implements Fish,
 
 	private int bubbleTimer;
 	private int eatingCooldown;
-	private GlyphLayout layout;
 
-	private AI ai;
+	protected AI ai;
 	private float startingSpeed = MAX_SPEED;
 
 	public AbstractFish(Texture texture, float x, float y, float width,
@@ -62,12 +61,11 @@ public abstract class AbstractFish extends AbstractGameObject implements Fish,
 	}
 
 	@Override
-	public final void attachAI(AI ai) {
+	public void attachAI(AI ai) {
 		this.ai = ai;
 		this.ai.setGameContext(getGameContext());
 		this.ai.setFish(this);
-		layout = new GlyphLayout();
-		layout.setText(Assets.font16, ai.getClass().getName());
+
 	}
 
 	public final void start() {
@@ -79,20 +77,11 @@ public abstract class AbstractFish extends AbstractGameObject implements Fish,
 		Collidable target = collision.getTarget();
 		if (target instanceof Fish) {
 			Fish other = (Fish) target;
-			if (compareTo(other) == 1) {
+			if (greaterThan(other)) {
 				if (distanceTo(other) < getHeight() / 2) {
 					eat(other);
 				}
 			}
-		}
-	}
-
-	@Override
-	public void draw(SpriteBatch batch) {
-		super.draw(batch);
-		if (!(this instanceof DummyFish)) {
-			Assets.font16.draw(batch, layout, getCenterX() - layout.width / 2,
-					getCenterY() + 30);
 		}
 	}
 
@@ -115,11 +104,18 @@ public abstract class AbstractFish extends AbstractGameObject implements Fish,
 		}
 	}
 
-	@Override
-	public int compareTo(Fish o) {
+	public boolean greaterThan(Fish o) {
 		float diff = getScale() - o.getScale();
-		return diff < -getScale() * Fish.MASS_DIFFERENCE_MARGIN ? -1
-				: diff > getScale() * Fish.MASS_DIFFERENCE_MARGIN ? 1 : 0;
+		return diff < -getScale() * Fish.MASS_DIFFERENCE_MARGIN ? false
+				: diff > getScale() * Fish.MASS_DIFFERENCE_MARGIN ? true
+						: false;
+	}
+
+	public boolean lessThan(Fish o) {
+		float diff = getScale() - o.getScale();
+		return diff < -getScale() * Fish.MASS_DIFFERENCE_MARGIN ? true
+				: diff > getScale() * Fish.MASS_DIFFERENCE_MARGIN ? false
+						: false;
 	}
 
 	@Override
@@ -127,6 +123,11 @@ public abstract class AbstractFish extends AbstractGameObject implements Fish,
 		if (ai != null) {
 			ai.kill();
 		}
+	}
+
+	@Override
+	public void dispose() {
+		onDespawn();
 	}
 
 }

@@ -94,7 +94,7 @@ public class GameContext {
 	}
 
 	public void dispose() {
-		// TODO
+		objects.iterator().forEachRemaining(a -> a.dispose());
 	}
 
 	public long getTicks() {
