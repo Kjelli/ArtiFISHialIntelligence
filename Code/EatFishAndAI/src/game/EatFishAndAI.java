@@ -4,6 +4,7 @@ import input.GlobalInput;
 import loading.LoadTask;
 import screens.GameScreen;
 import screens.LoadingScreen;
+import screens.MenuScreen;
 import screens.PlayScreen;
 import assets.Assets;
 
@@ -27,7 +28,7 @@ public class EatFishAndAI extends Game {
 					e.printStackTrace();
 				}
 			}
-		} }, new PlayScreen(this)));
+		} }, new MenuScreen(this)));
 
 	}
 

@@ -3,7 +3,7 @@ package screens;
 import game.EatFishAndAI;
 import graphics.gui.Logo;
 import graphics.gui.buttons.AbstractButton;
-import graphics.gui.buttons.StartButton;
+import graphics.gui.buttons.StartConfigurationButton;
 import spawners.DummySpawner;
 import spawners.Spawner;
 import assets.Assets;
@@ -32,7 +32,7 @@ public class MenuScreen extends AbstractScreen {
 						- Logo.HEIGHT / 2));
 
 		getGameContext().spawn(
-				new StartButton(centerX - AbstractButton.WIDTH / 2,
+				new StartConfigurationButton(centerX - AbstractButton.WIDTH / 2,
 						centerY * 4 / 5));
 
 	}

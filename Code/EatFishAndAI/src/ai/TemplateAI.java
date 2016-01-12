@@ -6,7 +6,6 @@ public class TemplateAI extends AbstractAI {
 
 	@Override
 	public void act() {
-
 	}
 
 }

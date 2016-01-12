@@ -6,15 +6,19 @@ import gamecontext.physics.Collision;
 import graphics.particles.Bubble;
 import graphics.particles.Fishbones;
 import ai.AI;
+import assets.Assets;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public abstract class AbstractFish extends AbstractGameObject implements Fish,
 		Collidable {
 
 	private int bubbleTimer;
 	private int eatingCooldown;
+	private GlyphLayout layout;
 
 	private AI ai;
 	private float startingSpeed = MAX_SPEED;
@@ -62,6 +66,11 @@ public abstract class AbstractFish extends AbstractGameObject implements Fish,
 		this.ai = ai;
 		this.ai.setGameContext(getGameContext());
 		this.ai.setFish(this);
+		layout = new GlyphLayout();
+		layout.setText(Assets.font16, ai.getClass().getName());
+	}
+
+	public final void start() {
 		new Thread(ai).start();
 	}
 
@@ -75,6 +84,15 @@ public abstract class AbstractFish extends AbstractGameObject implements Fish,
 					eat(other);
 				}
 			}
+		}
+	}
+
+	@Override
+	public void draw(SpriteBatch batch) {
+		super.draw(batch);
+		if (!(this instanceof DummyFish)) {
+			Assets.font16.draw(batch, layout, getCenterX() - layout.width / 2,
+					getCenterY() + 30);
 		}
 	}
 
