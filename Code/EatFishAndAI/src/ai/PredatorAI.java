@@ -1,65 +1,78 @@
 package ai;
 
-import gameobjects.Fish;
+import java.util.List;
+
+import utils.Log;
+import fishhandles.OtherFish;
+import fishhandles.YourFish;
 import gameobjects.GameObject;
+import gameobjects.fish.Fish;
 
 public class PredatorAI extends AbstractAI {
 
-	Fish prey;
+	OtherFish prey;
+	YourFish fish;
 	boolean initialHunt = true;
 
 	@Override
-	public void act() {
+	public void init(YourFish fish) {
+		this.fish = fish;
+	}
+
+	@Override
+	public void act(List<OtherFish> otherFish) {
 		if (initialHunt) {
-			getFish().setVelocityX((float) Math.random() * 2 - 1);
-			getFish().setVelocityY((float) Math.random() * 2 - 1);
-			huntNewTarget();
+			fish.setVelocityX((float) Math.random() * 2 - 1);
+			fish.setVelocityY((float) Math.random() * 2 - 1);
+			huntNewTarget(otherFish);
 			initialHunt = false;
 		}
 		if (Math.random() < 0.025f) {
-			huntNewTarget();
+			huntNewTarget(otherFish);
 			if (prey == null) {
-				getFish().setVelocityX((float) Math.random() * 2 - 1);
-				getFish().setVelocityY((float) Math.random() * 2 - 1);
+				fish.setVelocityX((float) Math.random() * 2 - 1);
+				fish.setVelocityY((float) Math.random() * 2 - 1);
 			}
 		}
 		if (prey != null) {
-
-			getFish().moveTowards(prey);
-			if (!getFish().greaterThan(prey) || !prey.isAlive()) {
+			if (!prey.isAlive() || !fish.greaterThan(prey)) {
 				prey = null;
-				huntNewTarget();
+				huntNewTarget(otherFish);
+			} else {
+				fish.moveTowards(prey);
 			}
 		}
+		
 	}
 
-	private void huntNewTarget() {
+	private void huntNewTarget(List<OtherFish> otherFish) {
 		double highestInterest = 0;
-		for (int i = 0; i < getGameContext().getObjects().size(); i++) {
-			GameObject o = getGameContext().getObjects().get(i);
-			if (!o.equals(getFish()) && o instanceof Fish && o.isAlive()) {
-				Fish that = (Fish) o;
-				if (getFish().greaterThan(that)) {
-					if (prey == null) {
+		for (int i = 0; i < otherFish.size(); i++) {
+			OtherFish that = otherFish.get(i);
+			if (!that.isAlive()) {
+				continue;
+			}
+
+			if (fish.greaterThan(that)) {
+				if (prey == null) {
+					prey = that;
+
+					highestInterest = Math.pow(2 * that.getScale(), 2)
+							/ fish.distanceTo(that);
+				} else {
+					double interest = 10 * that.getScale()
+							/ fish.distanceTo(that);
+					if (interest > highestInterest) {
+						highestInterest = interest;
 						prey = that;
 
-						highestInterest = Math.pow(2 * that.getScale(), 2)
-								/ getFish().distanceTo(that);
-					} else {
-						double interest = 10 * that.getScale()
-								/ getFish().distanceTo(that);
-						if (interest > highestInterest) {
-							highestInterest = interest;
-							prey = that;
-
-						}
 					}
 				}
-
 			}
+
 		}
 		if (prey != null) {
-			getFish().moveTowards(prey);
+			fish.moveTowards(prey);
 		}
 	}
 }

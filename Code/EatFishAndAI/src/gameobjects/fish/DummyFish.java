@@ -1,7 +1,6 @@
-package gameobjects;
+package gameobjects.fish;
 
 import ai.DummyAI;
-import ai.ScaredAI;
 import assets.Assets;
 
 public class DummyFish extends AbstractFish {
@@ -13,6 +12,7 @@ public class DummyFish extends AbstractFish {
 
 	@Override
 	public void onSpawn() {
+		super.onSpawn();
 		attachAI(new DummyAI());
 		start();
 	}

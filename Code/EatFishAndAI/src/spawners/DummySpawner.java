@@ -4,8 +4,8 @@ import com.badlogic.gdx.math.Rectangle;
 
 import game.EatFishAndAI;
 import gamecontext.GameContext;
-import gameobjects.DummyFish;
-import gameobjects.Fish;
+import gameobjects.fish.DummyFish;
+import gameobjects.fish.Fish;
 
 public class DummySpawner implements Spawner {
 	private GameContext context;

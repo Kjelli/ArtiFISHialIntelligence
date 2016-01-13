@@ -1,10 +1,13 @@
 package screens;
 
 import game.EatFishAndAI;
-import graphics.gui.buttons.AbstractButton;
-import graphics.gui.buttons.AbstractTextButton;
 import graphics.gui.buttons.Button;
+import graphics.gui.buttons.ButtonAction;
+import graphics.gui.buttons.ButtonAction.TYPE;
+import graphics.gui.buttons.ButtonListener;
 import graphics.gui.buttons.ModifyPlayerButton;
+import graphics.gui.buttons.AddPlayerButton;
+import graphics.gui.buttons.StartGameButton;
 import ai.AIConfiguration;
 import assets.Assets;
 
@@ -42,7 +45,29 @@ public class ConfigureScreen extends AbstractScreen {
 
 		addPlayerButton = new AddPlayerButton(aiButtonX - AddPlayerButton.WIDTH
 				/ 2, top - topMargin - 1 * spacing - AddPlayerButton.HEIGHT / 2);
-		startGameButton = new StartGameButton(centerX - StartGameButton.WIDTH/2, centerY/2);
+
+		addPlayerButton.setButtonListener(new ButtonListener() {
+
+			@Override
+			public void handle(ButtonAction ba) {
+				if (ba.type == TYPE.RELEASE) {
+					conf.aiconf.prompt();
+				}
+			}
+		});
+
+		startGameButton = new StartGameButton(centerX - StartGameButton.WIDTH
+				/ 2, centerY / 2);
+
+		startGameButton.setButtonListener(new ButtonListener() {
+
+			@Override
+			public void handle(ButtonAction ba) {
+				if (ba.type == TYPE.RELEASE) {
+					game.setScreen(new PlayScreen(game, conf));
+				}
+			}
+		});
 	}
 
 	@Override
@@ -57,12 +82,23 @@ public class ConfigureScreen extends AbstractScreen {
 		if (conf.aiconf.getAIs().size() != loadedAIS) {
 			loadedAIS = conf.aiconf.getAIs().size();
 			addPlayerButton.setY(addPlayerButton.getY() - spacing);
-			getGameContext().spawn(
-					new ModifyPlayerButton(aiButtonX - ModifyPlayerButton.WIDTH
-							/ 2, top - topMargin - loadedAIS * spacing
-							- ModifyPlayerButton.HEIGHT / 2, conf.aiconf
-							.getAIs().get(conf.aiconf.getAIs().size() - 1)
-							.newInstance().getClass().getName()));
+
+			ModifyPlayerButton modifyPlayerButton = new ModifyPlayerButton(
+					aiButtonX - ModifyPlayerButton.WIDTH / 2, top - topMargin
+							- loadedAIS * spacing - ModifyPlayerButton.HEIGHT
+							/ 2, conf.aiconf.getAIs()
+							.get(conf.aiconf.getAIs().size() - 1).newInstance()
+							.getClass().getName());
+
+			modifyPlayerButton.setButtonListener(new ButtonListener() {
+
+				@Override
+				public void handle(ButtonAction ba) {
+					// TODO
+				}
+			});
+
+			getGameContext().spawn(modifyPlayerButton);
 		}
 	}
 
@@ -70,69 +106,6 @@ public class ConfigureScreen extends AbstractScreen {
 	protected void drawScreen(SpriteBatch batch) {
 		Assets.font30.draw(batch, layout, centerX - layout.width / 2, top
 				- topMargin + layout.height);
-	}
-
-	public class StartGameButton extends AbstractTextButton {
-
-		public StartGameButton(float x, float y) {
-			super(x, y, Assets.font30, "PLAY");
-		}
-
-		@Override
-		public void onClick() {
-
-		}
-
-		@Override
-		public void onRelease() {
-			getGameContext().getGame().setScreen(
-					new PlayScreen(getGameContext().getGame(), conf));
-		}
-
-		@Override
-		public void onEnter() {
-			// TODO Auto-generated method stub
-
-		}
-
-		@Override
-		public void onExit() {
-			// TODO Auto-generated method stub
-
-		}
-
-	}
-
-	public class AddPlayerButton extends AbstractButton {
-
-		public AddPlayerButton(float x, float y) {
-			super(x, y, Assets.button_add_player,
-					Assets.button_add_player_hover,
-					Assets.button_add_player_pressed);
-		}
-
-		@Override
-		public void onClick() {
-		}
-
-		@Override
-		public void onRelease() {
-			conf.aiconf.prompt();
-
-		}
-
-		@Override
-		public void onEnter() {
-			// TODO Auto-generated method stub
-
-		}
-
-		@Override
-		public void onExit() {
-			// TODO Auto-generated method stub
-
-		}
-
 	}
 
 }

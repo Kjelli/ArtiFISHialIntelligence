@@ -1,6 +1,6 @@
 package configuration;
 
-import gameobjects.PlayerFish;
+import gameobjects.fish.PlayerFish;
 
 import java.util.ArrayList;
 import java.util.List;

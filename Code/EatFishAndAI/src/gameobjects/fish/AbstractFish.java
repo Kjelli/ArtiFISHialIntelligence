@@ -1,8 +1,10 @@
-package gameobjects;
+package gameobjects.fish;
 
+import fishhandles.OtherFish;
 import game.EatFishAndAI;
 import gamecontext.physics.Collidable;
 import gamecontext.physics.Collision;
+import gameobjects.AbstractGameObject;
 import graphics.particles.Bubble;
 import graphics.particles.Fishbones;
 import ai.AI;
@@ -18,6 +20,7 @@ public abstract class AbstractFish extends AbstractGameObject implements Fish,
 
 	private int bubbleTimer;
 	private int eatingCooldown;
+	private final OtherFish fishHandle;
 
 	protected AI ai;
 	private float startingSpeed = MAX_SPEED;
@@ -31,6 +34,14 @@ public abstract class AbstractFish extends AbstractGameObject implements Fish,
 
 		bubbleTimer = (int) (BUBBLE_TIMER_MIN + Math.random()
 				* (BUBBLE_TIMER_MAX - BUBBLE_TIMER_MIN));
+
+		fishHandle = new OtherFish(this);
+	}
+
+	@Override
+	public void onSpawn() {
+		super.onSpawn();
+		getGameContext().getFishHandles().add(fishHandle);
 	}
 
 	@Override
@@ -64,8 +75,10 @@ public abstract class AbstractFish extends AbstractGameObject implements Fish,
 	public void attachAI(AI ai) {
 		this.ai = ai;
 		this.ai.setGameContext(getGameContext());
-		this.ai.setFish(this);
-
+		ai.setFishHandler(getGameContext().generateFishHandler(this));
+		if (this instanceof PlayerFish) {
+			((PlayerFish) this).setName(ai.getClass().getName());
+		}
 	}
 
 	public final void start() {
@@ -104,18 +117,12 @@ public abstract class AbstractFish extends AbstractGameObject implements Fish,
 		}
 	}
 
-	public boolean greaterThan(Fish o) {
-		float diff = getScale() - o.getScale();
-		return diff < -getScale() * Fish.MASS_DIFFERENCE_MARGIN ? false
-				: diff > getScale() * Fish.MASS_DIFFERENCE_MARGIN ? true
-						: false;
+	public boolean greaterThan(Fish that) {
+		return Fish.greaterThan(this, that);
 	}
 
-	public boolean lessThan(Fish o) {
-		float diff = getScale() - o.getScale();
-		return diff < -getScale() * Fish.MASS_DIFFERENCE_MARGIN ? true
-				: diff > getScale() * Fish.MASS_DIFFERENCE_MARGIN ? false
-						: false;
+	public boolean smallerThan(Fish that) {
+		return Fish.smallerThan(this, that);
 	}
 
 	@Override
@@ -128,6 +135,10 @@ public abstract class AbstractFish extends AbstractGameObject implements Fish,
 	@Override
 	public void dispose() {
 		onDespawn();
+	}
+
+	public OtherFish getHandle() {
+		return fishHandle;
 	}
 
 }

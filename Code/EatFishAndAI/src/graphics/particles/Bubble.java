@@ -9,7 +9,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import game.EatFishAndAI;
 import gameobjects.AbstractGameObject;
-import gameobjects.Fish;
+import gameobjects.fish.Fish;
 
 public class Bubble extends AbstractGameObject {
 

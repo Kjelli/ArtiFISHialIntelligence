@@ -8,28 +8,4 @@ public class ModifyPlayerButton extends AbstractTextButton {
 		super(x, y, Assets.font20, name);
 	}
 
-	@Override
-	public void onClick() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void onRelease() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void onEnter() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void onExit() {
-		// TODO Auto-generated method stub
-
-	}
-
 }

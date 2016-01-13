@@ -1,17 +1,20 @@
 package screens;
 
+import game.EatFishAndAI;
+import gameobjects.fish.PlayerFish;
+import graphics.gui.PlayerList;
+
 import java.util.List;
 
-import game.EatFishAndAI;
-import gameobjects.Fish;
-import gameobjects.PlayerFish;
-import gameobjects.PredatorFish;
-import graphics.gui.PlayerList;
 import spawners.DummySpawner;
 import spawners.Spawner;
-import ai.AIConfiguration;
+import tween.CommonTweens;
+import tween.GlobalTween;
 import ai.loader.AIFactory;
 import assets.Assets;
+import aurelienribon.tweenengine.BaseTween;
+import aurelienribon.tweenengine.Timeline;
+import aurelienribon.tweenengine.TweenCallback;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
@@ -30,9 +33,16 @@ public class PlayScreen extends AbstractScreen {
 	float playerListY = EatFishAndAI.HEIGHT;
 	float centerX = EatFishAndAI.WIDTH / 2, centerY = EatFishAndAI.HEIGHT / 2;
 
+	private static enum State {
+		INITIALIZING, STARTING, PLAYING, WINNER, OVER
+	}
+
+	State state;
+
 	public PlayScreen(Game game, GameConfiguration conf) {
 		super(game);
 		this.conf = conf;
+		state = State.INITIALIZING;
 	}
 
 	@Override
@@ -56,7 +66,7 @@ public class PlayScreen extends AbstractScreen {
 		// new PredatorFish(offset, EatFishAndAI.HEIGHT - offset));
 		// getGameContext().spawn(new PredatorFish(offset, offset));
 		List<AIFactory<?>> factories = conf.aiconf.getAIs();
-		int count = factories.size(), radius = 200;
+		int count = factories.size(), radius = 150;
 		float angle = (float) (2 * Math.PI / count);
 		for (int i = 0; i < conf.aiconf.getAIs().size(); i++) {
 			PlayerFish player = new PlayerFish((float) (centerX
@@ -72,16 +82,64 @@ public class PlayScreen extends AbstractScreen {
 		}
 
 		getGameContext().spawn(new PlayerList(conf, playerListX, playerListY));
+
+		getGameContext().setPaused(true);
+		getGameContext().update(1);
+
+		state = State.STARTING;
+
+		Timeline all = Timeline.createSequence();
+		for (PlayerFish player : conf.players) {
+			all.push(CommonTweens.zoomAtGameObject(player, getCamera(), 3.0f));
+		}
+		all.push(CommonTweens.zoomAtPoint(centerX, centerY, getCamera(), 1.0f));
+		all.setCallback(new TweenCallback() {
+
+			@Override
+			public void onEvent(int type, BaseTween<?> source) {
+				if (type == TweenCallback.COMPLETE) {
+					state = State.PLAYING;
+					getGameContext().setPaused(false);
+				}
+			}
+		});
+		GlobalTween.add(all);
+	}
+
+	@Override
+	public void resume() {
+		if (state == State.PLAYING) {
+			setPaused(false);
+		}
 	}
 
 	protected void update(float delta) {
-		spawner.update(delta);
-		for (int i = 0; i < conf.players.size(); i++) {
-			PlayerFish player = conf.players.get(i);
-			if (!player.isAlive()) {
-				conf.players.remove(player);
-				i--;
+		switch (state) {
+		case INITIALIZING:
+			break;
+		case STARTING:
+			break;
+		case PLAYING:
+			spawner.update(delta);
+			for (int i = 0; i < conf.players.size(); i++) {
+				PlayerFish player = conf.players.get(i);
+				if (!player.isAlive()) {
+					conf.players.remove(player);
+					i--;
+				}
 			}
+
+			if (conf.players.size() == 1) {
+
+			}
+
+			break;
+		case OVER:
+			break;
+		case WINNER:
+			break;
+		default:
+			break;
 		}
 	}
 

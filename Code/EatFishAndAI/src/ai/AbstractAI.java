@@ -1,12 +1,12 @@
 package ai;
 
+import fishhandles.YourFish;
 import gamecontext.GameContext;
-import gameobjects.Fish;
 
 public abstract class AbstractAI implements AI {
 
 	private GameContext context;
-	private Fish fish;
+	private YourFish fish;
 	private volatile boolean running;
 
 	@Override
@@ -17,10 +17,12 @@ public abstract class AbstractAI implements AI {
 
 		running = true;
 
+		init(fish);
+
 		while (running) {
 			try {
 				if (!context.isPaused()) {
-					act();
+					act(context.getFishHandles());
 				}
 				Thread.sleep(20);
 			} catch (InterruptedException e) {
@@ -29,20 +31,13 @@ public abstract class AbstractAI implements AI {
 		}
 	}
 
-	public void setFish(Fish fish) {
-		this.fish = fish;
-	}
-
-	public void setGameContext(GameContext context) {
+	public final void setGameContext(GameContext context) {
 		this.context = context;
 	}
 
-	public GameContext getGameContext() {
-		return context;
-	}
-
-	public Fish getFish() {
-		return fish;
+	@Override
+	public final void setFishHandler(YourFish fish) {
+		this.fish = fish;
 	}
 
 	@Override

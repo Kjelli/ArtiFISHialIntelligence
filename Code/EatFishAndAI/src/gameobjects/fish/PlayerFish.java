@@ -1,4 +1,4 @@
-package gameobjects;
+package gameobjects.fish;
 
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
@@ -30,11 +30,11 @@ public class PlayerFish extends AbstractFish implements Comparable<PlayerFish> {
 
 	public void attachAI(AI ai) {
 		super.attachAI(ai);
-		setName(ai.getClass().getName());
 	}
 
 	@Override
 	public void onSpawn() {
+		super.onSpawn();
 		nameLayout = new GlyphLayout();
 		if (playerNameFont == null) {
 			// TODO change ?
@@ -46,8 +46,7 @@ public class PlayerFish extends AbstractFish implements Comparable<PlayerFish> {
 		nameLayout.setText(playerNameFont, getName());
 
 		scoreLayout = new GlyphLayout();
-		scoreLayout.setText(playerNameFont,
-				getName() + ": " + String.format("%.2f", getScale()));
+		scoreLayout.setText(playerNameFont, String.format("%.0f", getScale()));
 		start();
 	}
 

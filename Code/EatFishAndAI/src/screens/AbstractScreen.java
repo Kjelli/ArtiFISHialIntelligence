@@ -2,13 +2,11 @@ package screens;
 
 import game.EatFishAndAI;
 import gamecontext.GameContext;
-import gameobjects.GameObject;
 import input.GlobalInput;
 import tween.GlobalTween;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -21,7 +19,7 @@ public abstract class AbstractScreen implements GameScreen {
 
 	Game game;
 
-	private Camera camera;
+	private OrthographicCamera camera;
 	private Viewport viewport;
 
 	// Used for drawing of objects. Shared between all drawables in the game.
@@ -70,10 +68,10 @@ public abstract class AbstractScreen implements GameScreen {
 		}
 		if (!paused) {
 			context.update(delta);
-			update(delta);
 			context.getStage().act(delta);
-			GlobalTween.getManager().update(delta);
+			update(delta);
 		}
+		GlobalTween.getManager().update(delta);
 		draw(batch);
 	}
 
@@ -187,6 +185,10 @@ public abstract class AbstractScreen implements GameScreen {
 
 	public GameContext getGameContext() {
 		return context;
+	}
+
+	public OrthographicCamera getCamera() {
+		return camera;
 	}
 
 }

@@ -10,7 +10,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import configuration.GameConfiguration;
 import gameobjects.AbstractGameObject;
-import gameobjects.PlayerFish;
+import gameobjects.fish.PlayerFish;
 
 public class PlayerList extends AbstractGameObject {
 	GameConfiguration conf;

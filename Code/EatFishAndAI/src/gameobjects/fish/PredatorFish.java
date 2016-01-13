@@ -1,4 +1,4 @@
-package gameobjects;
+package gameobjects.fish;
 
 import ai.PredatorAI;
 import ai.TemplateAI;
@@ -13,6 +13,7 @@ public class PredatorFish extends AbstractFish {
 
 	@Override
 	public void onSpawn() {
+		super.onSpawn();
 		attachAI(new PredatorAI());
 	}
 }

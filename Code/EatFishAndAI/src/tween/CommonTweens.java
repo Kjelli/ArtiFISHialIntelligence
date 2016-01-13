@@ -1,7 +1,12 @@
 package tween;
 
+import com.badlogic.gdx.graphics.Camera;
+
+import tween.accessors.CameraAccessor;
 import tween.accessors.GameObjectAccessor;
+import aurelienribon.tweenengine.Timeline;
 import aurelienribon.tweenengine.Tween;
+import game.EatFishAndAI;
 import gameobjects.GameObject;
 import static tween.accessors.GameObjectAccessor.*;
 
@@ -64,5 +69,21 @@ public class CommonTweens {
 
 	public static Tween scaleFrom(GameObject go, float fromScale, float seconds) {
 		return Tween.from(go, SCALE, seconds).target(fromScale);
+	}
+
+	// Camera
+
+	public static Timeline zoomAtGameObject(GameObject go, Camera cam,
+			float zoom) {
+		return zoomAtPoint(go.getCenterX(), go.getCenterY(), cam, zoom);
+	}
+
+	public static Timeline zoomAtPoint(float x, float y, Camera cam, float zoom) {
+		Timeline timeline = Timeline
+				.createParallel()
+				.push(Tween.to(cam, CameraAccessor.CAM_XY, 1.0f).target(x, y))
+				.push(Tween.to(cam, CameraAccessor.CAM_WH, 1.0f).target(
+						EatFishAndAI.WIDTH / zoom, EatFishAndAI.HEIGHT / zoom));
+		return timeline;
 	}
 }

@@ -3,7 +3,7 @@ package graphics.particles;
 import tween.CommonTweens;
 import game.EatFishAndAI;
 import gameobjects.AbstractGameObject;
-import gameobjects.Fish;
+import gameobjects.fish.Fish;
 import assets.Assets;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;

@@ -5,7 +5,6 @@ import loading.LoadTask;
 import screens.GameScreen;
 import screens.LoadingScreen;
 import screens.MenuScreen;
-import screens.PlayScreen;
 import assets.Assets;
 
 import com.badlogic.gdx.Game;
@@ -13,7 +12,7 @@ import com.badlogic.gdx.Screen;
 
 public class EatFishAndAI extends Game {
 
-	public static final int WIDTH = 640, HEIGHT = 480;
+	public static final int WIDTH = 1024, HEIGHT = 768;
 
 	@Override
 	public void create() {

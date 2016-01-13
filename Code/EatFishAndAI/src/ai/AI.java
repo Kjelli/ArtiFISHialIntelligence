@@ -1,10 +1,15 @@
 package ai;
 
+import java.util.List;
+
+import fishhandles.OtherFish;
+import fishhandles.YourFish;
 import gamecontext.GameContext;
-import gameobjects.Fish;
 
 public interface AI extends Runnable {
-	void act();
+	void init(YourFish fish);
+	
+	void act(List<OtherFish> otherFish);
 
 	void kill();
 
@@ -12,9 +17,5 @@ public interface AI extends Runnable {
 
 	void setGameContext(GameContext gc);
 
-	void setFish(Fish fish);
-
-	GameContext getGameContext();
-
-	Fish getFish();
+	void setFishHandler(YourFish fish);
 }

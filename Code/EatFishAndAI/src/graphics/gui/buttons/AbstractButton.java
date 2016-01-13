@@ -1,6 +1,7 @@
 package graphics.gui.buttons;
 
 import gameobjects.AbstractGameObject;
+import graphics.gui.buttons.ButtonAction.TYPE;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -15,6 +16,8 @@ public abstract class AbstractButton extends AbstractGameObject implements
 
 	protected Actor actor;
 	protected Texture idle, hover, pressed;
+
+	private ButtonListener listener;
 
 	public static final int WIDTH = 150, HEIGHT = 50;
 
@@ -40,7 +43,9 @@ public abstract class AbstractButton extends AbstractGameObject implements
 				if (pointer == -1) {
 					getSprite().setTexture(hover);
 				}
-				onEnter();
+				if (listener != null) {
+					listener.handle(new ButtonAction(TYPE.ENTER, x, y, -1));
+				}
 			}
 
 			@Override
@@ -48,8 +53,11 @@ public abstract class AbstractButton extends AbstractGameObject implements
 					int pointer, int button) {
 				if (button == 0) {
 					getSprite().setTexture(pressed);
-					onClick();
 				}
+				if (listener != null) {
+					listener.handle(new ButtonAction(TYPE.PRESS, x, y, button));
+				}
+
 				return true;
 			}
 
@@ -60,11 +68,14 @@ public abstract class AbstractButton extends AbstractGameObject implements
 					if (x >= 0 && x <= actor.getWidth() && y >= 0
 							&& y <= actor.getHeight()) {
 						getSprite().setTexture(hover);
-						onRelease();
 					} else {
 						getSprite().setTexture(idle);
 					}
 				}
+				if (listener != null) {
+					listener.handle(new ButtonAction(TYPE.RELEASE, x, y, button));
+				}
+
 			}
 
 			@Override
@@ -73,7 +84,10 @@ public abstract class AbstractButton extends AbstractGameObject implements
 				if (pointer == -1) {
 					getSprite().setTexture(idle);
 				}
-				onExit();
+				if (listener != null) {
+					listener.handle(new ButtonAction(TYPE.EXIT, x, y, pointer));
+				}
+
 			}
 		});
 
@@ -104,6 +118,14 @@ public abstract class AbstractButton extends AbstractGameObject implements
 	@Override
 	public void onDespawn() {
 		actor.clear();
+	}
+
+	public ButtonListener getButtonListener() {
+		return listener;
+	}
+
+	public void setButtonListener(ButtonListener listener) {
+		this.listener = listener;
 	}
 
 }

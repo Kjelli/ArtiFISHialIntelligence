@@ -1,8 +1,12 @@
 package gamecontext;
 
+import fishhandles.OtherFish;
+import fishhandles.YourFish;
 import gamecontext.physics.BruteForcePhysicsHandler;
 import gamecontext.physics.PhysicsHandler;
 import gameobjects.GameObject;
+import gameobjects.fish.Fish;
+import gameobjects.fish.PlayerFish;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +26,8 @@ public class GameContext {
 	private final Stack<GameObject> newlySpawned;
 	private final Stack<GameObject> newlyDespawned;
 
+	private final List<OtherFish> fishHandles;
+
 	private Stage stage;
 	private PhysicsHandler physics;
 	private long ticks = 0;
@@ -40,6 +46,8 @@ public class GameContext {
 		newlySpawned = new Stack<>();
 		newlyDespawned = new Stack<>();
 
+		fishHandles = new ArrayList<>();
+
 		stage = new Stage();
 
 		// TODO Optimize in the future
@@ -56,7 +64,7 @@ public class GameContext {
 			GameObject n = add.pop();
 			n.setGameContext(this);
 			newlySpawned.push(n);
-			objects.add(n);
+			objects.add(0, n);
 		}
 		while (!remove.isEmpty()) {
 			GameObject o = remove.pop();
@@ -71,6 +79,9 @@ public class GameContext {
 
 		while (!newlyDespawned.isEmpty()) {
 			GameObject o = newlyDespawned.pop();
+			if (o instanceof Fish) {
+				fishHandles.remove(((Fish) o).getHandle());
+			}
 			o.onDespawn();
 		}
 
@@ -119,6 +130,15 @@ public class GameContext {
 
 	public boolean isPaused() {
 		return paused;
+	}
+
+	// Generate a handler to a fish
+	public final YourFish generateFishHandler(Fish fish) {
+		return new YourFish(fish);
+	}
+
+	public final List<OtherFish> getFishHandles() {
+		return fishHandles;
 	}
 
 }
