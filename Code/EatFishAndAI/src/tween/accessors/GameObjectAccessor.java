@@ -8,7 +8,7 @@ import aurelienribon.tweenengine.TweenAccessor;
 public class GameObjectAccessor implements TweenAccessor<GameObject> {
 	public static final int POS_X = 0, POS_Y = 1, POS_XY = 2, SIZE_W = 3,
 			SIZE_H = 4, SIZE_WH = 5, SPRITE_R = 6, SPRITE_G = 7, SPRITE_B = 8,
-			SPRITE_A = 9, SPRITE_RGB = 10, SPRITE_RGBA = 11, SCALE = 12;
+			SPRITE_A = 9, SPRITE_RGB = 10, SPRITE_RGBA = 11, SCALE = 12, ROTATION = 13;
 
 	@Override
 	public int getValues(GameObject o, int type, float[] values) {
@@ -59,6 +59,9 @@ public class GameObjectAccessor implements TweenAccessor<GameObject> {
 			return 4;
 		case SCALE:
 			values[0] = o.getScale();
+			return 1;
+		case ROTATION:
+			values[0] = o.getRotation();
 			return 1;
 		default:
 			System.err.println("Invalid tweenaccessor type!");
@@ -113,6 +116,9 @@ public class GameObjectAccessor implements TweenAccessor<GameObject> {
 			return;
 		case SCALE:
 			o.setScale(values[0]);
+			return;
+		case ROTATION:
+			o.setRotation(values[0]);
 			return;
 		default:
 			System.err.println("Invalid tweenaccessor type!");

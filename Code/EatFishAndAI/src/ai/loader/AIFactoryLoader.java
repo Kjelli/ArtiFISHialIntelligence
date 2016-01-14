@@ -6,7 +6,7 @@ import java.util.Map;
 
 import ai.AI;
 
-public class AILoader {
+public class AIFactoryLoader {
 	private static final Map<String, AIFactory<? extends AI>> facmap = new HashMap<>();
 
 	public static AIFactory<? extends AI> load(String filename)

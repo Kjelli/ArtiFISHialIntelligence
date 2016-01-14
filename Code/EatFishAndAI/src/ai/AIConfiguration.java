@@ -8,7 +8,7 @@ import java.util.List;
 import javax.swing.JFileChooser;
 
 import ai.loader.AIFactory;
-import ai.loader.AILoader;
+import ai.loader.AIFactoryLoader;
 import ai.loader.InvalidAIException;
 import ai.loader.MaliciousAICodeException;
 import ai.loader.ObjectNotImplementingAIException;
@@ -38,7 +38,7 @@ public class AIConfiguration {
 
 	public boolean loadAI(String filename) {
 		try {
-			AIFactory<?> aif = AILoader.load(filename);
+			AIFactory<?> aif = AIFactoryLoader.load(filename);
 			if (aif != null) {
 				ais.add(aif);
 				return true;

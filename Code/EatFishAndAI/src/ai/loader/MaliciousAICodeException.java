@@ -1,7 +1,5 @@
 package ai.loader;
 
-import ai.AI;
-
 @SuppressWarnings("serial")
 public class MaliciousAICodeException extends InvalidAIException {
 

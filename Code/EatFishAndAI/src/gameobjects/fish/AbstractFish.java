@@ -1,5 +1,7 @@
 package gameobjects.fish;
 
+import tween.GlobalTween;
+import tween.accessors.GameObjectAccessor;
 import fishhandles.OtherFish;
 import game.EatFishAndAI;
 import gamecontext.physics.Collidable;
@@ -9,6 +11,7 @@ import graphics.particles.Bubble;
 import graphics.particles.Fishbones;
 import ai.AI;
 import assets.Assets;
+import aurelienribon.tweenengine.Tween;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
@@ -65,8 +68,10 @@ public abstract class AbstractFish extends AbstractGameObject implements Fish,
 
 		setMaxSpeed((float) (startingSpeed * Math.pow(SLOW_FACTOR, scale)));
 		move(delta);
-		if (getX() > EatFishAndAI.WIDTH || getX() + getWidth() < 0
-				|| getY() > EatFishAndAI.HEIGHT || getY() + getHeight() < 0) {
+		if ((getX() > EatFishAndAI.WIDTH && getVelocityX() > 0)
+				|| (getX() + getWidth() < 0 && getVelocityX() < 0)
+				|| (getY() > EatFishAndAI.HEIGHT && getVelocityY() > 0)
+				|| (getY() + getHeight() < 0 && getVelocityY() < 0)) {
 			destroy();
 		}
 	}
@@ -114,6 +119,11 @@ public abstract class AbstractFish extends AbstractGameObject implements Fish,
 							+ (getVelocityX() < 0 ? getWidth() * 0.8f
 									: -getWidth() * 0.05f), getY() + 2
 							* getHeight() / 8, this, fish));
+			//
+			// GlobalTween.add(Tween.to(this, GameObjectAccessor.ROTATION,
+			// 0.200f)
+			// .target(360));
+
 		}
 	}
 

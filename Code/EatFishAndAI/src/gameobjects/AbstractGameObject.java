@@ -246,6 +246,17 @@ public abstract class AbstractGameObject implements GameObject {
 	public boolean isAlive() {
 		return alive;
 	}
+	
+	public void setRotation(float rot){
+		this.rot = rot % 360;
+		if(sprite != null){
+			sprite.setRotation(this.rot);
+		}
+	}
+	
+	public float getRotation() {
+		return rot;
+	}
 
 	/**
 	 * Cleanup method, use with caution

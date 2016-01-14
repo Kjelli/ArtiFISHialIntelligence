@@ -11,11 +11,11 @@ public class TemplateAI extends AbstractAI {
 
 	@Override
 	public void init(YourFish fish) {
-
 	}
 
 	@Override
 	public void act(List<OtherFish> otherFish) {
+
 	}
 
 }

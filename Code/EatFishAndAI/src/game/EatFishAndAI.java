@@ -12,7 +12,7 @@ import com.badlogic.gdx.Screen;
 
 public class EatFishAndAI extends Game {
 
-	public static final int WIDTH = 1024, HEIGHT = 768;
+	public static final int WIDTH = 800, HEIGHT = 600;
 
 	@Override
 	public void create() {
