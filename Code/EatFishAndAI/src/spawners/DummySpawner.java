@@ -38,10 +38,9 @@ public class DummySpawner implements Spawner {
 
 	private void spawn() {
 		double determinator = Math.random();
-		if (determinator < 0.8f) {
+		if (determinator < 0.92f) {
 			singleFish();
 		} else {
-			System.out.println("SCHOOL");
 			schoolOfFish();
 		}
 	}

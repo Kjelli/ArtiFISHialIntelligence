@@ -67,7 +67,9 @@ public abstract class AbstractFish extends AbstractGameObject implements Fish,
 		}
 
 		setMaxSpeed((float) (startingSpeed * Math.pow(SLOW_FACTOR, scale)));
+
 		move(delta);
+
 		if ((getX() > EatFishAndAI.WIDTH && getVelocityX() > 0)
 				|| (getX() + getWidth() < 0 && getVelocityX() < 0)
 				|| (getY() > EatFishAndAI.HEIGHT && getVelocityY() > 0)
