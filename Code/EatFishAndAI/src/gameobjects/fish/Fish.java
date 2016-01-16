@@ -7,6 +7,7 @@ import gameobjects.GameObject;
 import ai.AI;
 
 public interface Fish extends GameObject {
+	public static final String WARNING_DEAD = "Warning! Target is already dead!";
 	public static final float MASS_DIFFERENCE_MARGIN = 0.1f;
 	public final static int BUBBLE_TIMER_MAX = 300, BUBBLE_TIMER_MIN = 100;
 	public final static int EATING_COOLDOWN_MAX = 1;

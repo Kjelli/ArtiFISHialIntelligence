@@ -1,5 +1,9 @@
 package ai;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import fishhandles.OtherFish;
 import fishhandles.YourFish;
 import gamecontext.GameContext;
 
@@ -12,7 +16,7 @@ public abstract class AbstractAI implements AI {
 	@Override
 	public final void run() {
 		/*
-		 * TODO Limit tick rate
+		 * TODO Limit tick rate further?
 		 */
 
 		running = true;
@@ -22,7 +26,19 @@ public abstract class AbstractAI implements AI {
 		while (running) {
 			try {
 				if (!context.isPaused()) {
-					act(context.getFishHandles());
+					/*
+					 * TODO is this really bad to do each frame for all the
+					 * fish? worst case O(n^2)
+					 */
+					List<OtherFish> otherFish = new ArrayList<>(
+							context.getFishHandles());
+					for (int i = 0; i < otherFish.size(); i++) {
+						if (fish.matches(otherFish.get(i))) {
+							otherFish.remove(i);
+						}
+
+					}
+					act(otherFish);
 				}
 				Thread.sleep(20);
 			} catch (InterruptedException e) {

@@ -7,7 +7,6 @@ import fishhandles.YourFish;
 
 public class TemplateAI extends AbstractAI {
 	// Modify the code from here
-	//
 
 	@Override
 	public void init(YourFish fish) {

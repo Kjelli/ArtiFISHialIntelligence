@@ -93,6 +93,11 @@ public class AIRetriever {
 	 * Takes the given sourcefile and compiles it using the system java
 	 * compiler, and returns the class loaded from the compiled file.
 	 * 
+	 * <br>
+	 * <br>
+	 * TODO <b>NOTE</b>: This code assumes there is a java compiler available.
+	 * If theres not, a crash will occur.
+	 * 
 	 * @param sourceFile
 	 *            The file of which to compile
 	 * @return returns the class (which must extend AI interface)
@@ -106,6 +111,7 @@ public class AIRetriever {
 	public Class<? extends AI> compile(File sourceFile) throws IOException,
 			ClassNotFoundException, InstantiationException,
 			IllegalAccessException, InvalidAIException {
+
 		JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
 		compiler.run(null, null, null, sourceFile.getPath());
 

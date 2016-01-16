@@ -1,7 +1,5 @@
 package gameobjects.fish;
 
-import tween.GlobalTween;
-import tween.accessors.GameObjectAccessor;
 import fishhandles.OtherFish;
 import game.EatFishAndAI;
 import gamecontext.physics.Collidable;
@@ -10,13 +8,9 @@ import gameobjects.AbstractGameObject;
 import graphics.particles.Bubble;
 import graphics.particles.Fishbones;
 import ai.AI;
-import assets.Assets;
-import aurelienribon.tweenengine.Tween;
 
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public abstract class AbstractFish extends AbstractGameObject implements Fish,
 		Collidable {
