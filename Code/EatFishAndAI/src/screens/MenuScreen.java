@@ -1,15 +1,13 @@
 package screens;
 
-import loading.LoadTask;
 import game.EatFishAndAI;
-import gameobjects.fish.PlayerFish;
 import graphics.gui.Logo;
-import graphics.gui.buttons.AbstractButton;
 import graphics.gui.buttons.ButtonAction;
-import graphics.gui.buttons.CustomTextButton;
 import graphics.gui.buttons.ButtonAction.TYPE;
 import graphics.gui.buttons.ButtonListener;
+import graphics.gui.buttons.CustomTextButton;
 import graphics.gui.buttons.StartConfigurationButton;
+import loading.LoadTask;
 import spawners.DummySpawner;
 import spawners.Spawner;
 import ai.AIConfiguration;
@@ -32,7 +30,7 @@ public class MenuScreen extends AbstractScreen {
 		spawner.setGameContext(getGameContext());
 		spawner.setBounds(new Rectangle(0, 0, EatFishAndAI.WIDTH,
 				EatFishAndAI.HEIGHT / 4));
-		setBackground(Assets.bg3);
+		setBackground(Assets.bg);
 
 		int centerX = EatFishAndAI.WIDTH / 2, centerY = EatFishAndAI.HEIGHT / 2;
 

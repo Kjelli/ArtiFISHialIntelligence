@@ -5,13 +5,10 @@ import loading.LoadTask;
 import screens.GameScreen;
 import screens.LoadingScreen;
 import screens.MenuScreen;
-import screens.WinnerScreen;
 import assets.Assets;
 
 import com.badlogic.gdx.Game;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.GL20;
 
 public class EatFishAndAI extends Game {
 

@@ -1,15 +1,11 @@
 package spawners;
 
-import tween.GlobalTween;
-import aurelienribon.tweenengine.Timeline;
-import aurelienribon.tweenengine.Tween;
-
-import com.badlogic.gdx.math.Rectangle;
-
 import game.EatFishAndAI;
 import gamecontext.GameContext;
 import gameobjects.fish.DummyFish;
 import gameobjects.fish.Fish;
+
+import com.badlogic.gdx.math.Rectangle;
 
 public class DummySpawner implements Spawner {
 	private GameContext context;
@@ -52,12 +48,13 @@ public class DummySpawner implements Spawner {
 		float spawnY = (float) (Math.random() * (bounds.height - bounds.x) + bounds.x);
 		float spawnX = (rightSide ? bounds.width : bounds.x - 11);
 		for (int i = 0; i < count; i++) {
-			float effectiveX = (float) (rightSide ? (Math.max(spawnX + (Math.random()) * 3 * SCHOOL_SPREAD, bounds.width)) :
-			 (Math.min(spawnX + (Math.random() - 1f) * 3 * SCHOOL_SPREAD, bounds.x)));
-			
-			singleFish((float) (effectiveX),
-					(float) (spawnY + Math.random() * SCHOOL_SPREAD),
-					rightSide ? -1 : 1);
+			float effectiveX = (float) (rightSide ? (Math.max(
+					spawnX + (Math.random()) * 3 * SCHOOL_SPREAD, bounds.width))
+					: (Math.min(spawnX + (Math.random() - 1f) * 3
+							* SCHOOL_SPREAD, bounds.x)));
+
+			singleFish((float) (effectiveX), (float) (spawnY + Math.random()
+					* SCHOOL_SPREAD), rightSide ? -1 : 1);
 		}
 	}
 

@@ -19,7 +19,7 @@ public class PlayerFish extends AbstractFish implements Comparable<PlayerFish> {
 
 	public static final float STARTING_SCALE = 1.2f;
 
-	private int score = 1;
+	private int score = 0;
 	private GlyphLayout nameLayout;
 	private GlyphLayout massScoreLayout;
 	public static BitmapFont playerNameFont;

@@ -1,6 +1,5 @@
 package ai;
 
-import java.io.IOException;
 import java.util.List;
 
 import fishhandles.OtherFish;
@@ -19,7 +18,6 @@ public class PredatorAI extends AbstractAI {
 
 	@Override
 	public void act(List<OtherFish> otherFish) {
-		System.out.println("Wiiii");
 		if (initialHunt) {
 			fish.setVelocityX((float) Math.random() * 2 - 1);
 			fish.setVelocityY((float) Math.random() * 2 - 1);
