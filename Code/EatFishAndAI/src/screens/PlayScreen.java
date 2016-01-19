@@ -2,7 +2,12 @@ package screens;
 
 import game.EatFishAndAI;
 import gameobjects.fish.PlayerFish;
-import graphics.gui.PlayerList;
+import graphics.gui.OverallScore;
+import graphics.gui.RoundScore;
+import graphics.gui.buttons.ButtonAction;
+import graphics.gui.buttons.ButtonListener;
+import graphics.gui.buttons.CustomTextButton;
+import graphics.gui.buttons.ButtonAction.TYPE;
 
 import java.util.List;
 
@@ -29,9 +34,9 @@ public class PlayScreen extends AbstractScreen {
 
 	GlyphLayout gameNameLayout;
 
-	float playerListX = 0;
-	float playerListY = EatFishAndAI.HEIGHT;
 	float centerX = EatFishAndAI.WIDTH / 2, centerY = EatFishAndAI.HEIGHT / 2;
+	float playerListX = centerX / 3;
+	float playerListY = EatFishAndAI.HEIGHT;
 
 	private static enum State {
 		INITIALIZING, STARTING, PLAYING, WINNER, OVER
@@ -42,12 +47,17 @@ public class PlayScreen extends AbstractScreen {
 	public PlayScreen(Game game, GameConfiguration conf) {
 		super(game);
 		this.conf = conf;
-		state = State.INITIALIZING;
+
 	}
 
 	@Override
 	public void show() {
+		state = State.INITIALIZING;
 		setBackground(Assets.bg);
+		getBackgroundBounds().x = -100;
+		getBackgroundBounds().y = -100;
+		getBackgroundBounds().width = EatFishAndAI.WIDTH + 200;
+		getBackgroundBounds().height = EatFishAndAI.HEIGHT + 200;
 
 		spawner = new DummySpawner();
 		spawner.setGameContext(getGameContext());
@@ -68,31 +78,86 @@ public class PlayScreen extends AbstractScreen {
 		List<AIFactory<?>> factories = conf.aiconf.getAIs();
 		int count = factories.size(), radius = 150;
 		float angle = (float) (2 * Math.PI / count);
+		float angleOffset = (float) (Math.PI / 4);
 		for (int i = 0; i < conf.aiconf.getAIs().size(); i++) {
-			PlayerFish player = new PlayerFish((float) (centerX
-					- PlayerFish.WIDTH / 2 + Math.cos(i * angle) * radius),
-					(float) (centerY - PlayerFish.HEIGHT / 2 + Math.sin(i
-							* angle)
-							* radius));
+			PlayerFish player;
+			if (conf.discardedPlayers.isEmpty()) {
+				player = new PlayerFish(
+						(float) (centerX - PlayerFish.WIDTH / 2 + Math.cos(i
+								* angle + angleOffset)
+								* radius), (float) (centerY - PlayerFish.HEIGHT
+								/ 2 + Math.sin(i * angle + angleOffset)
+								* radius));
+			} else {
+				player = conf.discardedPlayers.get(i);
+				player.killAI();
+				player.setX((float) (centerX - PlayerFish.WIDTH / 2 + Math
+						.cos(i * angle + angleOffset) * radius));
+				player.setY((float) (centerY - PlayerFish.HEIGHT / 2 + Math
+						.sin(i * angle + angleOffset) * radius));
+				player.setVelocityX(0);
+				player.setVelocityY(0);
+				player.setMaxSpeed(PlayerFish.MAX_SPEED);
+				player.setScale(PlayerFish.STARTING_SCALE);
+				player.setAlive(true);
+			}
+			conf.players.add(player);
 
 			getGameContext().spawn(player);
 			player.setGameContext(getGameContext());
 			player.attachAI(factories.get(i).newInstance());
-			conf.players.add(player);
+			player.start();
 		}
 
-		getGameContext().spawn(new PlayerList(conf, playerListX, playerListY));
+		conf.discardedPlayers.clear();
 
-		getGameContext().setPaused(true);
-		getGameContext().update(1);
+		getGameContext().spawn(new RoundScore(conf, playerListX, playerListY));
+
+		CustomTextButton stopButton = new CustomTextButton(EatFishAndAI.WIDTH
+				- CustomTextButton.WIDTH, 0, "STOP");
+
+		stopButton.setButtonListener(new ButtonListener() {
+
+			@Override
+			public void handle(ButtonAction ba) {
+				if (ba.type == TYPE.RELEASE) {
+					game.setScreen(new MenuScreen((EatFishAndAI) game));
+				}
+			}
+		});
+
+		CustomTextButton killButton = new CustomTextButton(EatFishAndAI.WIDTH
+				- 2 * CustomTextButton.WIDTH, 0, "KILL");
+
+		killButton.setButtonListener(new ButtonListener() {
+
+			@Override
+			public void handle(ButtonAction ba) {
+				if (ba.type == TYPE.RELEASE) {
+					while (conf.players.size() > 1) {
+						int randomIndex = (int) (Math.random() * conf.players
+								.size());
+						PlayerFish fish = conf.players.get(randomIndex);
+						conf.players.remove(fish);
+						conf.discardedPlayers.add(fish);
+						fish.destroy();
+					}
+				}
+			}
+		});
+
+		getGameContext().spawn(killButton);
+		getGameContext().spawn(stopButton);
 
 		state = State.STARTING;
 
 		Timeline all = Timeline.createSequence();
 		for (PlayerFish player : conf.players) {
-			all.push(CommonTweens.zoomAtGameObject(player, getCamera(), 3.0f));
+			all.push(CommonTweens.zoomAtGameObject(player, getCamera(), 3.0f,
+					1.0f));
 		}
-		all.push(CommonTweens.zoomAtPoint(centerX, centerY, getCamera(), 1.0f));
+		all.push(CommonTweens.zoomAtPoint(centerX, centerY, getCamera(), 1.0f,
+				1.0f));
 		all.setCallback(new TweenCallback() {
 
 			@Override
@@ -104,6 +169,13 @@ public class PlayScreen extends AbstractScreen {
 			}
 		});
 		GlobalTween.add(all);
+
+		getGameContext().spawn(
+				new OverallScore(conf, EatFishAndAI.WIDTH - 300,
+						EatFishAndAI.HEIGHT));
+
+		getGameContext().update(1);
+		getGameContext().setPaused(true);
 	}
 
 	@Override
@@ -125,12 +197,38 @@ public class PlayScreen extends AbstractScreen {
 				PlayerFish player = conf.players.get(i);
 				if (!player.isAlive()) {
 					conf.players.remove(player);
+					conf.discardedPlayers.add(player);
 					i--;
 				}
 			}
 
-			if (conf.players.size() == 1) {
+			if (conf.players.size() == 1 && conf.aiconf.getAIs().size() > 1) {
+				final PlayerFish winner = conf.players.get(0);
+				state = State.OVER;
+				getGameContext().setPaused(true);
+				GlobalTween.add(CommonTweens.zoomAtGameObject(winner,
+						getCamera(), 3.0f, 3.0f).setCallback(
+						new TweenCallback() {
 
+							@Override
+							public void onEvent(int type, BaseTween<?> source) {
+								if (type == TweenCallback.COMPLETE) {
+									conf.discardedPlayers.add(winner);
+									winner.incrementScore();
+									winner.destroy();
+									conf.players.clear();
+									getGameContext().setPaused(false);
+									getGameContext().update(1f);
+									if (winner.getScore() >= conf.winLimit) {
+										game.setScreen(new WinnerScreen(game,
+												winner.getName()));
+									} else {
+										game.setScreen(new PlayScreen(game,
+												conf));
+									}
+								}
+							}
+						}));
 			}
 
 			break;

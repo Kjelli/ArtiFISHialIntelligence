@@ -15,8 +15,8 @@ public class Assets {
 	// Playscreen textures
 
 	public static Texture predatorfish, scaredfish;
-	public static Texture bubble, bubble_s, bubble_xs;
-	public static Texture bg;
+	public static Texture bubble, bubble_s, bubble_xs, star;
+	public static Texture bg, bg2, bg3;
 	public static Texture fishbones;
 
 	public static TextureGroup dummyfish;
@@ -41,8 +41,13 @@ public class Assets {
 	public static void loadAllAssets() {
 		loadMenuscreenAssets();
 		loadPlayscreenAssets();
+		loadWinnerScreenAssets();
 		loadConfigurescreenAssets();
 		loadFonts();
+	}
+
+	private static void loadWinnerScreenAssets() {
+		star = load("star.png");
 	}
 
 	private static void loadConfigurescreenAssets() {
@@ -60,14 +65,14 @@ public class Assets {
 		size16.size = 16;
 		size16.minFilter = Texture.TextureFilter.Nearest;
 		size16.magFilter = Texture.TextureFilter.MipMapLinearNearest;
-		
+
 		font16 = generator.generateFont(size16);
 
 		FreeTypeFontParameter size20 = new FreeTypeFontParameter();
 		size20.size = 20;
 		size20.minFilter = Texture.TextureFilter.Nearest;
 		size20.magFilter = Texture.TextureFilter.MipMapLinearNearest;
-		
+
 		font20 = generator.generateFont(size20);
 
 		FreeTypeFontParameter size30 = new FreeTypeFontParameter();
@@ -102,6 +107,8 @@ public class Assets {
 				"dummyfish3.png", "dummyfish4.png");
 		scaredfish = load("scaredfish.png");
 		bg = load("bg.jpg");
+		bg2 = load("bg2.jpg");
+		bg3 = load("bg3.png");
 		bubble_xs = load("bubble_xs.png");
 		bubble_s = load("bubble_s.png");
 		bubble = load("bubble.png");

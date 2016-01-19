@@ -5,14 +5,17 @@ import loading.LoadTask;
 import screens.GameScreen;
 import screens.LoadingScreen;
 import screens.MenuScreen;
+import screens.WinnerScreen;
 import assets.Assets;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.GL20;
 
 public class EatFishAndAI extends Game {
 
-	public static final int WIDTH = 1024, HEIGHT = 768;
+	public static final int WIDTH = 800, HEIGHT = 600;
 
 	@Override
 	public void create() {
@@ -22,7 +25,7 @@ public class EatFishAndAI extends Game {
 			@Override
 			public void load() {
 				try {
-					Thread.sleep(1000);
+					Thread.sleep(200);
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}

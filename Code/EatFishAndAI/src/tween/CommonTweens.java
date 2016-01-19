@@ -74,15 +74,15 @@ public class CommonTweens {
 	// Camera
 
 	public static Timeline zoomAtGameObject(GameObject go, Camera cam,
-			float zoom) {
-		return zoomAtPoint(go.getCenterX(), go.getCenterY(), cam, zoom);
+			float zoom, float duration) {
+		return zoomAtPoint(go.getCenterX(), go.getCenterY(), cam, zoom, duration);
 	}
 
-	public static Timeline zoomAtPoint(float x, float y, Camera cam, float zoom) {
+	public static Timeline zoomAtPoint(float x, float y, Camera cam, float zoom, float duration) {
 		Timeline timeline = Timeline
 				.createParallel()
-				.push(Tween.to(cam, CameraAccessor.CAM_XY, 1.0f).target(x, y))
-				.push(Tween.to(cam, CameraAccessor.CAM_WH, 1.0f).target(
+				.push(Tween.to(cam, CameraAccessor.CAM_XY, duration).target(x, y))
+				.push(Tween.to(cam, CameraAccessor.CAM_WH, duration).target(
 						EatFishAndAI.WIDTH / zoom, EatFishAndAI.HEIGHT / zoom));
 		return timeline;
 	}

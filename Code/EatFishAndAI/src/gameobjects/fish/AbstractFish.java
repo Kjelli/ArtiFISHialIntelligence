@@ -133,8 +133,14 @@ public abstract class AbstractFish extends AbstractGameObject implements Fish,
 
 	@Override
 	public void onDespawn() {
+		killAI();
+	}
+
+	@Override
+	public void killAI() {
 		if (ai != null) {
 			ai.kill();
+			ai = null;
 		}
 	}
 

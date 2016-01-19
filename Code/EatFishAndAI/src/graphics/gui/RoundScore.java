@@ -12,18 +12,18 @@ import configuration.GameConfiguration;
 import gameobjects.AbstractGameObject;
 import gameobjects.fish.PlayerFish;
 
-public class PlayerList extends AbstractGameObject {
+public class RoundScore extends AbstractGameObject {
 	GameConfiguration conf;
 	GlyphLayout listLabelLayout;
 	GlyphLayout[] playerNameLayouts;
 	BitmapFont listFont;
 
-	public PlayerList(GameConfiguration conf, float x, float y) {
+	public RoundScore(GameConfiguration conf, float x, float y) {
 		super(x, y, 0, 0);
 		this.conf = conf;
 		listFont = Assets.font30;
 		listLabelLayout = new GlyphLayout();
-		listLabelLayout.setText(listFont, "Leaderboard");
+		listLabelLayout.setText(listFont, "Round score");
 
 	}
 
@@ -40,7 +40,7 @@ public class PlayerList extends AbstractGameObject {
 			PlayerFish.playerNameFont.draw(batch, layout, x, y - (i + 2)
 					* (layout.height + 2));
 			
-			GlyphLayout score = conf.players.get(i).getScoreLayout();
+			GlyphLayout score = conf.players.get(i).getMassScoreLayout();
 			PlayerFish.playerNameFont.draw(batch, score, x + PlayerFish.NAME_LENGTH_LIMIT, y - (i + 2)
 					* (layout.height + 2));
 		}

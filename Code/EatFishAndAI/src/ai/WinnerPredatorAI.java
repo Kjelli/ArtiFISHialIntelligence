@@ -6,7 +6,7 @@ import java.util.List;
 import fishhandles.OtherFish;
 import fishhandles.YourFish;
 
-public class PredatorAI extends AbstractAI {
+public class WinnerPredatorAI extends AbstractAI {
 
 	OtherFish prey;
 	YourFish fish;
@@ -19,27 +19,31 @@ public class PredatorAI extends AbstractAI {
 
 	@Override
 	public void act(List<OtherFish> otherFish) {
-		System.out.println("Wiiii");
 		if (initialHunt) {
-			fish.setVelocityX((float) Math.random() * 2 - 1);
-			fish.setVelocityY((float) Math.random() * 2 - 1);
+			fish.setVelocityX(- 1);
+			fish.setVelocityY(0);
 			huntNewTarget(otherFish);
 			initialHunt = false;
 		}
 		if (Math.random() < 0.025f) {
 			huntNewTarget(otherFish);
 			if (prey == null) {
-				fish.setVelocityX((float) Math.random() * 2 - 1);
-				fish.setVelocityY((float) Math.random() * 2 - 1);
+				fish.setVelocityX(- 1);
+				fish.setVelocityY(0);
 			}
 		}
 		if (prey != null) {
 			if (!prey.isAlive() || !fish.greaterThan(prey)) {
 				prey = null;
 				huntNewTarget(otherFish);
+				fish.setVelocityX(- 1);
+				fish.setVelocityY(0);
 			} else {
 				fish.moveTowards(prey);
 			}
+		}else{
+			fish.setVelocityX(- 1);
+			fish.setVelocityY(0);
 		}
 
 	}

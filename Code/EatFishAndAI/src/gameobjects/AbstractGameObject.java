@@ -31,9 +31,7 @@ public abstract class AbstractGameObject implements GameObject {
 	}
 
 	public final void setGameContext(GameContext context) {
-		if (this.context == null) {
-			this.context = context;
-		}
+		this.context = context;
 	}
 
 	@Override
@@ -89,8 +87,8 @@ public abstract class AbstractGameObject implements GameObject {
 	public void setVelocityX(float velx) {
 		this.velocityX = Math.max(-1, Math.min(1, velx));
 
-		if ((velocityX <= 0 && !getSprite().isFlipX())
-				|| (velocityX >= 0 && getSprite().isFlipX())) {
+		if ((velocityX < 0 && !getSprite().isFlipX())
+				|| (velocityX > 0 && getSprite().isFlipX())) {
 			getSprite().flip(true, false);
 		}
 	}
@@ -245,14 +243,14 @@ public abstract class AbstractGameObject implements GameObject {
 	public boolean isAlive() {
 		return alive;
 	}
-	
-	public void setRotation(float rot){
+
+	public void setRotation(float rot) {
 		this.rot = rot % 360;
-		if(sprite != null){
+		if (sprite != null) {
 			sprite.setRotation(this.rot);
 		}
 	}
-	
+
 	public float getRotation() {
 		return rot;
 	}

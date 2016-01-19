@@ -12,6 +12,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
@@ -30,6 +31,9 @@ public abstract class AbstractScreen implements GameScreen {
 
 	// The background of the current screen
 	private Texture background;
+	private Rectangle backgroundBounds = new Rectangle(0, 0,
+			EatFishAndAI.WIDTH, EatFishAndAI.HEIGHT);
+	private Color backgroundTint;
 
 	private boolean paused = false;
 
@@ -95,8 +99,13 @@ public abstract class AbstractScreen implements GameScreen {
 		batch.begin();
 
 		if (background != null) {
-			batch.draw(background, 0, 0, EatFishAndAI.WIDTH,
-					EatFishAndAI.HEIGHT);
+			Color old = batch.getColor();
+			if (backgroundTint != null) {
+				batch.setColor(getBackgroundColorTint());
+			}
+			batch.draw(background, backgroundBounds.x, backgroundBounds.y,
+					backgroundBounds.width, backgroundBounds.height);
+			batch.setColor(old);
 		}
 
 		getGameContext().draw(batch);
@@ -105,6 +114,19 @@ public abstract class AbstractScreen implements GameScreen {
 		batch.end();
 	}
 
+	public void setBackgroundColorTint(Color color) {
+		this.backgroundTint = color;
+	}
+
+	public Color getBackgroundColorTint() {
+		return backgroundTint;
+	}
+
+	/**
+	 * Override (super contains no logic)
+	 * 
+	 * @param batch
+	 */
 	protected void drawScreen(SpriteBatch batch) {
 		// Overridable
 	}
@@ -166,7 +188,7 @@ public abstract class AbstractScreen implements GameScreen {
 		this.bgcolor = bgcolor;
 	}
 
-	public Color getBackgroundcolor() {
+	public Color getBackgroundColor() {
 		return bgcolor;
 	}
 
@@ -176,6 +198,10 @@ public abstract class AbstractScreen implements GameScreen {
 
 	public boolean getPaused() {
 		return paused;
+	}
+	
+	public Rectangle getBackgroundBounds() {
+		return backgroundBounds;
 	}
 
 	public void setPaused(boolean paused) {

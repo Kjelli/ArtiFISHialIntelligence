@@ -4,8 +4,8 @@ public class CodeAnalyzer {
 
 	private static final String[] banned = new String[] { "System", "exec",
 			"Runtime", "exit", "ClassLoader", "File", "Process",
-			"java.awt.Robot", "reflection", "getdeclaredmethod",
-			"getdeclaredfield", "script", "java.beans", "java.net" };
+			"java.awt.Robot", "Robot", "reflection", "getdeclaredmethod",
+			"getdeclaredfield", "script", "java.beans", "java.net", "gdx" };
 
 	public static final boolean checkSourceCode(String filename, String sc)
 			throws MaliciousAICodeException {

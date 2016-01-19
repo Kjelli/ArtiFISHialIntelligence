@@ -55,6 +55,9 @@ public class GameContext {
 	}
 
 	public void update(float delta) {
+		if (isPaused()) {
+			return;
+		}
 		ticks++;
 		elapsedTime += delta;
 

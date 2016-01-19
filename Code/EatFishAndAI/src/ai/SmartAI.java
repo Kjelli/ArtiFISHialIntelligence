@@ -25,12 +25,16 @@ public class SmartAI extends AbstractAI {
 		scoutPrey(otherFish);
 		scoutHunter(otherFish);
 
-		if (preyDist <= hunterDist && prey != null && prey.isAlive()) {
-			myFish.moveTowards(prey);
-		} else if (hunterDist < preyDist && hunter != null && hunter.isAlive()) {
+		if (hunterDist < safeDist() && hunter != null && hunter.isAlive()) {
 			myFish.moveFrom(hunter);
+		} else if (preyDist <= hunterDist && prey != null && prey.isAlive()) {
+			myFish.moveTowards(prey);
 		}
 
+	}
+
+	private float safeDist() {
+		return myFish.getWidth()*2;
 	}
 
 	private void scoutHunter(List<OtherFish> otherFish) {

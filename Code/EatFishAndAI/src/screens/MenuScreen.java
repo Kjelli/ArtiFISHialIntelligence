@@ -32,7 +32,7 @@ public class MenuScreen extends AbstractScreen {
 		spawner.setGameContext(getGameContext());
 		spawner.setBounds(new Rectangle(0, 0, EatFishAndAI.WIDTH,
 				EatFishAndAI.HEIGHT / 4));
-		setBackground(Assets.bg);
+		setBackground(Assets.bg3);
 
 		int centerX = EatFishAndAI.WIDTH / 2, centerY = EatFishAndAI.HEIGHT / 2;
 
@@ -70,7 +70,7 @@ public class MenuScreen extends AbstractScreen {
 									conf.aiconf = new AIConfiguration();
 									for (int i = 0; i < 4; i++) {
 										conf.aiconf
-												.loadAI("src/ai/PredatorAI.java");
+												.loadAI("src/ai/SmartPredatorAI.java");
 									}
 								}
 							} }, new PlayScreen(game, conf)));

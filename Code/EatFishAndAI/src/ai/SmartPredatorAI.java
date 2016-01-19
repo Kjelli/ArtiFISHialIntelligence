@@ -2,6 +2,7 @@ package ai;
 
 import java.util.List;
 
+import utils.Log;
 import fishhandles.OtherFish;
 import fishhandles.YourFish;
 import game.EatFishAndAI;
@@ -33,7 +34,6 @@ public class SmartPredatorAI extends AbstractAI {
 		} else {
 			myFish.moveTowards(EatFishAndAI.WIDTH / 2, EatFishAndAI.HEIGHT / 2);
 		}
-
 	}
 
 	private float safeRange() {

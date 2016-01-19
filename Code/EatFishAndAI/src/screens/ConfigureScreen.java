@@ -5,10 +5,13 @@ import graphics.gui.buttons.Button;
 import graphics.gui.buttons.ButtonAction;
 import graphics.gui.buttons.ButtonAction.TYPE;
 import graphics.gui.buttons.ButtonListener;
+import graphics.gui.buttons.CustomTextButton;
 import graphics.gui.buttons.ModifyPlayerButton;
 import graphics.gui.buttons.AddPlayerButton;
 import graphics.gui.buttons.StartGameButton;
+import ai.AI;
 import ai.AIConfiguration;
+import ai.loader.AIFactory;
 import assets.Assets;
 
 import com.badlogic.gdx.Game;
@@ -20,13 +23,17 @@ import configuration.GameConfiguration;
 public class ConfigureScreen extends AbstractScreen {
 
 	private final GlyphLayout layout;
-	private final String topLabel = "Add players and connect their AI to begin!";
+	private final String playerLabel = "Add players";
+
+	private final GlyphLayout layout2;
+	private final String roundLabel = "Best of 3";
 
 	GameConfiguration conf;
 	float top = EatFishAndAI.HEIGHT, bottom = 0, left = 0,
 			right = EatFishAndAI.WIDTH, centerX = EatFishAndAI.WIDTH / 2,
 			centerY = EatFishAndAI.HEIGHT / 2;
 	float aiButtonX = EatFishAndAI.WIDTH / 4;
+	float roundButtons = EatFishAndAI.WIDTH * 3 / 4;
 
 	float spacing = 55f;
 	float topMargin = EatFishAndAI.HEIGHT / 6;
@@ -41,7 +48,8 @@ public class ConfigureScreen extends AbstractScreen {
 		conf = new GameConfiguration();
 		conf.aiconf = new AIConfiguration();
 
-		layout = new GlyphLayout(Assets.font30, topLabel);
+		layout2 = new GlyphLayout(Assets.font30, roundLabel);
+		layout = new GlyphLayout(Assets.font30, playerLabel);
 
 		addPlayerButton = new AddPlayerButton(aiButtonX - AddPlayerButton.WIDTH
 				/ 2, top - topMargin - 1 * spacing - AddPlayerButton.HEIGHT / 2);
@@ -75,6 +83,27 @@ public class ConfigureScreen extends AbstractScreen {
 		setBackground(Assets.bg);
 		getGameContext().spawn(addPlayerButton);
 		getGameContext().spawn(startGameButton);
+
+		for (int i = 0; i < 3; i++) {
+			final int index = i;
+			CustomTextButton button = new CustomTextButton(roundButtons
+					- CustomTextButton.WIDTH / 2, top - topMargin
+					- CustomTextButton.HEIGHT / 2 - (i + 1) * spacing,
+					"Best of " + (i * 2 + 1));
+
+			button.setButtonListener(new ButtonListener() {
+				@Override
+				public void handle(ButtonAction ba) {
+					if (ba.type == TYPE.RELEASE) {
+						conf.winLimit = index * 2 + 1;
+						layout2.setText(Assets.font30, "Best of " + (index * 2 +1));
+					}
+
+				}
+			});
+
+			getGameContext().spawn(button);
+		}
 	}
 
 	@Override
@@ -83,18 +112,22 @@ public class ConfigureScreen extends AbstractScreen {
 			loadedAIS = conf.aiconf.getAIs().size();
 			addPlayerButton.setY(addPlayerButton.getY() - spacing);
 
+			AIFactory<? extends AI> lastAdded = conf.aiconf.getAIs().get(
+					conf.aiconf.getAIs().size() - 1);
+
 			ModifyPlayerButton modifyPlayerButton = new ModifyPlayerButton(
 					aiButtonX - ModifyPlayerButton.WIDTH / 2, top - topMargin
 							- loadedAIS * spacing - ModifyPlayerButton.HEIGHT
-							/ 2, conf.aiconf.getAIs()
-							.get(conf.aiconf.getAIs().size() - 1).newInstance()
-							.getClass().getName());
+							/ 2, lastAdded.newInstance().getClass().getName(),
+					lastAdded.getFilename());
 
 			modifyPlayerButton.setButtonListener(new ButtonListener() {
 
 				@Override
 				public void handle(ButtonAction ba) {
-					// TODO
+					if (ba.type == TYPE.RELEASE) {
+						conf.aiconf.loadAI(modifyPlayerButton.getAIFilename());
+					}
 				}
 			});
 
@@ -104,8 +137,9 @@ public class ConfigureScreen extends AbstractScreen {
 
 	@Override
 	protected void drawScreen(SpriteBatch batch) {
-		Assets.font30.draw(batch, layout, centerX - layout.width / 2, top
+		Assets.font30.draw(batch, layout, aiButtonX - layout.width / 2, top
 				- topMargin + layout.height);
+		Assets.font30.draw(batch, layout2, roundButtons - layout2.width / 2,
+				top - topMargin + layout.height);
 	}
-
 }

@@ -17,15 +17,18 @@ public class PlayerFish extends AbstractFish implements Comparable<PlayerFish> {
 
 	public static final float NAME_LENGTH_LIMIT = 150;
 
+	public static final float STARTING_SCALE = 1.2f;
+
+	private int score = 1;
 	private GlyphLayout nameLayout;
-	private GlyphLayout scoreLayout;
+	private GlyphLayout massScoreLayout;
 	public static BitmapFont playerNameFont;
 	private String name;
 
 	public PlayerFish(float x, float y) {
 		super(Assets.predatorfish, x, y, WIDTH, HEIGHT);
-		setScale((float) (1.4f));
-		setMaxSpeed(MAX_SPEED * 1.2f);
+		setScale(STARTING_SCALE);
+		setMaxSpeed(MAX_SPEED);
 	}
 
 	public void attachAI(AI ai) {
@@ -45,15 +48,17 @@ public class PlayerFish extends AbstractFish implements Comparable<PlayerFish> {
 
 		nameLayout.setText(playerNameFont, getName());
 
-		scoreLayout = new GlyphLayout();
-		scoreLayout.setText(playerNameFont, String.format("%.0f", getScale()));
+		massScoreLayout = new GlyphLayout();
+		massScoreLayout.setText(playerNameFont,
+				String.format("%.0f", getScale()));
+		System.out.println("Starting " + ai );
 		start();
 	}
 
 	@Override
 	public void update(float delta) {
 		super.update(delta);
-		scoreLayout.setText(playerNameFont,
+		massScoreLayout.setText(playerNameFont,
 				String.format("%.0f", getScale() * 10));
 	}
 
@@ -75,8 +80,8 @@ public class PlayerFish extends AbstractFish implements Comparable<PlayerFish> {
 		return nameLayout;
 	}
 
-	public GlyphLayout getScoreLayout() {
-		return scoreLayout;
+	public GlyphLayout getMassScoreLayout() {
+		return massScoreLayout;
 	}
 
 	@Override
@@ -84,12 +89,24 @@ public class PlayerFish extends AbstractFish implements Comparable<PlayerFish> {
 		super.draw(batch);
 
 		playerNameFont.draw(batch, nameLayout, getCenterX() - nameLayout.width
-				/ 2, getCenterY() - getHeight());
+				/ 2, getY() - nameLayout.height);
 
 	}
 
 	public int compareTo(PlayerFish that) {
 		return Float.compare(that.getScale(), this.getScale());
+	}
+
+	public int getScore() {
+		return score;
+	}
+
+	public void incrementScore() {
+		score++;
+	}
+
+	public void setAlive(boolean alive) {
+		this.alive = alive;
 	}
 
 }

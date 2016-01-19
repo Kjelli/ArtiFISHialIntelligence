@@ -160,7 +160,7 @@ public class AIRetriever {
 
 		cls = ar.compile(sourceFile);
 
-		return new AIFactory<>(cls);
+		return new AIFactory<>(cls, filepath);
 	}
 
 	private static String getFileName(String filename) {
