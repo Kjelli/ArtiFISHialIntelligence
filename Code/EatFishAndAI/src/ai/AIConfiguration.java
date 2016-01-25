@@ -36,6 +36,10 @@ public class AIConfiguration {
 		return false;
 	}
 
+	public void addAIFactory(Class<? extends AI> cls) {
+		ais.add(new AIFactory<>(cls, ""));
+	}
+
 	public boolean loadAI(String filename) {
 		try {
 			AIFactory<?> aif = AIFactoryLoader.load(filename);

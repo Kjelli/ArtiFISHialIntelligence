@@ -135,7 +135,7 @@ public class PlayerFish extends AbstractFish implements Comparable<PlayerFish> {
 
 	private void drawSlowStatus(SpriteBatch batch) {
 		Draw.sprite(batch, SLOW, getCenterX() - SLOW.getWidth() / 2, getY()
-				+ getHeight() + 3, 8, 8, 0, statusColor);
+				+ getHeight() + 3, 8, 8, 0, statusColor, false);
 	}
 
 	public int compareTo(PlayerFish that) {

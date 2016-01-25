@@ -20,6 +20,7 @@ public class KjelliAI extends AbstractAI {
 	@Override
 	public void init(YourFish fish) {
 		myFish = fish;
+
 	}
 
 	@Override
