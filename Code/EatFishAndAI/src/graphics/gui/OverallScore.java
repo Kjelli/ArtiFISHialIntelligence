@@ -39,7 +39,6 @@ public class OverallScore extends AbstractGameObject {
 
 	@Override
 	public void update(float delta) {
-		Collections.sort(conf.players);
 	}
 
 	@Override
@@ -47,10 +46,6 @@ public class OverallScore extends AbstractGameObject {
 		listFont.draw(batch, listLabelLayout, x, y);
 		for (int i = 0; i < conf.players.size(); i++) {
 			drawPlayerInformation(conf.players.get(i), batch, i);
-		}
-		for (int i = 0; i < conf.discardedPlayers.size(); i++) {
-			drawPlayerInformation(conf.discardedPlayers.get(i), batch, i
-					+ conf.players.size());
 		}
 	}
 

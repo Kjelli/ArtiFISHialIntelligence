@@ -8,11 +8,15 @@ import java.util.List;
 import fishhandles.OtherFish;
 import fishhandles.YourFish;
 
-public class DummyAI extends AbstractAI {
+public class SlowDummyAI extends AbstractAI {
 	int angle;
 	YourFish fish;
 
-	public DummyAI() {
+	static final float slowInterval = 100;
+	float slowClock;
+	boolean isSlow;
+
+	public SlowDummyAI() {
 		angle = (int) (Math.random() * 360);
 	}
 
@@ -25,11 +29,24 @@ public class DummyAI extends AbstractAI {
 	public void update(List<OtherFish> otherFish) {
 		fish.setVelocityY((float) (cos(angle * PI / 180.0f) / 3));
 		angle = (angle + 1) % 360;
-	}
+		if (++slowClock >= slowInterval) {
+			isSlow = !isSlow;
+			slowClock = 0;
+		}
 
+		if (isSlow) {
+			try {
+				Thread.sleep(40);
+			} catch (InterruptedException ie) {
+				ie.printStackTrace();
+			}
+		}
+	}
+	
 	@Override
 	public void ateFish(OtherFish handle) {
-
+		// TODO Auto-generated method stub
+		
 	}
 
 }

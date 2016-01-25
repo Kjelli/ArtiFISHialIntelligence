@@ -4,6 +4,7 @@ import java.util.List;
 
 import fishhandles.OtherFish;
 import fishhandles.YourFish;
+import gameobjects.fish.Fish;
 
 public class SmartAI extends AbstractAI {
 	// Modify the code from here
@@ -15,13 +16,15 @@ public class SmartAI extends AbstractAI {
 	OtherFish hunter;
 	float hunterDist = 10001;
 
+	float crashCounter = 0;
+	
 	@Override
 	public void init(YourFish fish) {
 		myFish = fish;
 	}
 
 	@Override
-	public void act(List<OtherFish> otherFish) {
+	public void update(List<OtherFish> otherFish) {
 		scoutPrey(otherFish);
 		scoutHunter(otherFish);
 
@@ -29,6 +32,11 @@ public class SmartAI extends AbstractAI {
 			myFish.moveFrom(hunter);
 		} else if (preyDist <= hunterDist && prey != null && prey.isAlive()) {
 			myFish.moveTowards(prey);
+		}
+		
+		if(++crashCounter >= 200){
+			Fish lol = null;
+			lol.getCenterX();
 		}
 
 	}
@@ -75,5 +83,9 @@ public class SmartAI extends AbstractAI {
 		}
 		return false;
 	}
-
+	@Override
+	public void ateFish(OtherFish handle) {
+		// TODO Auto-generated method stub
+		
+	}
 }

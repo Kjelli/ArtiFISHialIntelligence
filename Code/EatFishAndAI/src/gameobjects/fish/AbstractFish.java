@@ -109,6 +109,10 @@ public abstract class AbstractFish extends AbstractGameObject implements Fish,
 					/ 2);
 			eatingCooldown = EATING_COOLDOWN_MAX;
 			fish.destroy();
+			
+			if(ai != null){
+				ai.ateFish(fish.getHandle());
+			}
 
 			getGameContext().spawn(
 					new Fishbones(getX()

@@ -6,13 +6,13 @@ import graphics.gui.buttons.ButtonAction;
 import graphics.gui.buttons.ButtonAction.TYPE;
 import graphics.gui.buttons.ButtonListener;
 import graphics.gui.buttons.CustomTextButton;
-import graphics.gui.buttons.StartConfigurationButton;
 import loading.LoadTask;
 import spawners.DummySpawner;
 import spawners.Spawner;
 import ai.AIConfiguration;
 import assets.Assets;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Rectangle;
 
 import configuration.GameConfiguration;
@@ -38,16 +38,25 @@ public class MenuScreen extends AbstractScreen {
 				new Logo(centerX - Logo.WIDTH / 2, centerY * 63 / 40
 						- Logo.HEIGHT / 2));
 
-		StartConfigurationButton startConfigurationButton = new StartConfigurationButton(
-				centerX - StartConfigurationButton.WIDTH / 2, centerY * 4 / 5);
+		CustomTextButton startButton = new CustomTextButton(centerX
+				- CustomTextButton.WIDTH / 2, centerY * 4 / 5, "Start");
 
-		startConfigurationButton.setButtonListener(new ButtonListener() {
+		startButton.setButtonListener(new ButtonListener() {
 			@Override
 			public void handle(ButtonAction ba) {
 				if (ba.type == TYPE.RELEASE) {
 					getGameContext().getGame().setScreen(
 							new ConfigureScreen(getGameContext().getGame()));
 				}
+			}
+		});
+
+		CustomTextButton rulesButton = new CustomTextButton(centerX
+				- CustomTextButton.WIDTH / 2, centerY * 3 / 5, "Rules");
+
+		rulesButton.setButtonListener(e -> {
+			if (e.type == TYPE.RELEASE) {
+				Gdx.net.openURI(EatFishAndAI.WEBSITE);
 			}
 		});
 
@@ -66,10 +75,10 @@ public class MenuScreen extends AbstractScreen {
 								public void load() {
 									conf.gamename = "quickplay";
 									conf.aiconf = new AIConfiguration();
-									for (int i = 0; i < 4; i++) {
-										conf.aiconf
-												.loadAI("src/ai/SmartPredatorAI.java");
-									}
+									conf.aiconf.loadAI("src/ai/KjelliAI.java");
+									conf.aiconf.loadAI("src/ai/KjelliAI.java");
+									conf.aiconf.loadAI("src/ai/KjelliAI.java");
+									conf.aiconf.loadAI("src/ai/KjelliAI.java");
 								}
 							} }, new PlayScreen(game, conf)));
 
@@ -77,8 +86,19 @@ public class MenuScreen extends AbstractScreen {
 			}
 		});
 
+		CustomTextButton quitButton = new CustomTextButton(centerX
+				- CustomTextButton.WIDTH / 2, centerY * 1 / 5, "Quit");
+
+		quitButton.setButtonListener(e -> {
+			if (e.type == TYPE.RELEASE) {
+				Gdx.app.exit();
+			}
+		});
+
+		getGameContext().spawn(startButton);
+		getGameContext().spawn(rulesButton);
 		getGameContext().spawn(quickStartButton);
-		getGameContext().spawn(startConfigurationButton);
+		getGameContext().spawn(quitButton);
 
 	}
 

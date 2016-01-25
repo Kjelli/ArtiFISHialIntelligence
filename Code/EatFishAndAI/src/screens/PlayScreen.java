@@ -9,6 +9,7 @@ import graphics.gui.buttons.ButtonListener;
 import graphics.gui.buttons.CustomTextButton;
 import graphics.gui.buttons.ButtonAction.TYPE;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import spawners.DummySpawner;
@@ -79,17 +80,19 @@ public class PlayScreen extends AbstractScreen {
 		int count = factories.size(), radius = 150;
 		float angle = (float) (2 * Math.PI / count);
 		float angleOffset = (float) (Math.PI / 4);
+		boolean newGame = conf.players.isEmpty();
 		for (int i = 0; i < conf.aiconf.getAIs().size(); i++) {
 			PlayerFish player;
-			if (conf.discardedPlayers.isEmpty()) {
+			if (newGame) {
 				player = new PlayerFish(
 						(float) (centerX - PlayerFish.WIDTH / 2 + Math.cos(i
 								* angle + angleOffset)
 								* radius), (float) (centerY - PlayerFish.HEIGHT
 								/ 2 + Math.sin(i * angle + angleOffset)
 								* radius));
+				conf.players.add(player);
 			} else {
-				player = conf.discardedPlayers.get(i);
+				player = conf.players.get(i);
 				player.killAI();
 				player.setX((float) (centerX - PlayerFish.WIDTH / 2 + Math
 						.cos(i * angle + angleOffset) * radius));
@@ -101,7 +104,6 @@ public class PlayScreen extends AbstractScreen {
 				player.setScale(PlayerFish.STARTING_SCALE);
 				player.setAlive(true);
 			}
-			conf.players.add(player);
 
 			getGameContext().spawn(player);
 			player.setGameContext(getGameContext());
@@ -109,7 +111,7 @@ public class PlayScreen extends AbstractScreen {
 			player.start();
 		}
 
-		conf.discardedPlayers.clear();
+		conf.playersAlive = new ArrayList<>(conf.players);
 
 		getGameContext().spawn(new RoundScore(conf, playerListX, playerListY));
 
@@ -134,12 +136,22 @@ public class PlayScreen extends AbstractScreen {
 			@Override
 			public void handle(ButtonAction ba) {
 				if (ba.type == TYPE.RELEASE) {
-					while (conf.players.size() > 1) {
-						int randomIndex = (int) (Math.random() * conf.players
+
+					PlayerFish biggest = conf.playersAlive.get(0);
+					for (PlayerFish o : conf.playersAlive) {
+						if (o.getScale() > biggest.getScale()) {
+							biggest = o;
+						}
+					}
+
+					while (conf.playersAlive.size() > 1) {
+						int randomIndex = (int) (Math.random() * conf.playersAlive
 								.size());
-						PlayerFish fish = conf.players.get(randomIndex);
-						conf.players.remove(fish);
-						conf.discardedPlayers.add(fish);
+						PlayerFish fish = conf.playersAlive.get(randomIndex);
+						if (fish.equals(biggest)) {
+							continue;
+						}
+						conf.playersAlive.remove(fish);
 						fish.destroy();
 					}
 				}
@@ -152,7 +164,7 @@ public class PlayScreen extends AbstractScreen {
 		state = State.STARTING;
 
 		Timeline all = Timeline.createSequence();
-		for (PlayerFish player : conf.players) {
+		for (PlayerFish player : conf.playersAlive) {
 			all.push(CommonTweens.zoomAtGameObject(player, getCamera(), 3.0f,
 					1.0f));
 		}
@@ -193,18 +205,19 @@ public class PlayScreen extends AbstractScreen {
 			break;
 		case PLAYING:
 			spawner.update(delta);
-			for (int i = 0; i < conf.players.size(); i++) {
-				PlayerFish player = conf.players.get(i);
+			for (int i = 0; i < conf.playersAlive.size(); i++) {
+				PlayerFish player = conf.playersAlive.get(i);
 				if (!player.isAlive()) {
-					conf.players.remove(player);
-					conf.discardedPlayers.add(player);
+					conf.playersAlive.remove(player);
 					i--;
 				}
 			}
 
-			if (conf.players.size() == 1 && conf.aiconf.getAIs().size() > 1) {
-				final PlayerFish winner = conf.players.get(0);
+			if (conf.playersAlive.size() == 1
+					&& conf.aiconf.getAIs().size() > 1) {
+				final PlayerFish winner = conf.playersAlive.get(0);
 				state = State.OVER;
+				getGameContext().update(0f);
 				getGameContext().setPaused(true);
 				GlobalTween.add(CommonTweens.zoomAtGameObject(winner,
 						getCamera(), 3.0f, 3.0f).setCallback(
@@ -213,12 +226,11 @@ public class PlayScreen extends AbstractScreen {
 							@Override
 							public void onEvent(int type, BaseTween<?> source) {
 								if (type == TweenCallback.COMPLETE) {
-									conf.discardedPlayers.add(winner);
 									winner.incrementScore();
 									winner.destroy();
-									conf.players.clear();
+									conf.playersAlive.clear();
 									getGameContext().setPaused(false);
-									getGameContext().update(1f);
+									getGameContext().update(0f);
 									if (winner.getScore() >= conf.winLimit) {
 										game.setScreen(new WinnerScreen(game,
 												winner.getName()));

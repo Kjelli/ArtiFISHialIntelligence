@@ -2,12 +2,11 @@ package ai;
 
 import java.util.List;
 
-import utils.Log;
 import fishhandles.OtherFish;
 import fishhandles.YourFish;
 import game.EatFishAndAI;
 
-public class SmartPredatorAI extends AbstractAI {
+public class KjelliAI extends AbstractAI {
 	// Modify the code from here
 	//
 
@@ -16,6 +15,7 @@ public class SmartPredatorAI extends AbstractAI {
 	float preyDist = 10000;
 	OtherFish hunter;
 	float hunterDist = 10001;
+	double offset = Math.PI / 5;
 
 	@Override
 	public void init(YourFish fish) {
@@ -23,17 +23,54 @@ public class SmartPredatorAI extends AbstractAI {
 	}
 
 	@Override
-	public void act(List<OtherFish> otherFish) {
+	public void update(List<OtherFish> otherFish) {
 		scoutPrey(otherFish);
 		scoutHunter(otherFish);
 
 		if (hunterDist < safeRange() && hunter != null && hunter.isAlive()) {
-			myFish.moveFrom(hunter);
+			offset = Math.PI / 5 * hunterDist / safeRange();
+			float targetX, targetY;
+
+			float angle = (float) (hunter.angleTo(myFish) + offset);
+			targetX = myFish.getCenterX()
+					+ (float) (hunter.getWidth()
+							* (hunter.getScale() - myFish.getScale()) * Math
+								.cos(angle));
+			targetY = myFish.getCenterY()
+					+ (float) (hunter.getWidth()
+							* (hunter.getScale() - myFish.getScale()) * Math
+								.sin(angle));
+			if (targetX <= -myFish.getWidth()
+					|| targetX >= EatFishAndAI.WIDTH + myFish.getWidth()
+					|| targetY <= -myFish.getHeight()
+					|| targetY >= EatFishAndAI.HEIGHT + myFish.getHeight()) {
+				do {
+					angle += 1 * offset;
+					targetX = myFish.getCenterX()
+							+ (float) (hunter.getWidth()
+									* (hunter.getScale() - myFish.getScale()) * Math
+										.cos(angle));
+					targetY = myFish.getCenterY()
+							+ (float) (hunter.getWidth()
+									* (hunter.getScale() - myFish.getScale()) * Math
+										.sin(angle));
+				} while (targetX <= -myFish.getWidth()
+						|| targetX >= EatFishAndAI.WIDTH + myFish.getWidth()
+						|| targetY <= -myFish.getHeight()
+						|| targetY >= EatFishAndAI.HEIGHT + myFish.getHeight());
+			}
+			myFish.moveTowards(targetX, targetY);
 		} else if (prey != null && prey.isAlive()) {
-			myFish.moveTowards(prey);
+
+			float targetX = prey.getCenterX() + myFish.distanceTo(prey)
+					* prey.getMaxSpeed() * prey.getVelocityX() / 100;
+			float targetY = prey.getCenterY() + myFish.distanceTo(prey)
+					* prey.getMaxSpeed() * prey.getVelocityY() / 100;
+			myFish.moveTowards(targetX, targetY);
 		} else {
 			myFish.moveTowards(EatFishAndAI.WIDTH / 2, EatFishAndAI.HEIGHT / 2);
 		}
+
 	}
 
 	private float safeRange() {
@@ -70,7 +107,7 @@ public class SmartPredatorAI extends AbstractAI {
 					double interest = 10 * that.getScale()
 							/ myFish.distanceTo(that);
 					if (headingAwayFromMe(that, myFish)) {
-						interest /= 2;
+						interest /= 3;
 					}
 					if (interest > highestInterest) {
 						highestInterest = interest;
@@ -92,4 +129,10 @@ public class SmartPredatorAI extends AbstractAI {
 		return false;
 	}
 
+	@Override
+	public void ateFish(OtherFish handle) {
+		if (handle == prey) {
+			prey = null;
+		}
+	}
 }

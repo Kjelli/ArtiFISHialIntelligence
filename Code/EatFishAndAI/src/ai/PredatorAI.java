@@ -17,7 +17,7 @@ public class PredatorAI extends AbstractAI {
 	}
 
 	@Override
-	public void act(List<OtherFish> otherFish) {
+	public void update(List<OtherFish> otherFish) {
 		if (initialHunt) {
 			fish.setVelocityX((float) Math.random() * 2 - 1);
 			fish.setVelocityY((float) Math.random() * 2 - 1);
@@ -71,5 +71,11 @@ public class PredatorAI extends AbstractAI {
 		if (prey != null) {
 			fish.moveTowards(prey);
 		}
+	}
+	
+	@Override
+	public void ateFish(OtherFish handle) {
+		// TODO Auto-generated method stub
+		
 	}
 }

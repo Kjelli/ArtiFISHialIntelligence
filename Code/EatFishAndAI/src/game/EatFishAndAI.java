@@ -13,6 +13,7 @@ import com.badlogic.gdx.Screen;
 public class EatFishAndAI extends Game {
 
 	public static final int WIDTH = 800, HEIGHT = 600;
+	public static final String WEBSITE = "http://github.com/Kjelli/EatFishAndAI/Rules";
 
 	@Override
 	public void create() {

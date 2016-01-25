@@ -38,6 +38,10 @@ public class Assets {
 
 	public static BitmapFont font16, font20, font30, font50;
 
+	// Playerfish ai status
+
+	public static Texture crash, slow;
+
 	public static void loadAllAssets() {
 		loadMenuscreenAssets();
 		loadPlayscreenAssets();
@@ -113,6 +117,8 @@ public class Assets {
 		bubble_s = load("bubble_s.png");
 		bubble = load("bubble.png");
 		fishbones = load("fishbones.png");
+		slow = load("slow.png");
+		crash = load("crash.png");
 	}
 
 	private static Texture load(String filename) {

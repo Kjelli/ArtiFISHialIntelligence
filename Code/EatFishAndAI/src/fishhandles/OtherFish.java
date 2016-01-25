@@ -2,6 +2,14 @@ package fishhandles;
 
 import gameobjects.fish.Fish;
 
+/**
+ *
+ * OtherFish is the class which is effectively the handle between your fish and
+ * some other fish that might be a player's fish, or a randomly generated fish.
+ * This class contains methods which are only considered as read-methods.
+ *
+ * @author Kjell Arne Hellum
+ */
 public class OtherFish {
 	private final Fish fish;
 
@@ -270,7 +278,7 @@ public class OtherFish {
 	 * 
 	 * @param that
 	 *            the targetted fish
-	 * @return the angle in degrees (TODO confirm)
+	 * @return the angle in radians
 	 */
 
 	public final float angleTo(OtherFish that) {
@@ -280,8 +288,28 @@ public class OtherFish {
 		return this.fish.angleTo(that.getCenterX(), that.getCenterY());
 	}
 
+	/**
+	 * Used to compare if the given fish handle is equal to another.
+	 * 
+	 * @param that
+	 *            The other fish handle to compare to
+	 * @return boolean indicating equality
+	 */
+
 	public boolean matches(OtherFish that) {
 		return this.fish.getHandle().equals(that);
+	}
+
+	/**
+	 * Convenience method to calculate the angle from this fish to the your
+	 * fish.
+	 * 
+	 * @param that
+	 *            the targetted fish
+	 * @return the angle in radians
+	 */
+	public double angleTo(YourFish that) {
+		return this.fish.angleTo(that.getCenterX(), that.getCenterY());
 	}
 
 }

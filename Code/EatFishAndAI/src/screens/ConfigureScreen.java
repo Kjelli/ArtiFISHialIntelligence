@@ -1,14 +1,13 @@
 package screens;
 
 import game.EatFishAndAI;
+import graphics.gui.buttons.AddPlayerButton;
 import graphics.gui.buttons.Button;
 import graphics.gui.buttons.ButtonAction;
 import graphics.gui.buttons.ButtonAction.TYPE;
 import graphics.gui.buttons.ButtonListener;
 import graphics.gui.buttons.CustomTextButton;
 import graphics.gui.buttons.ModifyPlayerButton;
-import graphics.gui.buttons.AddPlayerButton;
-import graphics.gui.buttons.StartGameButton;
 import ai.AI;
 import ai.AIConfiguration;
 import ai.loader.AIFactory;
@@ -64,8 +63,8 @@ public class ConfigureScreen extends AbstractScreen {
 			}
 		});
 
-		startGameButton = new StartGameButton(centerX - StartGameButton.WIDTH
-				/ 2, centerY / 2);
+		startGameButton = new CustomTextButton(centerX - CustomTextButton.WIDTH
+				/ 2, centerY / 2, "Play");
 
 		startGameButton.setButtonListener(new ButtonListener() {
 
@@ -96,7 +95,8 @@ public class ConfigureScreen extends AbstractScreen {
 				public void handle(ButtonAction ba) {
 					if (ba.type == TYPE.RELEASE) {
 						conf.winLimit = index * 2 + 1;
-						layout2.setText(Assets.font30, "Best of " + (index * 2 +1));
+						layout2.setText(Assets.font30, "Best of "
+								+ (index * 2 + 1));
 					}
 
 				}

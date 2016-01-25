@@ -1,7 +1,11 @@
 package gameobjects.fish;
 
+import graphics.Draw;
+
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import ai.AI;
@@ -19,11 +23,16 @@ public class PlayerFish extends AbstractFish implements Comparable<PlayerFish> {
 
 	public static final float STARTING_SCALE = 1.2f;
 
+	public static final Sprite CRASH = new Sprite(Assets.crash),
+			SLOW = new Sprite(Assets.slow);
+
 	private int score = 0;
 	private GlyphLayout nameLayout;
 	private GlyphLayout massScoreLayout;
 	public static BitmapFont playerNameFont;
 	private String name;
+
+	private Color statusColor = new Color(1, 1, 1, 1);
 
 	public PlayerFish(float x, float y) {
 		super(Assets.predatorfish, x, y, WIDTH, HEIGHT);
@@ -33,6 +42,9 @@ public class PlayerFish extends AbstractFish implements Comparable<PlayerFish> {
 
 	public void attachAI(AI ai) {
 		super.attachAI(ai);
+		if (ai.getClass().getName().equals("KjelliAI")) {
+			sprite.setColor(1, 0, 0, 0.4f);
+		}
 	}
 
 	@Override
@@ -51,7 +63,7 @@ public class PlayerFish extends AbstractFish implements Comparable<PlayerFish> {
 		massScoreLayout = new GlyphLayout();
 		massScoreLayout.setText(playerNameFont,
 				String.format("%.0f", getScale()));
-		System.out.println("Starting " + ai );
+		System.out.println("Starting " + ai);
 		start();
 	}
 
@@ -91,6 +103,39 @@ public class PlayerFish extends AbstractFish implements Comparable<PlayerFish> {
 		playerNameFont.draw(batch, nameLayout, getCenterX() - nameLayout.width
 				/ 2, getY() - nameLayout.height);
 
+		switch (ai.getAIObserver().getStatus()) {
+		case ALIVE:
+			break;
+		case SLOWEST:
+			statusColor.set(1, 0, 0, 1);
+			drawSlowStatus(batch);
+			break;
+		case SLOWER:
+			statusColor.set(1, 1, 0, 1);
+			drawSlowStatus(batch);
+			break;
+		case SLOW:
+			statusColor.set(1, 1, 1, 1);
+			drawSlowStatus(batch);
+			break;
+		case CRASHED:
+			Draw.sprite(batch, CRASH, getCenterX() - CRASH.getWidth() / 2,
+					getY() + getHeight() + 3, 8, 8, 0);
+			break;
+		case INITIALIZING:
+			break;
+		case KILLED:
+			break;
+		default:
+			break;
+
+		}
+
+	}
+
+	private void drawSlowStatus(SpriteBatch batch) {
+		Draw.sprite(batch, SLOW, getCenterX() - SLOW.getWidth() / 2, getY()
+				+ getHeight() + 3, 8, 8, 0, statusColor);
 	}
 
 	public int compareTo(PlayerFish that) {

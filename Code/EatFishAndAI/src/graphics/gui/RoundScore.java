@@ -29,20 +29,23 @@ public class RoundScore extends AbstractGameObject {
 
 	@Override
 	public void update(float delta) {
-		Collections.sort(conf.players);
+		Collections.sort(conf.playersAlive);
 	}
 
 	@Override
 	public void draw(SpriteBatch batch) {
 		listFont.draw(batch, listLabelLayout, x, y);
-		for (int i = 0; i < conf.players.size(); i++) {
-			GlyphLayout layout = conf.players.get(i).getNameLayout();
+		for (int i = 0; i < conf.playersAlive.size(); i++) {
+			PlayerFish player = conf.playersAlive.get(i);
+			GlyphLayout layout = player.getNameLayout();
 			PlayerFish.playerNameFont.draw(batch, layout, x, y - (i + 2)
 					* (layout.height + 2));
-			
-			GlyphLayout score = conf.players.get(i).getMassScoreLayout();
-			PlayerFish.playerNameFont.draw(batch, score, x + PlayerFish.NAME_LENGTH_LIMIT, y - (i + 2)
+
+			GlyphLayout score = player.getMassScoreLayout();
+			PlayerFish.playerNameFont.draw(batch, score, x
+					+ PlayerFish.NAME_LENGTH_LIMIT, y - (i + 2)
 					* (layout.height + 2));
+
 		}
 	}
 

@@ -87,10 +87,9 @@ public abstract class AbstractGameObject implements GameObject {
 	public void setVelocityX(float velx) {
 		this.velocityX = Math.max(-1, Math.min(1, velx));
 
-		if ((velocityX < 0 && !getSprite().isFlipX())
-				|| (velocityX > 0 && getSprite().isFlipX())) {
-			getSprite().flip(true, false);
-		}
+		getSprite().flip(
+				(velocityX < 0 && !getSprite().isFlipX())
+						|| (velocityX > 0 && getSprite().isFlipX()), false);
 	}
 
 	@Override

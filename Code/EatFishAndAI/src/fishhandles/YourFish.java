@@ -2,6 +2,16 @@ package fishhandles;
 
 import gameobjects.fish.Fish;
 
+/**
+ *
+ * YourFish is the class which is effectively the handle between an AI and the
+ * Fish the AI is representing. YourFish has methods which are considered both
+ * write- and read-methods, so that you can manipulate its direction and
+ * velocity, as well as perform calculations in relation to other fish
+ *
+ * @author Kjell Arne Hellum
+ */
+
 public final class YourFish {
 
 	private final Fish fish;
@@ -264,7 +274,7 @@ public final class YourFish {
 	 * 
 	 * @param that
 	 *            the targetted fish
-	 * @return the angle in degrees (TODO confirm)
+	 * @return the angle in radians
 	 */
 
 	public final float angleTo(OtherFish that) {

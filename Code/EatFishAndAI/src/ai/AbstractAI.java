@@ -3,6 +3,7 @@ package ai;
 import java.util.ArrayList;
 import java.util.List;
 
+import ai.observation.AIObserver;
 import fishhandles.OtherFish;
 import fishhandles.YourFish;
 import gamecontext.GameContext;
@@ -12,6 +13,7 @@ public abstract class AbstractAI implements AI {
 	private GameContext context;
 	private YourFish fish;
 	private volatile boolean running;
+	private AIObserver observer;
 
 	@Override
 	public final void run() {
@@ -19,12 +21,21 @@ public abstract class AbstractAI implements AI {
 		 * TODO Limit tick rate further?
 		 */
 
+		setAIObserver(new AIObserver(this, 40f));
+
 		running = true;
 
-		init(fish);
+		/*
+		 * Try to update the AI continuously. If some exception occurs, the AI
+		 * is considered dead and the corresponding fish will not alter its
+		 * behaviour any longer
+		 */
 
-		while (running) {
-			try {
+		try {
+			init(fish);
+			observer.indicateStart();
+			long last = System.nanoTime();
+			while (running) {
 				if (!context.isPaused()) {
 					/*
 					 * TODO is this really bad to do each frame for all the
@@ -38,13 +49,26 @@ public abstract class AbstractAI implements AI {
 						}
 
 					}
-					act(otherFish);
+					update(otherFish);
+
+					double millisSinceLastIteration = (System.nanoTime() - last) / 1_000_000;
+					last = System.nanoTime();
+					observer.tick(millisSinceLastIteration);
 				}
+				
 				Thread.sleep(20);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
 			}
+		} catch (Exception e) {
+			observer.indicateCrash(e);
 		}
+	}
+
+	public final AIObserver getAIObserver() {
+		return observer;
+	}
+
+	public void setAIObserver(AIObserver observer) {
+		this.observer = observer;
 	}
 
 	public final void setGameContext(GameContext context) {
@@ -59,5 +83,6 @@ public abstract class AbstractAI implements AI {
 	@Override
 	public final void kill() {
 		running = false;
+		observer.indicateKill();
 	}
 }
