@@ -143,6 +143,7 @@ Otherwise any questions or remarks about the competition are welcome!  :smile:
 
 ### Known issues
 
-* Some clients have received a nullpointer when trying to load AIs into the simulator. This is because the simulator cannot find the system's JavaCompiler. This can be fixed by running with JDK instead of JRE. Also, Java 8 is required. 
+* Some clients have received a nullpointer when trying to load AIs into the simulator. This is because the simulator cannot find the system's JavaCompiler. This can be fixed by running with JDK instead of JRE. Also, Java 8 is required.
+* Some clients using linux have reported they cannot run the program. This might be because of the missing native files to the dependency LibGDX. These can be found and downloaded [here](https://libgdx.badlogicgames.com/nightlies/).
 
 Good luck!
