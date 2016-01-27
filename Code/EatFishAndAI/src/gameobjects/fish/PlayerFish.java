@@ -19,6 +19,8 @@ import assets.Assets;
  */
 public class PlayerFish extends AbstractFish implements Comparable<PlayerFish> {
 
+	public static BitmapFont playerNameFont;
+
 	public static final float NAME_LENGTH_LIMIT = 150;
 
 	public static final float STARTING_SCALE = 1.2f;
@@ -29,7 +31,6 @@ public class PlayerFish extends AbstractFish implements Comparable<PlayerFish> {
 	private int score = 0;
 	private GlyphLayout nameLayout;
 	private GlyphLayout massScoreLayout;
-	public static BitmapFont playerNameFont;
 	private String name;
 
 	private Color statusColor = new Color(1, 1, 1, 1);
@@ -42,9 +43,6 @@ public class PlayerFish extends AbstractFish implements Comparable<PlayerFish> {
 
 	public void attachAI(AI ai) {
 		super.attachAI(ai);
-		if (ai.getClass().getName().equals("KjelliAI")) {
-			sprite.setColor(1, 0, 0, 0.4f);
-		}
 	}
 
 	@Override
@@ -52,7 +50,6 @@ public class PlayerFish extends AbstractFish implements Comparable<PlayerFish> {
 		super.onSpawn();
 		nameLayout = new GlyphLayout();
 		if (playerNameFont == null) {
-			// TODO change ?
 			playerNameFont = Assets.font20;
 		}
 

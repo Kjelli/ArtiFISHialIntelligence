@@ -1,21 +1,17 @@
 package screens;
 
-import loading.LoadTask;
-import tween.CommonTweens;
-import tween.GlobalTween;
-import utils.TweenableFloat;
 import game.EatFishAndAI;
 import gameobjects.fish.DummyFish;
 import gameobjects.fish.Fish;
 import gameobjects.fish.PlayerFish;
-import gameobjects.fish.PredatorFish;
 import graphics.gui.buttons.ButtonAction;
+import graphics.gui.buttons.ButtonAction.TYPE;
 import graphics.gui.buttons.ButtonListener;
 import graphics.gui.buttons.CustomTextButton;
-import graphics.gui.buttons.ButtonAction.TYPE;
 import graphics.particles.Fireworks;
-import graphics.particles.Star;
-import ai.PredatorAI;
+import loading.LoadTask;
+import tween.GlobalTween;
+import utils.TweenableFloat;
 import ai.WinnerPredatorAI;
 import assets.Assets;
 import aurelienribon.tweenengine.BaseTween;
@@ -61,7 +57,8 @@ public class WinnerScreen extends AbstractScreen {
 		winnerX = new TweenableFloat();
 		winnerY = new TweenableFloat();
 		winnerX.setValue(centerX - winnerLabel.width / 2);
-		winnerY.setValue(centerY + EatFishAndAI.HEIGHT/4 - winnerLabel.height / 2);
+		winnerY.setValue(centerY + EatFishAndAI.HEIGHT / 4 - winnerLabel.height
+				/ 2);
 		labelTransparency = new TweenableFloat();
 		labelTransparency.setValue(0.0f);
 		backgroundTransparency = new TweenableFloat();
@@ -104,7 +101,8 @@ public class WinnerScreen extends AbstractScreen {
 
 							CustomTextButton back = new CustomTextButton(
 									centerX - CustomTextButton.WIDTH / 2,
-									centerY - 2 * CustomTextButton.HEIGHT, "Back");
+									centerY - 2 * CustomTextButton.HEIGHT,
+									"Back");
 							back.setButtonListener(new ButtonListener() {
 
 								@Override

@@ -1,16 +1,10 @@
 package graphics.gui;
 
+import gameobjects.AbstractGameObject;
 import tween.CommonTweens;
-import tween.GlobalTween;
-import tween.accessors.GameObjectAccessor;
 import assets.Assets;
-import aurelienribon.tweenengine.Tween;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-
-import gameobjects.AbstractGameObject;
-import graphics.Draw;
 
 public class Logo extends AbstractGameObject {
 

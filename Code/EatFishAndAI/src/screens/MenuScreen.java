@@ -75,10 +75,10 @@ public class MenuScreen extends AbstractScreen {
 								public void load() {
 									conf.gamename = "quickplay";
 									conf.aiconf = new AIConfiguration();
-									conf.aiconf.loadAI("src/ai/KjelliAI.java");
-									conf.aiconf.loadAI("src/ai/KjelliAI.java");
-									conf.aiconf.loadAI("src/ai/KjelliAI.java");
-									conf.aiconf.loadAI("src/ai/KjelliAI.java");
+									for (int i = 0; i < 4; i++) {
+										conf.aiconf
+												.loadAI("src/ai/BasicAI.java");
+									}
 								}
 							} }, new PlayScreen(game, conf)));
 

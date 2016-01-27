@@ -3,7 +3,6 @@ package configuration;
 import gameobjects.fish.PlayerFish;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import ai.AIConfiguration;
 
