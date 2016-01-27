@@ -36,6 +36,7 @@ This is the dummyfish, they are ridiculously basic and will only swim in a singl
 
 ### Prerequisites
 
+* Installation of Java (Preferably JDK) 8+
 * Any preferred IDE (Eclipse, IntelliJ, netbeans etc.)
 * Basic to intermediate level of the Java programming language
 
@@ -139,5 +140,9 @@ There might also be a bonus prize for the hackers if anyone can alter the gamepl
 ## Troubleshooting and Q&A
 If any errors should arise following these instructions, please contact one of the members of the contest comittee and we will do our best to help you.
 Otherwise any questions or remarks about the competition are welcome!  :smile:
+
+### Known issues
+
+* Some clients have received a nullpointer when trying to load AIs into the simulator. This is because the simulator cannot find the system's JavaCompiler. This can be fixed by running with JDK instead of JRE. Also, Java 8 is required. 
 
 Good luck!
