@@ -49,13 +49,13 @@ This is the dummyfish, they are ridiculously basic and will only swim in a singl
 4. Choose the start option
 5. Choose the "+ Add player" option
 6. Navigate to where your java sourcecode containing the AI code is, and select the file. It will now be scanned* and compiled**.
-7. Press the button with the name of the successfully uploaded AI** to duplicate it.
+7. Press the button with the name of the successfully uploaded AI to duplicate it.
 8. Press play!
 
-* - **Note!** As somewhat of a safety mechanism, the simulator scans through the source code and looks for banned keywords that are considered (potentially) malicious to the host running the simulator.
-** - **Note!** The program requires you to have a working java compiler that is not provided with the JRE, but usually with the JDK!
+* * - **Note!** As somewhat of a safety mechanism, the simulator scans through the source code and looks for banned keywords that are considered (potentially) malicious to the host running the simulator.
+* ** - **Note!** The program requires you to have a working java compiler that is not provided with the JRE, but usually with the JDK!
 
-### How to run your AI
+### How to code your AI
 
 The skeleton code given for you to implement is the following:
 
@@ -105,6 +105,19 @@ The TemplateAI shown above is for you to modify. However the class you implement
 Also, **the class name is effectively the displayname of your fish, change it to something personal!** :smile:
 
 Note that package declarations are stripped when the AI is compiled by the simulator. You might require a package declaration in your code when running and testing it, this has no effect on the simulator's end.
+
+#### Implementing the AI
+
+When implementing the AI, you will not work directly upon the fish, but through a handle, i.e. a YourFish object. The YourFish class exposes a set of methods available for you to manipulate the fish (i.e. change velocity, move towards fish/point, move from fish/point) and more. The same goes for the other surrounding fish, you will work with OtherFish objects. These ones are similar to the YourFish class with one major difference - it is considered read-only whereas the YourFish has writable and readable methods.
+
+The source code is documented for your convenience. Here is a snippet of the documentation:
+
+* **init(YourFish fish)** - This method is called at the initialization of the AI's behaviour, before
+looping the act method. The method provides an argument being a handle to
+your fish, i.e. the only fish you have both read and write access to.
+Store this reference and invoke methods on it in the act method.
+* **update(List<OtherFish> otherFish)** - This method is run continuously as the AI you implement is running its own thread. It runs an infinite loop, calling update and then sleeping for some time, leaving you to implement the behaviour of the AI iteratively. Provided in the update method is a list of read-only handles to the other fish visible on screen. This list is guaranteed not to contain the handle to your fish, and also contain the newest information about the fish's attributes. Note: As every fish runs as a separate thread, some race conditions may apply - but rarely becomes an issue because of the rapid calling of the update method.
+* **ateFish(OtherFish fish) - Action that will happen whenever you eat another fish. Provided is the referenced handle towards the fish you ate. Warning: This fish is not alive, so some methods are rendered useless. (i.e moveToward, distanceTo)
 
 ### Rules and restrictions
 
