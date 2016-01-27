@@ -113,13 +113,26 @@ When implementing the AI, you will not work directly upon the fish, but through 
 The source code is documented for your convenience. Here is a snippet of the documentation:
 
 * **init(YourFish fish)** - This method is called at the initialization of the AI's behaviour, before
-looping the act method. The method provides an argument being a handle to
+looping the update method. The method provides an argument being a handle to
 your fish, i.e. the only fish you have both read and write access to.
-Store this reference and invoke methods on it in the act method.
+Store this reference and invoke methods on it in the update method.
 * **update(List<OtherFish> otherFish)** - This method is run continuously as the AI you implement is running its own thread. It runs an infinite loop, calling update and then sleeping for some time, leaving you to implement the behaviour of the AI iteratively. Provided in the update method is a list of read-only handles to the other fish visible on screen. This list is guaranteed not to contain the handle to your fish, and also contain the newest information about the fish's attributes. Note: As every fish runs as a separate thread, some race conditions may apply - but rarely becomes an issue because of the rapid calling of the update method.
-* **ateFish(OtherFish fish) - Action that will happen whenever you eat another fish. Provided is the referenced handle towards the fish you ate. Warning: This fish is not alive, so some methods are rendered useless. (i.e moveToward, distanceTo)
+* **ateFish(OtherFish fish)** - Action that will happen whenever you eat another fish. Provided is the referenced handle towards the fish you ate. Warning: This fish is not alive, so some methods are rendered useless. (i.e moveToward, distanceTo)
 
 ### Rules and restrictions
+
+The rules are simple; make the best AI to win the prize. The contest is best suited prize-wise for individual participation, but you can also work in teams.
+
+However, as this is a good faith contest and running unknown code from external sources is the single-most dangerous thing to do on a computer, submissions that contain malicious code which bypasses the security scan and (in any way) cause any damage or alter the state of the game in any way not intended are subject to immediate disqualification.
+
+### Submission and Prize(s)
+
+**How to submit:**
+Send in your submission to *post@techdays.no* with the topic including the keyword "TDAI", followed by your real name. The submitted file(s) must be in the form of <yourclassname>.java where <yourclassname> is whatever you want to be, but it must be consistent with the class declaration in the file. No *.class files will be accepted. Zipped files are ok.
+
+The prize and winner will both be announced on Techdays.
+
+There might also be a bonus prize for the hackers if anyone can alter the gameplay (in a way not intended in development) from within the AI code! :bomb:
 
 ### Troubleshooting and Q&A
 If any errors should arise following these instructions, please contact one of the members of the contest comittee and we will do our best to help you.
