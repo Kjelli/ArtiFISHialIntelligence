@@ -11,15 +11,24 @@ The winner will receive an amazing prize!
 
 
 ## Overview
-
-
+If you have ever played Feeding Frenzy or Agar.io or any of the sort, you are familiar with the concept of this contest. In all its simplicity, your goal is to make your fish eat all the other players' fish. This can be done by programming the *mind* of the fish. You will have direct control on your own fish, and you are also provided with the whereabouts of all the other fish on screen. Using your wits and your programming knowledge to create a smart AI is key to winning the contest!
 
 ### Introduction
-The first screen
+The first screen you are introduced to is the menu screen. Here you can quickstart the game or set up a custom game. More details on this in *How to start the simulator*
+
 ![2](https://github.com/Kjelli/EatFishAndAI/blob/master/Art/overview.png)
 
 ### Gameplay
+This is the main screen where all the action takes place.
 ![3](https://github.com/Kjelli/EatFishAndAI/blob/master/Art/gameplay.png)
+
+There are two different types of fish: The playerfish and the dummyfish. The contestants will provide their AI to each their fish, and then they will eat the dummyfish and eachother to be the last playerfish swimming.
+
+#### A playerfish using the AI *BasicAI*
+![4](https://github.com/Kjelli/EatFishAndAI/blob/master/Art/theplayer.png)
+
+#### A dummyfish
+![5](https://github.com/Kjelli/EatFishAndAI/blob/master/Art/dummies.png)
 
 ## Rules and Instructions
 
