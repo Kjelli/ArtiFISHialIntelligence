@@ -128,7 +128,7 @@ However, as this is a good faith contest and running unknown code from external 
 ## Submission and Prize(s)
 
 **How to submit:**
-Send in your submission to *post@techdays.no* with the topic including the keyword "TDAI", followed by your real name. The submitted file(s) must be in the form of <yourclassname>.java where <yourclassname> is whatever you want to be, but it must be consistent with the class declaration in the file. No *.class files will be accepted. Zipped files are ok.
+Send in your submission to *post@techdays.no* with the topic including the keyword "TDAI", followed by your real name. The submitted file(s) must be in the form of *{yourclassname}*.java where *{yourclassname}* is whatever you want to be, but it must be consistent with the class declaration in the file. No *.class files will be accepted. Zipped files are ok.
 
 The prize and winner will both be announced on Techdays.
 
