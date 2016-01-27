@@ -124,7 +124,7 @@ Store this reference and invoke methods on it in the update method.
 
 The goal is simple; make the best AI to win the prize. The contest is best suited prize-wise for individual participation, but you can also work in teams.
 
-You are allowed to use any existing code you would like, as long as you can fit everything you need in **one .java file**. Each AI submitted can consist of more than one file.
+You are allowed to use any existing code you would like, as long as you can fit everything you need in **one .java file**. Each AI submitted can ONLY consist of one file.
 
 **Important:** as this is a good faith contest and running unknown code from external sources is the single-most dangerous thing to do on a computer, submissions that contain malicious code which bypasses the security scan and (in any way) cause any damage or alter the state of the game in any way not intended are subject to immediate disqualification.
 
