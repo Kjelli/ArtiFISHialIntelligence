@@ -121,14 +121,16 @@ Store this reference and invoke methods on it in the update method.
 
 ## Rules and restrictions
 
-The rules are simple; make the best AI to win the prize. The contest is best suited prize-wise for individual participation, but you can also work in teams.
+The goal is simple; make the best AI to win the prize. The contest is best suited prize-wise for individual participation, but you can also work in teams.
 
-However, as this is a good faith contest and running unknown code from external sources is the single-most dangerous thing to do on a computer, submissions that contain malicious code which bypasses the security scan and (in any way) cause any damage or alter the state of the game in any way not intended are subject to immediate disqualification.
+You are allowed to use any existing code you would like, as long as you can fit everything you need in **one .java file**. Each AI submitted can consist of more than one file.
+
+**Important:** as this is a good faith contest and running unknown code from external sources is the single-most dangerous thing to do on a computer, submissions that contain malicious code which bypasses the security scan and (in any way) cause any damage or alter the state of the game in any way not intended are subject to immediate disqualification.
 
 ## Submission and Prize(s)
 
 **How to submit:**
-Send in your submission to *post@techdays.no* with the topic including the keyword "TDAI", followed by your real name. The submitted file(s) must be in the form of *{yourclassname}*.java where *{yourclassname}* is whatever you want to be, but it must be consistent with the class declaration in the file. No *.class files will be accepted. Zipped files are ok.
+Send in your sourcecode to *post@techdays.no* with the topic including the keyword "TDAI", followed by your real name. The submitted file(s) must be in the form of *{yourclassname}*.java where *{yourclassname}* is whatever you want to be, but it must be consistent with the class declaration in the file. No *.class files will be accepted. Zipped files are ok.
 
 The prize and winner will both be announced on Techdays.
 
@@ -137,3 +139,5 @@ There might also be a bonus prize for the hackers if anyone can alter the gamepl
 ## Troubleshooting and Q&A
 If any errors should arise following these instructions, please contact one of the members of the contest comittee and we will do our best to help you.
 Otherwise any questions or remarks about the competition are welcome!  :smile:
+
+Good luck!
