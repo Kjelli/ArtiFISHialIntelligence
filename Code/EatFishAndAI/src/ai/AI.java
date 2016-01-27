@@ -10,9 +10,9 @@ import gamecontext.GameContext;
 public interface AI extends Runnable {
 	/**
 	 * This method is called at the initialization of the AI's behaviour, before
-	 * looping the act method. The method provides an argument being a handle to
+	 * looping the update method. The method provides an argument being a handle to
 	 * your fish, i.e. the only fish you have both read and write access to.
-	 * Store this reference and invoke methods on it in the act method.
+	 * Store this reference and invoke methods on it in the update method.
 	 * 
 	 * @param fish
 	 *            The handle to your fish
