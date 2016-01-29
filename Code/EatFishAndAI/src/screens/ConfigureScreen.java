@@ -25,7 +25,7 @@ public class ConfigureScreen extends AbstractScreen {
 	private final String playerLabel = "Add players";
 
 	private final GlyphLayout layout2;
-	private final String roundLabel = "Best of 3";
+	private final String roundLabel = "First to ";
 
 	GameConfiguration conf;
 	float top = EatFishAndAI.HEIGHT, bottom = 0, left = 0,
@@ -47,7 +47,7 @@ public class ConfigureScreen extends AbstractScreen {
 		conf = new GameConfiguration();
 		conf.aiconf = new AIConfiguration();
 
-		layout2 = new GlyphLayout(Assets.font30, roundLabel);
+		layout2 = new GlyphLayout(Assets.font30, roundLabel+"3");
 		layout = new GlyphLayout(Assets.font30, playerLabel);
 
 		addPlayerButton = new AddPlayerButton(aiButtonX - AddPlayerButton.WIDTH
@@ -88,14 +88,14 @@ public class ConfigureScreen extends AbstractScreen {
 			CustomTextButton button = new CustomTextButton(roundButtons
 					- CustomTextButton.WIDTH / 2, top - topMargin
 					- CustomTextButton.HEIGHT / 2 - (i + 1) * spacing,
-					"Best of " + (i * 2 + 1));
+					roundLabel + (i * 2 + 1));
 
 			button.setButtonListener(new ButtonListener() {
 				@Override
 				public void handle(ButtonAction ba) {
 					if (ba.type == TYPE.RELEASE) {
 						conf.winLimit = index * 2 + 1;
-						layout2.setText(Assets.font30, "Best of "
+						layout2.setText(Assets.font30, roundLabel
 								+ (index * 2 + 1));
 					}
 

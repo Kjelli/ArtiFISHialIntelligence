@@ -10,6 +10,8 @@
 	<classpathentry kind="lib" path="lib/tween-engine-api.jar" sourcepath="lib/tween-engine-api-sources.jar"/>
 	<classpathentry kind="lib" path="lib/gdx-freetype/gdx-freetype.jar"/>
 	<classpathentry kind="lib" path="lib/gdx-freetype/gdx-freetype-natives.jar"/>
+	<classpathentry kind="lib" path="lib/gdx-backend-android.jar"/>
+	<classpathentry kind="lib" path="lib/gdx-backend-robovm.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
