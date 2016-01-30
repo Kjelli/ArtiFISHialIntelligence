@@ -80,24 +80,27 @@ public class PlayScreen extends AbstractScreen {
 		int count = factories.size(), radius = 150;
 		float angle = (float) (2 * Math.PI / count);
 		float angleOffset = (float) (Math.PI / 4);
+		float randomOffset = (float) ((int) (Math.random() * 4) * Math.PI / 2);
+		System.out.println(randomOffset);
 		boolean newGame = conf.players.isEmpty();
 		for (int i = 0; i < conf.aiconf.getAIs().size(); i++) {
 			PlayerFish player;
 			if (newGame) {
 				player = new PlayerFish(
 						(float) (centerX - PlayerFish.WIDTH / 2 + Math.cos(i
-								* angle + angleOffset)
+								* angle + angleOffset + randomOffset)
 								* radius), (float) (centerY - PlayerFish.HEIGHT
-								/ 2 + Math.sin(i * angle + angleOffset)
+								/ 2 + Math.sin(i * angle + angleOffset
+								+ randomOffset)
 								* radius));
 				conf.players.add(player);
 			} else {
 				player = conf.players.get(i);
 				player.killAI();
 				player.setX((float) (centerX - PlayerFish.WIDTH / 2 + Math
-						.cos(i * angle + angleOffset) * radius));
+						.cos(i * angle + angleOffset + randomOffset) * radius));
 				player.setY((float) (centerY - PlayerFish.HEIGHT / 2 + Math
-						.sin(i * angle + angleOffset) * radius));
+						.sin(i * angle + angleOffset + randomOffset) * radius));
 				player.setVelocityX(0);
 				player.setVelocityY(0);
 				player.setMaxSpeed(PlayerFish.MAX_SPEED);

