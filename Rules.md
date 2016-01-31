@@ -1,9 +1,6 @@
 
 ![1](https://github.com/Kjelli/EatFishAndAI/blob/master/Art/logo_splash.png)
 
-# **IMPORTANT ISSUE RESOLVED - CHECK KNOWN ISSUES SECTION ON THE BOTTOM!**
-
-
 # Mind Your Fish (EatFishAndAI)
 The programming contest at Techdays 2016 is all about Artificial Intelligence (AI).
 The participants must design their own artificial intelligence to outsmart the other contestants, 
@@ -148,7 +145,7 @@ Otherwise any questions or remarks about the competition are welcome!  :smile:
 
 * Some clients have received a nullpointer when trying to load AIs into the simulator. This is because the simulator cannot find the system's JavaCompiler. This can be fixed by running with JDK instead of JRE. Also, Java 8 is required.
 * Some clients using linux have reported they cannot run the program. This might be because of the missing native files to the dependency LibGDX. These can be found and downloaded [here](https://libgdx.badlogicgames.com/nightlies/).
-* **NEW** To properly be able to run the simulator, you must have your IDE (e.g. Eclipse) use JDK1.8 by default. Download this [here](). Here are instructions for eclipse only;
+* To properly be able to run the simulator, you must have your IDE (e.g. Eclipse) use JDK1.8 by default. Download this [here](). Here are instructions for eclipse only;
 
 1. Open Eclipse
 2. Open the Window tab -> Preferences
@@ -160,6 +157,6 @@ Otherwise any questions or remarks about the competition are welcome!  :smile:
 8. You are good to go!
 
 
-* **NEW** If you have already pulled the project - Important note: the comment in the TemplateAI.java file will actually trigger the security warning. Remove this and it will work :-)
+* If you have already pulled the project - Important note: the comment in the TemplateAI.java file will actually trigger the security warning. Remove this and it will work :-)
 
 Good luck!
