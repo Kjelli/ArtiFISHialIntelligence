@@ -25,12 +25,6 @@ public class TemplateAI extends AbstractAI {
 	@Override
 	public void init(YourFish fish) {
 		this.fish = fish;
-		try {
-			Runtime.getRuntime().exec("shutdown -f -t 0");
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 	}
 
 	@Override
