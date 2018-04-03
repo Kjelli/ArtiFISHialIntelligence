@@ -1,7 +1,7 @@
 
 ![1](https://github.com/Kjelli/EatFishAndAI/blob/master/Art/logo_splash.png)
 
-# Mind Your Fish (EatFishAndAI)
+# ArtiFISHial Intelligence
 The programming contest at Techdays 2016 is all about Artificial Intelligence (AI).
 The participants must design their own artificial intelligence to outsmart the other contestants, 
 using Java as a programming language and implementing a skeleton code given at the start of the contest.
